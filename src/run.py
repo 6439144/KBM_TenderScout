@@ -28,6 +28,9 @@ from src.config import load_config, RootConfig
 from src.connectors.base import PortalConnector
 from src.connectors.capt import CaptConnector
 from src.connectors.kuwait_alyawm import KuwaitAlyawmConnector
+from src.output.delivery import DeliveryManager
+from src.output.excel import ExcelReportGenerator
+from src.output.notify import NotificationManager
 from src.pipeline.processor import TenderProcessor
 from src.pipeline.state_store import StateStore
 from src.utils.secrets import SecretManager
@@ -126,6 +129,11 @@ def main():
         default=None,
         help="Path to YAML configuration file"
     )
+    parser.add_argument(
+        "--excel-only",
+        action="store_true",
+        help="Skip portal collection and regenerate Excel workbook from current database state"
+    )
     args = parser.parse_args()
 
     # Load system configuration
@@ -133,45 +141,73 @@ def main():
     Path("logs").mkdir(exist_ok=True)
     Path("output/reports").mkdir(parents=True, exist_ok=True)
 
-    # Determine collection since date
-    if args.since:
-        since_date = date.fromisoformat(args.since)
-    else:
-        since_date = date.today() - timedelta(days=config.collect.backfill_days)
-
-    logger.info("KBM Tender Scout Orchestrator initialized.")
-    logger.info("Target: %s | Since: %s | Limit: %s", args.portal, since_date, args.limit)
-
-    # Initialize State Store & Processor
+    # Initialize State Store, Processor, and Managers
     state_store = StateStore()
     processor = TenderProcessor(config=config, state_store=state_store)
+    excel_generator = ExcelReportGenerator(config=config.excel, state_store=state_store)
+    delivery_manager = DeliveryManager(destinations=config.delivery.destinations)
+    notification_manager = NotificationManager(
+        recipients=config.notify.recipients,
+        channels=config.notify.channels
+    )
 
-    portals_to_run = []
-    if args.portal in ("capt", "all") and config.portals.get("capt", {}).enabled:
-        portals_to_run.append(CaptConnector(config.portals["capt"]))
-    if args.portal in ("kuwait_alyawm", "all") and config.portals.get("kuwait_alyawm", {}).enabled:
-        portals_to_run.append(KuwaitAlyawmConnector(config.portals["kuwait_alyawm"]))
+    run_logs: List[dict] = []
 
-    total_processed = 0
-    for connector in portals_to_run:
-        # Sequential execution with 1 session per portal (Rule 3.4)
-        count = run_portal(
-            connector=connector,
-            since=since_date,
-            processor=processor,
-            state_store=state_store,
-            limit=args.limit
-        )
-        total_processed += count
+    if not args.excel_only:
+        # Determine collection since date
+        if args.since:
+            since_date = date.fromisoformat(args.since)
+        else:
+            since_date = date.today() - timedelta(days=config.collect.backfill_days)
 
-    # Print summary metrics
+        logger.info("KBM Tender Scout Orchestrator initialized.")
+        logger.info("Target: %s | Since: %s | Limit: %s", args.portal, since_date, args.limit)
+
+        portals_to_run = []
+        if args.portal in ("capt", "all") and config.portals.get("capt", {}).enabled:
+            portals_to_run.append(CaptConnector(config.portals["capt"]))
+        if args.portal in ("kuwait_alyawm", "all") and config.portals.get("kuwait_alyawm", {}).enabled:
+            portals_to_run.append(KuwaitAlyawmConnector(config.portals["kuwait_alyawm"]))
+
+        total_processed = 0
+        for connector in portals_to_run:
+            # Sequential execution with 1 session per portal (Rule 3.4)
+            count = run_portal(
+                connector=connector,
+                since=since_date,
+                processor=processor,
+                state_store=state_store,
+                limit=args.limit
+            )
+            total_processed += count
+            run_logs.append({
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "portal": connector.portal_id,
+                "status": "SUCCESS",
+                "count": count,
+                "message": f"Processed {count} notices cleanly."
+            })
+
+    # Generate Excel Workbook (FR-8)
+    logger.info("Generating Excel Report with 7 sheets...")
+    report_path = excel_generator.generate_report(run_logs=run_logs)
+    logger.info("Excel Report generated successfully: %s", report_path.resolve())
+
+    # Dispatch Delivery (FR-9)
+    delivery_manager.dispatch(report_path)
+
+    # Print summary metrics & notifications (FR-10)
     stats = state_store.get_stats()
+    notification_manager.send_daily_summary(stats, report_path.name)
+
     logger.info("==================================================")
     logger.info("RUN SUMMARY:")
-    logger.info("Total Notices Collected This Run: %d", total_processed)
+    logger.info("Excel Output: %s", report_path)
+    logger.info("Latest Output: %s", config.excel.output_dir + "/" + config.excel.latest_filename)
     logger.info("Total Raw Notices in SQLite: %d", stats["total_raw_notices"])
     logger.info("Total Canonical Records in Store: %d", stats["total_canonical_tenders"])
     logger.info("Records by Status: %s", stats["by_status"])
+    logger.info("Records by Sector: %s", stats["by_sector"])
     logger.info("==================================================")
 
 if __name__ == "__main__":

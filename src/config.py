@@ -102,6 +102,16 @@ class ScheduleConfig(BaseModel):
     timezone: str = "Asia/Kuwait"
     active_days: List[str] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"]
 
+class DeliveryConfig(BaseModel):
+    destinations: List[str] = Field(default_factory=lambda: ["local"])
+
+class NotifyConfig(BaseModel):
+    channels: List[str] = Field(default_factory=lambda: ["console", "log"])
+    recipients: List[str] = Field(default_factory=lambda: ["kabed@kbm.com.kw"])
+    send_daily_summary: bool = True
+    alert_on_challenge: bool = True
+    alert_on_session_conflict: bool = True
+
 class SecretsConfig(BaseModel):
     provider: str = "env"
 
@@ -114,6 +124,8 @@ class RootConfig(BaseModel):
     classification: ClassificationConfig = Field(default_factory=ClassificationConfig)
     output: OutputConfig = Field(default_factory=OutputConfig)
     excel: ExcelConfig = Field(default_factory=ExcelConfig)
+    delivery: DeliveryConfig = Field(default_factory=DeliveryConfig)
+    notify: NotifyConfig = Field(default_factory=NotifyConfig)
     schedule: ScheduleConfig = Field(default_factory=ScheduleConfig)
     secrets: SecretsConfig = Field(default_factory=SecretsConfig)
 
