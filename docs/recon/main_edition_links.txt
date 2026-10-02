@@ -1,0 +1,3 @@
+/online/AdsCategory/1 ---> المناقصات
+/online/MainEditions ---> الاصدار الحالي
+/online/editions ---> الاصدارات السابقة

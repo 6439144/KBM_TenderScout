@@ -1,0 +1,305 @@
+{
+  "portal": "capt",
+  "base_url": "https://capt.gov.kw/ar/",
+  "title": "الجهاز المركزي للمناقصات العامة | مرحبا بكم في الجهاز المركزي للمناقصات العامة",
+  "nav_links": [
+    {
+      "text": "عن الجهاز",
+      "href": "/ar/about-us/"
+    },
+    {
+      "text": "تسجيل مقاولين/موردين/مقدم خدمة",
+      "href": "/ar/company/rules/"
+    },
+    {
+      "text": "تسجيل مقدمي الخدمات الاستشارية",
+      "href": "/ar/consultancy-company/rules/"
+    },
+    {
+      "text": "تغيير بيانات/كيان المقاولين/الموردين/مقدم خدمة",
+      "href": "/ar/company-name-change/apply/"
+    },
+    {
+      "text": "تغيير بيانات/كيان مقدمي الخدمات الاستشارية",
+      "href": "/ar/consultancy-company/name-change/apply/"
+    },
+    {
+      "text": "اصدار شهادة لمن يهمه الأمر",
+      "href": "/ar/to-whom-it-may-concern/perform/"
+    },
+    {
+      "text": "مقاولين/موردين/مقدم خدمة",
+      "href": "/ar/company/obtain-account/"
+    },
+    {
+      "text": "مقدمي الخدمات الاستشارية",
+      "href": "/ar/consultancy-company/signup-request/"
+    },
+    {
+      "text": "تغيير البريد الالكتروني مقاولين/موردين/مقدم خدمة",
+      "href": "/ar/company/change-email-request/"
+    },
+    {
+      "text": "تغيير البريد الالكتروني لمقدمي الخدمات الاستشارية",
+      "href": "/ar/consultancy-company/csp-change-email/"
+    },
+    {
+      "text": "التصنيف",
+      "href": "#"
+    },
+    {
+      "text": "المستندات المطلوبة",
+      "href": "/ar/classification-conditions/"
+    },
+    {
+      "text": "الشركات المصنفة",
+      "href": "/ar/classification/"
+    },
+    {
+      "text": "نماذج التصنيف",
+      "href": "https://files.capt.gov.kw/static/docs/classification_docs.zip"
+    },
+    {
+      "text": "المناقصات",
+      "href": "/ar/tenders/opening-tenders/"
+    },
+    {
+      "text": "الطرح المسبق",
+      "href": "/ar/tenders/pre-tenders/"
+    },
+    {
+      "text": "مناقصات مطروحة",
+      "href": "/ar/tenders/opening-tenders/"
+    },
+    {
+      "text": "فض العطاءات",
+      "href": "/ar/tenders/closing-tenders/"
+    },
+    {
+      "text": "التأمين الأولي",
+      "href": "/ar/tenders/warranties/"
+    },
+    {
+      "text": "الترسيات",
+      "href": "/ar/tenders/winning-bids/"
+    },
+    {
+      "text": "تأجيل المناقصات",
+      "href": "/ar/tenders/postponement/"
+    },
+    {
+      "text": "التأهيل المسبق",
+      "href": "/ar/tenders/qualifications/"
+    },
+    {
+      "text": "القوانين واللوائح",
+      "href": "#"
+    },
+    {
+      "text": "قانون المناقصات",
+      "href": "/ar/laws/"
+    },
+    {
+      "text": "تعليمات للمناقصين",
+      "href": "/ar/laws/instructions/"
+    },
+    {
+      "text": "أسماء الممنوعين",
+      "href": "/ar/company/prohibitedcompanies/"
+    },
+    {
+      "text": "الشروط و الاحكام",
+      "href": "#"
+    },
+    {
+      "text": "التعاميم",
+      "href": "/ar/laws/generalizations/"
+    },
+    {
+      "text": "قانون حق الاطلاع",
+      "href": "/ar/access-right/"
+    },
+    {
+      "text": "الحوكمة المؤسسية",
+      "href": "/ar/intranet/"
+    },
+    {
+      "text": "عن الحوكمة",
+      "href": "/ar/intranet/about-governance/"
+    },
+    {
+      "text": "الاعلام والتواصل",
+      "href": "/ar/intranet/media/"
+    },
+    {
+      "text": "خطة العمل",
+      "href": "/ar/intranet/work-plan/"
+    },
+    {
+      "text": "مكتبة الحوكمة",
+      "href": "/ar/intranet/governance-generalizations/"
+    },
+    {
+      "text": "إعلانات الجهاز",
+      "href": "/ar/kuwait-alyawm/"
+    },
+    {
+      "text": "الاستفسارات",
+      "href": "#"
+    },
+    {
+      "text": "إستفسارات التسجيل/التجديد (المحلية)",
+      "href": "/ar/local-company-inquiry/"
+    },
+    {
+      "text": "إستفسارات التسجيل/التجديد (الأجنبية)",
+      "href": "/ar/foreign-company-inquiry/"
+    },
+    {
+      "text": "الخطة الاستراتيجية",
+      "href": "https://files.capt.gov.kw/media/strategic-plan/%D8%A7%D9%84%D8%AE%D8%B7%D8%A9_%D8%A7%D9%84%D8%A5%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A%D8%A9_%D9%84%D9%84%D8%AC%D9%87%D8%A7%D8%B2_%D8%A7%D9%84%D9%85%D8%B1%D9%83%D8%B2%D9%8A_%D9%84%D9%84%D9%85%D9%86%D8%A7%D9%82%D8%B5%D8%A7%D8%AA_%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D8%A9_20302025.pdf"
+    },
+    {
+      "text": "المشاريع السنوية",
+      "href": "https://files.capt.gov.kw/media/annual-projects/%D9%85%D8%B4%D8%A7%D8%B1%D9%8A%D8%B9_%D8%B3%D9%86%D8%A9_2026.pdf"
+    }
+  ],
+  "tender_links_found": [
+    {
+      "text": "المناقصات",
+      "href": "/ar/tenders/opening-tenders/"
+    },
+    {
+      "text": "الطرح المسبق",
+      "href": "/ar/tenders/pre-tenders/"
+    },
+    {
+      "text": "مناقصات مطروحة",
+      "href": "/ar/tenders/opening-tenders/"
+    },
+    {
+      "text": "تأجيل المناقصات",
+      "href": "/ar/tenders/postponement/"
+    },
+    {
+      "text": "التأهيل المسبق",
+      "href": "/ar/tenders/qualifications/"
+    },
+    {
+      "text": "قانون المناقصات",
+      "href": "/ar/laws/"
+    },
+    {
+      "text": "تعليمات للمناقصين",
+      "href": "/ar/laws/instructions/"
+    },
+    {
+      "text": "إعلانات الجهاز",
+      "href": "/ar/kuwait-alyawm/"
+    },
+    {
+      "text": "أسماء المناقصين",
+      "href": "#tab-4"
+    },
+    {
+      "text": "أسماء المناقصين",
+      "href": "#tab-4"
+    }
+  ],
+  "login_links_found": [
+    {
+      "text": "تسجيل مقاولين/موردين/مقدم خدمة",
+      "href": "/ar/company/rules/"
+    },
+    {
+      "text": "تسجيل مقدمي الخدمات الاستشارية",
+      "href": "/ar/consultancy-company/rules/"
+    },
+    {
+      "text": "إستفسارات التسجيل/التجديد (المحلية)",
+      "href": "/ar/local-company-inquiry/"
+    },
+    {
+      "text": "إستفسارات التسجيل/التجديد (الأجنبية)",
+      "href": "/ar/foreign-company-inquiry/"
+    },
+    {
+      "text": "تسجيل الدخول",
+      "href": "#"
+    },
+    {
+      "text": "تسجيل شركات المقاولين",
+      "href": "#tab-11"
+    },
+    {
+      "text": "تسجيل مقدمي الخدمات الاستشارية",
+      "href": "#tab-csp"
+    },
+    {
+      "text": "تسجيل شركات المقاولين",
+      "href": "#tab-11"
+    },
+    {
+      "text": "تسجيل مقدمي الخدمات الاستشارية",
+      "href": "#tab-csp"
+    }
+  ],
+  "login_page_title": "الجهاز المركزي للمناقصات العامة | القوانين واللوائح",
+  "login_url_actual": "https://capt.gov.kw/ar/company/rules/",
+  "login_form_inputs": [
+    {
+      "name": "csrfmiddlewaretoken",
+      "id": "",
+      "type": "hidden",
+      "placeholder": "",
+      "autocomplete": ""
+    },
+    {
+      "name": "next",
+      "id": "",
+      "type": "hidden",
+      "placeholder": "",
+      "autocomplete": ""
+    },
+    {
+      "name": "language",
+      "id": "",
+      "type": "hidden",
+      "placeholder": "",
+      "autocomplete": ""
+    },
+    {
+      "name": "csrfmiddlewaretoken",
+      "id": "",
+      "type": "hidden",
+      "placeholder": "",
+      "autocomplete": ""
+    },
+    {
+      "name": "username",
+      "id": "",
+      "type": "text",
+      "placeholder": "البريد الإليكتروني",
+      "autocomplete": ""
+    },
+    {
+      "name": "password",
+      "id": "",
+      "type": "password",
+      "placeholder": "كلمة المرور",
+      "autocomplete": ""
+    },
+    {
+      "name": "next",
+      "id": "",
+      "type": "hidden",
+      "placeholder": "",
+      "autocomplete": ""
+    }
+  ],
+  "captcha_detected": {
+    "recaptcha": false,
+    "cloudflare_turnstile": false,
+    "hcaptcha": false
+  }
+}

@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  tenderscout:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kbm_tenderscout
+    restart: "no" # Runs on schedule via cron or scheduler
+    environment:
+      - TZ=Asia/Kuwait
+      # Inject runtime secrets from host environment or vault
+      - CAPT_USERNAME=${CAPT_USERNAME}
+      - CAPT_PASSWORD=${CAPT_PASSWORD}
+      - ALYAWM_USERNAME=${ALYAWM_USERNAME}
+      - ALYAWM_PASSWORD=${ALYAWM_PASSWORD}
+    volumes:
+      # Persist SQLite state database
+      - ./data:/app/data
+      # Persist generated daily Excel reports
+      - ./output/reports:/app/output/reports
+      # Persist logs and challenge evidence screenshots
+      - ./logs:/app/logs
+    command: ["python", "src/run.py", "--portal", "all"]

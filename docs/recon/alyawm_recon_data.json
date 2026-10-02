@@ -1,0 +1,232 @@
+{
+  "portal": "kuwait_alyawm",
+  "base_url": "https://kuwaitalyawm.media.gov.kw/",
+  "title": "الصفحة الرئيسية",
+  "url_actual": "https://kuwaitalyawm.media.gov.kw/",
+  "nav_links": [
+    {
+      "text": "دولة الكويت\nوزارة الاعلام",
+      "href": "/online"
+    },
+    {
+      "text": "الكويت اليوم - الجريدة الرسمية",
+      "href": "./"
+    },
+    {
+      "text": "الرئيسية",
+      "href": "/online"
+    },
+    {
+      "text": "تاريخ الجريدة",
+      "href": "/online/breif"
+    },
+    {
+      "text": "الصور",
+      "href": "/online/gallary"
+    },
+    {
+      "text": "الفيديوهات",
+      "href": "/online/Videos"
+    },
+    {
+      "text": "اتصل بنا",
+      "href": "/online/contactus"
+    },
+    {
+      "text": "القوانين",
+      "href": "/online/AdsCategory/9"
+    },
+    {
+      "text": "المراسيم",
+      "href": "/online/AdsCategory/3"
+    },
+    {
+      "text": "القرارات",
+      "href": "/online/AdsCategory/8"
+    },
+    {
+      "text": "المحكمة الدستورية",
+      "href": "/online/AdsCategory/12"
+    },
+    {
+      "text": "الاستدراكات",
+      "href": "/online/AdsCategory/6"
+    },
+    {
+      "text": "الاصدار الحالي",
+      "href": "#"
+    },
+    {
+      "text": "كل الاصدارات",
+      "href": "/online/editions"
+    },
+    {
+      "text": "الشكاوي/المقترحات",
+      "href": "/online/Complaints"
+    },
+    {
+      "text": "عرض الكل",
+      "href": "/Online/editions"
+    },
+    {
+      "text": "هل نسيت كلمة المرور؟",
+      "href": "/Account/ForgotPasswordonline"
+    },
+    {
+      "text": "مستخدم جديد",
+      "href": "/Account/RegisterOnline"
+    },
+    {
+      "text": "اتصل بنا",
+      "href": "/online/contactus"
+    },
+    {
+      "text": "تاريخ الجريدة",
+      "href": "/online/breif"
+    },
+    {
+      "text": "الرئيسية",
+      "href": "/online"
+    },
+    {
+      "text": "الممارسات",
+      "href": "/online/AdsCategory/18"
+    },
+    {
+      "text": "المناقصات",
+      "href": "/online/AdsCategory/1"
+    },
+    {
+      "text": "المزايدات",
+      "href": "/online/AdsCategory/2"
+    },
+    {
+      "text": "الاصدار الحالي",
+      "href": "/online/MainEditions"
+    },
+    {
+      "text": "الاصدارات السابقة",
+      "href": "/online/editions"
+    },
+    {
+      "text": "تسجيل الدخول",
+      "href": "/online"
+    },
+    {
+      "text": "تسجيل مستخدم",
+      "href": "/Account/RegisterOnline"
+    }
+  ],
+  "issue_links_found": [
+    {
+      "text": "الكويت اليوم - الجريدة الرسمية",
+      "href": "./"
+    },
+    {
+      "text": "تاريخ الجريدة",
+      "href": "/online/breif"
+    },
+    {
+      "text": "تاريخ الجريدة",
+      "href": "/online/breif"
+    },
+    {
+      "text": "المناقصات",
+      "href": "/online/AdsCategory/1"
+    }
+  ],
+  "login_links_found": [
+    {
+      "text": "تسجيل الدخول",
+      "href": "/online"
+    },
+    {
+      "text": "تسجيل مستخدم",
+      "href": "/Account/RegisterOnline"
+    }
+  ],
+  "inputs_on_page": [
+    {
+      "name": "keyword",
+      "id": "keyword",
+      "type": "text",
+      "placeholder": "كلمة البحث"
+    },
+    {
+      "name": "",
+      "id": "",
+      "type": "submit",
+      "placeholder": ""
+    },
+    {
+      "name": "__RequestVerificationToken",
+      "id": "",
+      "type": "hidden",
+      "placeholder": ""
+    },
+    {
+      "name": "UserName",
+      "id": "UserName",
+      "type": "text",
+      "placeholder": "اسم المستخدم"
+    },
+    {
+      "name": "Password",
+      "id": "Password",
+      "type": "password",
+      "placeholder": "كلمة المرور"
+    },
+    {
+      "name": "RememberMe",
+      "id": "RememberMe",
+      "type": "checkbox",
+      "placeholder": ""
+    },
+    {
+      "name": "RememberMe",
+      "id": "",
+      "type": "hidden",
+      "placeholder": ""
+    },
+    {
+      "name": "__RequestVerificationToken",
+      "id": "",
+      "type": "hidden",
+      "placeholder": ""
+    },
+    {
+      "name": "_startdate",
+      "id": "startdate",
+      "type": "text",
+      "placeholder": ""
+    },
+    {
+      "name": "_enddate",
+      "id": "enddate",
+      "type": "text",
+      "placeholder": ""
+    },
+    {
+      "name": "_enddate",
+      "id": "",
+      "type": "hidden",
+      "placeholder": ""
+    },
+    {
+      "name": "",
+      "id": "resultsSearch",
+      "type": "submit",
+      "placeholder": ""
+    },
+    {
+      "name": "",
+      "id": "",
+      "type": "text",
+      "placeholder": ""
+    }
+  ],
+  "captcha_detected": {
+    "recaptcha": false
+  },
+  "pdf_links_found": []
+}
