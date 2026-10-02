@@ -1,0 +1,34 @@
+client_id,client_name_ar,client_name_en,aliases,sector_id,account_owner,notes
+mew,وزارة الكهرباء والماء والطاقة المتجددة,Ministry of Electricity Water and Renewable Energy,"وزارة الكهرباء والماء;الكهرباء والماء;MEW",oil_and_gas,,Major utility
+kpc,مؤسسة البترول الكويتية,Kuwait Petroleum Corporation,"مؤسسة البترول;KPC",oil_and_gas,,National oil holding
+knpc,شركة البترول الوطنية الكويتية,Kuwait National Petroleum Company,"البترول الوطنية;KNPC",oil_and_gas,,Refining
+koc,شركة نفط الكويت,Kuwait Oil Company,"نفط الكويت;KOC",oil_and_gas,,Upstream
+kipic,الشركة الكويتية للصناعات البترولية المتكاملة,Kuwait Integrated Petroleum Industries Company,"كيبيك;KIPIC;الصناعات البترولية المتكاملة",oil_and_gas,,Petrochemicals
+moh,وزارة الصحة,Ministry of Health,"الصحة;MOH;وزاره الصحه",healthcare,,Public health
+moe,وزارة التربية,Ministry of Education,"التربية;التربيه;MOE",education_and_research,,Schools and K-12
+mohe,وزارة التعليم العالي,Ministry of Higher Education,"التعليم العالي;MOHE",education_and_research,,Higher education
+ku,جامعة الكويت,Kuwait University,"جامعه الكويت;KU",education_and_research,,University
+paaet,الهيئة العامة للتعليم التطبيقي والتدريب,Public Authority for Applied Education and Training,"التعليم التطبيقي;التطبيقي;PAAET",education_and_research,,Vocational education
+mof,وزارة المالية,Ministry of Finance,"المالية;الماليه;MOF",government,,State treasury
+moi,وزارة الداخلية,Ministry of Interior,"الداخلية;الداخليه;MOI",defense_and_security,,Security and police
+mod,وزارة الدفاع,Ministry of Defense,"الدفاع;MOD",defense_and_security,,Military
+kng,الحرس الوطني الكويتي,Kuwait National Guard,"الحرس الوطني;KNG",defense_and_security,,National Guard
+mpw,وزارة الأشغال العامة,Ministry of Public Works,"الأشغال العامة;الأشغال;MPW",government,,Public infrastructure
+moc,وزارة المواصلات,Ministry of Communications,"المواصلات;MOC",telecom_and_media,,Telecom & Post
+citra,الهيئة العامة للاتصالات وتقنية المعلومات,Communication and Information Technology Regulatory Authority,"هيئة الاتصالات;CITRA;سيترا",telecom_and_media,,Telecom regulator
+paci,الهيئة العامة للمعلومات المدنية,Public Authority for Civil Information,"المعلومات المدنية;PACI;المدنية",government,,Civil ID & Identity
+cbk,بنك الكويت المركزي,Central Bank of Kuwait,"البنك المركزي;المركزي;CBK",banking_and_finance,,Central banking
+csc,ديوان الخدمة المدنية,Civil Service Commission,"الخدمة المدنية;CSC",government,,Civil service
+kfas,مؤسسة الكويت للتقدم العلمي,Kuwait Foundation for the Advancement of Sciences,"مؤسسة التقدم العلمي;KFAS",education_and_research,,Science & research
+kisr,معهد الكويت للأبحاث العلمية,Kuwait Institute for Scientific Research,"معهد الأبحاث;KISR",education_and_research,,Research institute
+km,بلدية الكويت,Kuwait Municipality,"البلدية;بلديه الكويت",government,,Municipal affairs
+cpa,الهيئة العامة لمكافحة الفساد (نزاهة),Kuwait Anti-Corruption Authority (Nazaha),"نزاهة;مكافحة الفساد",government,,Anti-corruption
+kia,الهيئة العامة للاستثمار,Kuwait Investment Authority,"هيئة الاستثمار;KIA",banking_and_finance,,Sovereign wealth fund
+customs,الإدارة العامة للجمارك,General Administration of Customs,"الجمارك;جمارك الكويت",government,,Customs
+dgca,الإدارة العامة للطيران المدني,Directorate General of Civil Aviation,"الطيران المدني;DGCA",government,,Civil aviation & airport
+kpa,مؤسسة الموانئ الكويتية,Kuwait Ports Authority,"الموانئ الكويتية;مؤسسة الموانئ;KPA",government,,Seaports
+moj,وزارة العدل,Ministry of Justice,"العدل;وزارة العدل;MOJ",government,,Courts & Justice
+moci,وزارة التجارة والصناعة,Ministry of Commerce and Industry,"التجارة والصناعة;التجارة;MOCI",government,,Commerce & Industry
+paht,المؤسسة العامة للرعاية السكنية,Public Authority for Housing Welfare,"الرعاية السكنية;السكنية;PAHW",government,,Housing
+paf,الهيئة العامة لشؤون الزراعة والثروة السمكية,Public Authority for Agricultural Affairs and Fish Resources,"الزراعة;الزراعة والثروة السمكية;PAAAFR",government,,Agriculture
+epa,الهيئة العامة للبيئة,Environment Public Authority,"هيئة البيئة;البيئة;EPA",government,,Environmental protection

@@ -1,0 +1,94 @@
+# Sector Taxonomy for KBM Tender Scout
+# Used by the classification pipeline to group public tenders.
+# Proposed defaults corresponding to Open Decision #6.
+
+sectors:
+  - id: "oil_and_gas"
+    name_en: "Oil & Gas / Energy"
+    name_ar: "النفط والغاز والطاقة"
+    keywords:
+      - "نفط"
+      - "غاز"
+      - "بترول"
+      - "طاقة"
+      - "كهرباء ومياه"
+      - "مصفاة"
+      - "حفر"
+      - "kpc"
+      - "knpc"
+      - "koc"
+      - "kipic"
+      - "mew"
+
+  - id: "banking_and_finance"
+    name_en: "Banking & Financial Services"
+    name_ar: "البنوك والخدمات المالية"
+    keywords:
+      - "بنك"
+      - "مصرف"
+      - "استثمار"
+      - "مالية"
+      - "أسهم"
+      - "تداول"
+      - "cbk"
+      - "kia"
+
+  - id: "government"
+    name_en: "Government & Public Sector"
+    name_ar: "الوزارات والجهات الحكومية"
+    keywords:
+      - "وزارة"
+      - "هيئة عامة"
+      - "مجلس الوزراء"
+      - "بلدية الكويت"
+      - "ديوان"
+      - "إدارة عامة"
+
+  - id: "telecom_and_media"
+    name_en: "Telecom & Media"
+    name_ar: "الاتصالات والإعلام"
+    keywords:
+      - "اتصالات"
+      - "إعلام"
+      - "بريد"
+      - "citra"
+      - "هيئة الاتصالات"
+
+  - id: "healthcare"
+    name_en: "Healthcare"
+    name_ar: "الرعاية الصحية"
+    keywords:
+      - "صحة"
+      - "مستشفى"
+      - "طبي"
+      - "أدوية"
+      - "مراكز صحية"
+      - "moh"
+
+  - id: "education_and_research"
+    name_en: "Education & Research"
+    name_ar: "التعليم والبحث العلمي"
+    keywords:
+      - "جامعة"
+      - "تطبيقي"
+      - "تربية"
+      - "أبحاث"
+      - "kfas"
+      - "kisr"
+      - "paaet"
+
+  - id: "defense_and_security"
+    name_en: "Defense & Security"
+    name_ar: "الدفاع والداخلية والأمن"
+    keywords:
+      - "دفاع"
+      - "داخلية"
+      - "حرس وطني"
+      - "جيش"
+      - "شرطة"
+      - "أمن عام"
+
+  - id: "other"
+    name_en: "Other / Cross-Sector"
+    name_ar: "أخرى / قطاعات عامة"
+    keywords: []

@@ -1,0 +1,29 @@
+# Core Runtime & Orchestration
+pydantic>=2.7.0
+pydantic-settings>=2.2.0
+pyyaml>=6.0.1
+python-dotenv>=1.0.1
+
+# Browser Automation (Polite sequential scraping)
+playwright>=1.44.0
+
+# Document & PDF Processing (Gazette extraction)
+pdfplumber>=0.11.0
+pymupdf>=1.24.0
+pytesseract>=0.3.10
+Pillow>=10.3.0
+
+# Text Processing & Normalization
+rapidfuzz>=3.9.0
+
+# Excel Generation & RTL Formatting
+openpyxl>=3.1.2
+
+# LLM Fallback (Optional, configurable)
+google-genai>=0.1.1
+openai>=1.30.0
+
+# Testing & Linting
+pytest>=8.2.0
+ruff>=0.4.0
+pre-commit>=3.7.0

@@ -1,0 +1,255 @@
+# ==============================================================================
+# KBM Tender Monitoring Agent - System Configuration
+# ==============================================================================
+# All open architectural and functional decisions are mapped here as named settings.
+# NEVER hardcode portal URLs, delay thresholds, file paths, or credentials.
+# Refer to docs/OPEN_DECISIONS.md for detailed context and status of each item.
+# ==============================================================================
+
+app:
+  name: "KBM Tender Monitoring Agent"
+  version: "1.0.0"
+  environment: "development" # development | production
+  log_level: "INFO"          # DEBUG | INFO | WARNING | ERROR
+
+# ------------------------------------------------------------------------------
+# 1. Compliance & Legal Verification (Open Decision #1)
+# ------------------------------------------------------------------------------
+compliance:
+  # Must be set to true only after product owner signs off in docs/COMPLIANCE.md
+  automation_permitted: false
+  # When false, automated cron runs are blocked and require human presence
+  enforce_human_presence_until_permitted: true
+
+# ------------------------------------------------------------------------------
+# 2. Portal Configurations & Session Politeness (Open Decisions #2, #11)
+# ------------------------------------------------------------------------------
+portals:
+  capt:
+    enabled: true
+    name: "Central Agency for Public Tenders (CAPT)"
+    base_url: "https://capt.gov.kw"
+    login_url: "https://capt.gov.kw/ar/login" # mapped during Recon
+    tenders_url: "https://capt.gov.kw/ar/tenders" # mapped during Recon
+    auth:
+      username_secret: "CAPT_USERNAME"
+      password_secret: "CAPT_PASSWORD"
+      account_type: "shared" # shared | dedicated (Open Decision #2)
+      has_otp: false         # will be confirmed in Recon
+    rate_limiting:
+      min_delay_seconds: 3.0
+      max_delay_seconds: 8.0
+      max_pages_per_run: 20
+      max_retries_per_day: 1
+    browser:
+      headless: true
+      timeout_ms: 30000
+      user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 (KBM-TenderScout-Reader)"
+
+  kuwait_alyawm:
+    enabled: true
+    name: "Kuwait Al-Yawm Official Gazette"
+    base_url: "https://kuwaitalyawm.media.gov.kw"
+    login_url: "https://kuwaitalyawm.media.gov.kw/login" # mapped during Recon
+    tenders_url: "https://kuwaitalyawm.media.gov.kw/issues" # mapped during Recon
+    auth:
+      username_secret: "ALYAWM_USERNAME"
+      password_secret: "ALYAWM_PASSWORD"
+      account_type: "shared" # shared | dedicated (Open Decision #2)
+      has_otp: false         # will be confirmed in Recon
+    rate_limiting:
+      min_delay_seconds: 3.0
+      max_delay_seconds: 8.0
+      max_pages_per_run: 20
+      max_retries_per_day: 1
+    browser:
+      headless: true
+      timeout_ms: 30000
+      user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 (KBM-TenderScout-Reader)"
+
+# ------------------------------------------------------------------------------
+# 3. Collection Rules & Notice Types (Open Decisions #3, #5, #11)
+# ------------------------------------------------------------------------------
+collect:
+  # Notice types to capture into canonical dataset (Open Decision #3)
+  notice_types:
+    - "tender"        # مناقصات عامة ومحدودة
+    - "practice"      # ممارسات
+    - "prequal"       # تأهيل مسبق
+    - "addendum"      # ملاحق وتمديد
+    - "cancellation"  # إلغاءات
+    - "award"         # ترسيات وتوصيات
+    # - "auction"     # مزايدات (excluded by default)
+
+  # First-run backfill window in days (Open Decision #5)
+  backfill_days: 30
+
+  # Attachment handling (Open Decision #11)
+  # RULE: Metadata only. Never purchase documents.
+  download_attachments: false
+  attachments_dir: "data/attachments"
+
+# ------------------------------------------------------------------------------
+# 4. Relevance Filtering (Open Decision #4)
+# ------------------------------------------------------------------------------
+filter:
+  enabled: true
+  # "tag_only" stores all tenders and tags relevance; "strict" excludes non-ICT from main sheets
+  mode: "tag_only"
+  # Always persist all scraped tenders in the database regardless of filter
+  store_unmatched: true
+  
+  # KBM ICT / IT Keyword Lists
+  keywords_ar:
+    - "شبكات"
+    - "خوادم"
+    - "حاسب آلي"
+    - "برمجيات"
+    - "أمن سيبراني"
+    - "مراكز بيانات"
+    - "تراخيص"
+    - "صيانة أجهزة"
+    - "بنية تحتية"
+    - "تخزين بيانات"
+    - "ألياف ضوئية"
+    - "كاميرات مراقبة"
+    - "نظم معلومات"
+    - "أنظمة"
+    - "حماية المعلومات"
+    - "تقنية المعلومات"
+    - "اتصالات"
+    - "بوابة إلكترونية"
+    - "حوسبة سحابية"
+
+  keywords_en:
+    - "server"
+    - "servers"
+    - "storage"
+    - "network"
+    - "networking"
+    - "cyber"
+    - "cybersecurity"
+    - "cloud"
+    - "license"
+    - "licenses"
+    - "hardware"
+    - "software"
+    - "datacenter"
+    - "data center"
+    - "infrastructure"
+    - "cctv"
+    - "erp"
+    - "crm"
+    - "firewall"
+    - "switch"
+    - "router"
+    - "backup"
+
+# ------------------------------------------------------------------------------
+# 5. Client & Sector Classification (Open Decisions #6, #7, #17)
+# ------------------------------------------------------------------------------
+classification:
+  clients_master_file: "data/clients.csv"
+  sectors_file: "data/sectors.yaml"
+  clients_pending_file: "data/clients_pending.csv"
+  
+  # Minimum confidence threshold (0.0 - 1.0) before flagging needs_review = true
+  confidence_threshold: 0.75
+
+  # LLM tertiary classification fallback (Open Decision #17)
+  llm:
+    enabled: false # toggle true once API key is provided
+    provider: "gemini" # gemini | azure_openai | local_ollama
+    model: "gemini-2.5-flash"
+    temperature: 0.0
+    timeout_seconds: 15
+    max_retries: 2
+    # Ensure no secrets or sessions are ever sent to LLM
+    strip_sensitive_fields: true
+
+# ------------------------------------------------------------------------------
+# 6. Output & Excel Reporting (Open Decisions #8, #9, #10)
+# ------------------------------------------------------------------------------
+output:
+  # Output language: Arabic original is canonical.
+  # Set translate_titles to true if bilingual title_en is required (Open Decision #8)
+  translate_titles: false
+
+excel:
+  # Mode: "daily_timestamped" | "cumulative_single_file" | "both" (Open Decision #10)
+  mode: "both"
+  output_dir: "output/reports"
+  daily_filename_pattern: "KBM_Tenders_{date}.xlsx"
+  latest_filename: "KBM_Tenders_Latest.xlsx"
+
+  # Highlight tenders closing within N days
+  closing_soon_days: 7
+
+  # Enabled sheets (Open Decision #9)
+  sheets:
+    - summary
+    - new_today
+    - all_open
+    - by_sector
+    - by_client
+    - needs_review
+    - run_log
+
+# ------------------------------------------------------------------------------
+# 7. Delivery & Notifications (Open Decisions #12, #16)
+# ------------------------------------------------------------------------------
+delivery:
+  # Destinations: local, email, sharepoint, teams (Open Decision #12)
+  destinations:
+    - "local"
+
+  email:
+    enabled: false
+    smtp_host: "smtp.office365.com"
+    smtp_port: 587
+    use_tls: true
+    sender_email: "tenderscout@kbm.com.kw"
+    recipients:
+      - "kabed@kbm.com.kw"
+    subject_template: "KBM Daily Tender Report - {date}"
+
+  sharepoint:
+    enabled: false
+    site_url: ""
+    document_library: "Tender Reports"
+    folder_path: "Daily Reports"
+
+notify:
+  # Alert channels on failure, challenge, or conflict (Open Decision #16)
+  channels:
+    - "console"
+    - "log"
+    # - "email"
+    # - "teams"
+  recipients:
+    - "kabed@kbm.com.kw"
+  send_daily_summary: true
+  alert_on_challenge: true
+  alert_on_session_conflict: true
+
+# ------------------------------------------------------------------------------
+# 8. Scheduling & Execution (Open Decisions #13, #14)
+# ------------------------------------------------------------------------------
+schedule:
+  cron: "0 6 * * 0-4" # 06:00 AM Sun-Thu (Open Decision #13)
+  timezone: "Asia/Kuwait"
+  active_days:
+    - "Sunday"
+    - "Monday"
+    - "Tuesday"
+    - "Wednesday"
+    - "Thursday"
+
+# ------------------------------------------------------------------------------
+# 9. Secrets Vault Strategy (Open Decision #15)
+# ------------------------------------------------------------------------------
+secrets:
+  # Provider: "env" | "azure_keyvault" | "keyring" (Open Decision #15)
+  provider: "env"
+  azure:
+    vault_url: ""

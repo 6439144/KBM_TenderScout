@@ -1,0 +1,72 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.pfx
+secrets/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Playwright & Browser artifacts
+test-results/
+playwright-report/
+.playwright/
+screenshots/*.png
+!screenshots/.gitkeep
+snapshots/*.html
+!snapshots/.gitkeep
+traces/
+
+# Data & Output (contain potentially sensitive business/tender data)
+output/reports/*.xlsx
+!output/reports/.gitkeep
+data/state.db
+data/state.db-journal
+data/state.db-wal
+data/clients_pending.csv
+logs/*.log
+logs/*.jsonl
+!logs/.gitkeep
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
