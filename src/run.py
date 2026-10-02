@@ -28,7 +28,7 @@ from src.config import load_config, RootConfig
 from src.connectors.base import PortalConnector
 from src.connectors.capt import CaptConnector
 from src.connectors.kuwait_alyawm import KuwaitAlyawmConnector
-from src.models import CanonicalTenderRecord, RawNotice, SessionResult, SourceRef, TenderStatus
+from src.pipeline.processor import TenderProcessor
 from src.pipeline.state_store import StateStore
 from src.utils.secrets import SecretManager
 
@@ -42,40 +42,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger("kbm.orchestrator")
 
-def create_canonical_from_raw(raw: RawNotice) -> CanonicalTenderRecord:
-    """Helper to construct an initial canonical record from a raw notice for state storage."""
-    uid = f"{raw.portal_id}_{raw.tender_no.replace('/', '_').replace(' ', '_')}"
-    now_iso = datetime.now().isoformat()
-    source = SourceRef(
-        portal=raw.portal_id,
-        url=raw.source_url,
-        issue_no=raw.extra_fields.get("issue_no"),
-        page=raw.extra_fields.get("page_no"),
-        first_seen=now_iso,
-        last_seen=now_iso
-    )
-    return CanonicalTenderRecord(
-        tender_uid=uid,
-        tender_no=raw.tender_no,
-        tender_no_normalized=raw.tender_no.replace(" ", "").upper(),
-        title_ar=raw.title_raw,
-        notice_type=raw.notice_type_raw or "tender",
-        client_raw=raw.client_raw or "غير محدد",
-        client=raw.client_raw or "غير محدد",
-        sector="other",
-        publish_date=raw.publish_date_raw,
-        closing_date=raw.closing_date_raw,
-        pre_bid_date=raw.pre_bid_raw,
-        bid_bond=raw.bid_bond_raw,
-        document_fee=raw.document_fee_raw,
-        sources=[source],
-        status=TenderStatus.NEW,
-        raw=raw.model_dump()
-    )
-
 def run_portal(
     connector: PortalConnector,
     since: date,
+    processor: TenderProcessor,
     state_store: StateStore,
     limit: Optional[int] = None
 ) -> int:
@@ -110,9 +80,13 @@ def run_portal(
             # Persist raw notice to SQLite
             state_store.save_raw_notice(raw_notice)
 
-            # Upsert canonical record to SQLite
-            canonical = create_canonical_from_raw(raw_notice)
-            state_store.upsert_canonical_tender(canonical)
+            # Process through full normalization, classification, and dedupe pipeline
+            canonical = processor.process_raw_notice(raw_notice)
+            logger.info(
+                "[%s] Processed: %s | Client: %s | Sector: %s | Status: %s | Review: %s",
+                connector.portal_id, canonical.tender_no, canonical.client, canonical.sector,
+                canonical.status.value, canonical.needs_review
+            )
 
             collected_count += 1
             connector.polite_delay()
@@ -168,8 +142,9 @@ def main():
     logger.info("KBM Tender Scout Orchestrator initialized.")
     logger.info("Target: %s | Since: %s | Limit: %s", args.portal, since_date, args.limit)
 
-    # Initialize State Store
+    # Initialize State Store & Processor
     state_store = StateStore()
+    processor = TenderProcessor(config=config, state_store=state_store)
 
     portals_to_run = []
     if args.portal in ("capt", "all") and config.portals.get("capt", {}).enabled:
@@ -183,6 +158,7 @@ def main():
         count = run_portal(
             connector=connector,
             since=since_date,
+            processor=processor,
             state_store=state_store,
             limit=args.limit
         )

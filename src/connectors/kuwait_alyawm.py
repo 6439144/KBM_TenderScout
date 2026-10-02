@@ -183,6 +183,7 @@ class KuwaitAlyawmConnector(PortalConnector):
                 count = rows.count()
                 logger.info("Kuwait Al-Yawm Cat %s: Found %d table rows on page %d", cat_id, count, current_page)
 
+                page_refs = []
                 for i in range(count):
                     row = rows.nth(i)
                     cells = row.locator("td")
@@ -209,14 +210,17 @@ class KuwaitAlyawmConnector(PortalConnector):
 
                     full_detail_url = urljoin("https://kuwaitalyawm.media.gov.kw", data_load_url) if data_load_url else cat_url
 
-                    yield NoticeRef(
+                    page_refs.append(NoticeRef(
                         portal_id=self.portal_id,
                         tender_no_raw=tender_no,
                         detail_url=full_detail_url,
                         issue_no=issue_no,
                         page_ref=page_no,
                         publish_date_hint=pub_date_greg
-                    )
+                    ))
+
+                for ref in page_refs:
+                    yield ref
 
                 # Pagination handling
                 next_btn = page.locator(".dataTables_paginate a.next, ul.pagination li.next a, a:has-text('التالي')").first
@@ -235,23 +239,27 @@ class KuwaitAlyawmConnector(PortalConnector):
         Extracts tender notice announcement content.
         Uses flip viewer content if authenticated, or structured table metadata.
         """
-        page = self.init_browser()
-        full_text = ""
         announcement_content = ""
 
-        # If data-load-url flip viewer is available, attempt to load announcement page
-        if "/flip/index" in ref.detail_url:
+        # If data-load-url flip viewer is available, attempt to load in isolated page
+        if "/flip/index" in ref.detail_url and self._context:
+            detail_tab = None
             try:
-                page.goto(ref.detail_url, wait_until="networkidle", timeout=25000)
-                page_body = page.locator("body").inner_text()
+                detail_tab = self._context.new_page()
+                detail_tab.goto(ref.detail_url, wait_until="networkidle", timeout=20000)
+                page_body = detail_tab.locator("body").inner_text()
                 
                 # Check subscriber restriction
-                if "خدمة تصفح الإصدار متاحة فقط للمشتركين" in page_body:
-                    logger.debug("Kuwait Al-Yawm: Flip page locked behind subscriber gate. Using table metadata.")
-                else:
+                if "خدمة تصفح الإصدار متاحة فقط للمشتركين" not in page_body:
                     announcement_content = page_body.strip()
             except Exception as e:
                 logger.debug("Could not load flip viewer for %s: %s", ref.tender_no_raw, e)
+            finally:
+                if detail_tab:
+                    try:
+                        detail_tab.close()
+                    except Exception:
+                        pass
 
         # Parse date from hint (format DD/MM/YYYY)
         pub_iso = None

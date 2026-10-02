@@ -200,15 +200,16 @@ class CaptConnector(PortalConnector):
                 )
 
             # Pagination handling
-            next_btn = page.locator("a.endless_page_link:has-text('>'), ul.pagination li:has-text('>') a").first
-            if next_btn.count() > 0 and next_btn.is_visible():
-                logger.info("CAPT: Moving to next page...")
+            current_page += 1
+            if current_page <= max_pages:
+                logger.info("CAPT: Moving to page %d via direct URL...", current_page)
                 self.polite_delay()
-                next_btn.click()
-                page.wait_for_load_state("networkidle", timeout=25000)
-                current_page += 1
+                page.goto(f"{tenders_url}?page={current_page}", wait_until="networkidle", timeout=30000)
+                # Check if new cards exist on this page
+                if page.locator(".detail-list").count() == 0:
+                    logger.info("CAPT: No more cards found on page %d. Ending listing.", current_page)
+                    break
             else:
-                logger.info("CAPT: Reached end of pagination at page %d.", current_page)
                 break
 
     def fetch_detail(self, ref: NoticeRef) -> RawNotice:
