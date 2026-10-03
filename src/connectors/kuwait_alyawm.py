@@ -156,8 +156,8 @@ class KuwaitAlyawmConnector(PortalConnector):
         """Collects notice references from Kuwait Al-Yawm Category 1 (Tenders) and 18 (Practices)."""
         page = self.init_browser()
         categories = [
-            ("1", "https://kuwaitalyawm.media.gov.kw/online/AdsCategory/1"),
-            ("18", "https://kuwaitalyawm.media.gov.kw/online/AdsCategory/18")
+            ("18", "https://kuwaitalyawm.media.gov.kw/online/AdsCategory/18"),
+            ("1", "https://kuwaitalyawm.media.gov.kw/online/AdsCategory/1")
         ]
 
         max_pages = self.config.rate_limiting.max_pages_per_run
@@ -272,15 +272,28 @@ class KuwaitAlyawmConnector(PortalConnector):
             except Exception:
                 pub_iso = ref.publish_date_hint
 
+        # Detect client and notice type from RFQ/RFP prefix
+        client_detected = None
+        notice_type = "tender"
+        t_upper = ref.tender_no_raw.upper()
+        if "RFQ" in t_upper or "RFP" in t_upper or "P&MAB" in t_upper:
+            notice_type = "practice"
+            client_detected = "شركة البترول الوطنية الكويتية"
+        elif "P&M" in t_upper or "MAB" in t_upper or "MAA" in t_upper:
+            notice_type = "practice"
+            client_detected = "شركة البترول الوطنية الكويتية"
+
+        title_display = announcement_content[:200] if announcement_content else f"{'ممارسة' if notice_type == 'practice' else 'مناقصة'} رقم {ref.tender_no_raw} - الجريدة الرسمية (العدد {ref.issue_no or ''})"
+
         return RawNotice(
             portal_id=self.portal_id,
             tender_no=ref.tender_no_raw,
-            title_raw=announcement_content[:200] if announcement_content else f"مناقصة رقم {ref.tender_no_raw} - الجريدة الرسمية",
-            client_raw=None, # Client determined during normalization or from full announcement
+            title_raw=title_display,
+            client_raw=client_detected,
             publish_date_raw=pub_iso or ref.publish_date_hint,
             closing_date_raw=None,
             pre_bid_raw=None,
-            notice_type_raw="tender",
+            notice_type_raw=notice_type,
             attachments=[],
             extra_fields={
                 "issue_no": ref.issue_no,

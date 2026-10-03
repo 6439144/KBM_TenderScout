@@ -228,6 +228,7 @@ class ExcelReportGenerator:
         headers = [
             "رقم المناقصة",
             "الجهة المصدرة",
+            "مسؤول الحساب (Account Manager)",
             "موضوع المناقصة",
             "قطاع KBM المختص (BU)",
             "درجة التوافق",
@@ -264,6 +265,7 @@ class ExcelReportGenerator:
             row_data = [
                 t.tender_no,
                 t.client,
+                t.account_owner or "Unassigned",
                 t.title_ar,
                 t.kbm_bu_ar if t.kbm_bu != "None" else "غير محدد",
                 f"{t.kbm_fit_score:.1f}%",
@@ -319,6 +321,7 @@ class ExcelReportGenerator:
         headers = [
             "رقم المناقصة",
             "الجهة المصدرة",
+            "مسؤول الحساب (Account Manager)",
             "موضوع المناقصة",
             "قطاع KBM المختص",
             "درجة التوافق",
@@ -352,6 +355,7 @@ class ExcelReportGenerator:
             row_data = [
                 t.tender_no,
                 t.client,
+                t.account_owner or "Unassigned",
                 t.title_ar,
                 t.kbm_bu_ar if t.kbm_bu != "None" else "عام",
                 f"{t.kbm_fit_score:.1f}%",

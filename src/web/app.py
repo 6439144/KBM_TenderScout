@@ -111,6 +111,7 @@ def get_tenders(
     sector: Optional[str] = None,
     portal: Optional[str] = None,
     status: Optional[str] = None,
+    am: Optional[str] = None,
     search: Optional[str] = None
 ):
     """Returns tenders filtered by KBM presales criteria and metadata."""
@@ -132,6 +133,10 @@ def get_tenders(
 
         # Sector filter
         if sector and sector != "all" and t.sector != sector:
+            continue
+
+        # Account Manager filter
+        if am and am != "all" and t.account_owner != am:
             continue
 
         # Status filter

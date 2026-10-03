@@ -349,17 +349,20 @@ class StateStore:
     def reclassify_all_with_kbm_profile(self) -> int:
         """
         Re-evaluates every tender in the database against the KBM Company Profile
-        and updates its fit score, primary BU, vendors, and presales verdict.
+        and updates its fit score, primary BU, vendors, presales verdict, and Account Manager.
         """
         from src.pipeline.kbm_qualifier import KBMQualifier
+        from src.pipeline.account_manager import resolve_account_manager
         tenders = self.get_all_tenders()
         count = 0
         with self._connection() as conn:
             cursor = conn.cursor()
             for t in tenders:
                 res = KBMQualifier.evaluate_tender(t.title_ar, t.client)
+                am = resolve_account_manager(t.client) or resolve_account_manager(t.client_raw) or t.account_owner or "Unassigned"
                 cursor.execute("""
                     UPDATE tenders SET
+                        account_owner = ?,
                         kbm_fit_score = ?,
                         kbm_bu = ?,
                         kbm_bu_ar = ?,
@@ -370,6 +373,7 @@ class StateStore:
                         is_kbm_relevant = ?
                     WHERE tender_uid = ?
                 """, (
+                    am,
                     res["fit_score"],
                     res["primary_bu"],
                     res["primary_bu_ar"],

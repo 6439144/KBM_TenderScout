@@ -1,0 +1,787 @@
+{
+  "AAW": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 3
+  },
+  "ABK": {
+    "am": "SALEEM DALWAI",
+    "sector": "Fin",
+    "count": 32
+  },
+  "Abyat": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Al Ahlia switchgear co": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Al Mailem": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "AL muzaini": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Al Sayer Group": {
+    "am": "AHMED ISMAIL",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Al Shaya": {
+    "am": "AHMED ISMAIL",
+    "sector": "Cross",
+    "count": 59
+  },
+  "Al shaya": {
+    "am": "AHMED ISMAIL",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Al Shaya (DxB)": {
+    "am": "AHMED ISMAIL",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Al Tigaria": {
+    "am": "Oumayma",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Al Waseet": {
+    "am": "SALEEM DALWAI",
+    "sector": "Fin",
+    "count": 2
+  },
+  "Al Yasra Group": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Al Zahem Malhotra": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Alhamra": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 3
+  },
+  "Ali Abdulwahab": {
+    "am": "Tareq Al Souqi",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Ali Al Ghanim": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Almulla": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Alshaya": {
+    "am": "AHMED ISMAIL",
+    "sector": "Cross",
+    "count": 17
+  },
+  "AlShaya": {
+    "am": "AHMED ISMAIL",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Altayer": {
+    "am": "AHMED ISMAIL",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Ameeri Diwan": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 1
+  },
+  "Amiri diwan": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 1
+  },
+  "AMR": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 1
+  },
+  "AOU": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 2
+  },
+  "Arzan": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "AUS": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Babtain": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Babtain Group": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Bait Al Asil": {
+    "am": "Omayma",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Beyut": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Boubyan": {
+    "am": "SAAD ALMAZROUEI",
+    "sector": "Fin",
+    "count": 2
+  },
+  "Boubyan Bank": {
+    "am": "SAAD ALMAZROUEI",
+    "sector": "Fin",
+    "count": 15
+  },
+  "Boursa": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 2
+  },
+  "BSK": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Burgan Bank": {
+    "am": "SALEEM DALWAI",
+    "sector": "Fin",
+    "count": 10
+  },
+  "CAIT": {
+    "am": "FAHAD ALROUMI",
+    "sector": "Gov",
+    "count": 5
+  },
+  "CBK": {
+    "am": "SAAD ALMAZROUEI",
+    "sector": "Fin",
+    "count": 7
+  },
+  "CeBK": {
+    "am": "SAAD ALMAZROUEI",
+    "sector": "Fin",
+    "count": 1
+  },
+  "Civil Aviation": {
+    "am": "EIMAN ASHKANANI",
+    "sector": "Gov",
+    "count": 2
+  },
+  "CMA": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 11
+  },
+  "CMGS": {
+    "am": "Jana",
+    "sector": "Gov",
+    "count": 1
+  },
+  "Comm Bank": {
+    "am": "SALEEM DALWAI",
+    "sector": "Fin",
+    "count": 1
+  },
+  "CPA": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 2
+  },
+  "CSC": {
+    "am": "RAED OBEID",
+    "sector": "Gov",
+    "count": 1
+  },
+  "DASH": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 2
+  },
+  "DGCA": {
+    "am": "ABRAR QALAF",
+    "sector": "Fin",
+    "count": 2
+  },
+  "Dhaman": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 1
+  },
+  "ENSHAAT": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "EPA": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 1
+  },
+  "Equate": {
+    "am": "WAJIH FAHAD",
+    "sector": "Oil",
+    "count": 2
+  },
+  "FastTelco": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 2
+  },
+  "GBK": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 5
+  },
+  "GE gevernova": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "GIC": {
+    "am": "SAAD ALMAZROUEI",
+    "sector": "Fin",
+    "count": 3
+  },
+  "GPF": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 1
+  },
+  "GPFA": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 2
+  },
+  "Gulf Bank": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 5
+  },
+  "Gulf bank": {
+    "am": "Usama Badra",
+    "sector": "Fin",
+    "count": 1
+  },
+  "Gulf Cable": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Gulf Cables": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 2
+  },
+  "Heisco": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "HyperMax": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "IBK": {
+    "am": "SALEEM DALWAI",
+    "sector": "Fin",
+    "count": 5
+  },
+  "Ikea": {
+    "am": "Ethisham",
+    "sector": "Cross",
+    "count": 1
+  },
+  "IKEIA": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Islamic Aff": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 1
+  },
+  "Jashinmahl": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Jawad Saffar": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "JTC Kuwait": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "KAC": {
+    "am": "Oumaima",
+    "sector": "Cross",
+    "count": 7
+  },
+  "KAMCO": {
+    "am": "SALEEM DALWAI",
+    "sector": "Fin",
+    "count": 1
+  },
+  "KCC": {
+    "am": "SAAD ALMAZROUEI",
+    "sector": "Fin",
+    "count": 5
+  },
+  "KDD": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 4
+  },
+  "KDDC": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 2
+  },
+  "KFF": {
+    "am": "RAED OBEID",
+    "sector": "Gov",
+    "count": 8
+  },
+  "KFF DC Cooling units": {
+    "am": "RAED OBEID",
+    "sector": "Gov",
+    "count": 1
+  },
+  "KFH": {
+    "am": "Ahmed Abujurab",
+    "sector": "Fin",
+    "count": 36
+  },
+  "KFH Bahrain": {
+    "am": "AHMAD ABUJRAB",
+    "sector": "Fin",
+    "count": 1
+  },
+  "KFH Bahrin": {
+    "am": "Abu Jrab",
+    "sector": "Fin",
+    "count": 1
+  },
+  "KFH Capital": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 3
+  },
+  "KFH CAPITAL INVESTMENT COMPANY": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 1
+  },
+  "KFHC": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 11
+  },
+  "KFH-C": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 1
+  },
+  "KFIC": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 1
+  },
+  "Khair online": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Khair Online(Erth)": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "KIB": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 9
+  },
+  "KISR": {
+    "am": "EIMAN ASHKANANI",
+    "sector": "Gov",
+    "count": 1
+  },
+  "KM": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 1
+  },
+  "KNA": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 1
+  },
+  "Knet": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 2
+  },
+  "KNET": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 5
+  },
+  "K-Net": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 1
+  },
+  "KNPC": {
+    "am": "MOHAMMAD GHALOUM",
+    "sector": "Oil",
+    "count": 7
+  },
+  "KOC": {
+    "am": "Ahmed",
+    "sector": "Oil",
+    "count": 16
+  },
+  "KOTC": {
+    "am": "WAJIH FAHAD",
+    "sector": "Oil",
+    "count": 5
+  },
+  "KPC": {
+    "am": "MOHAMMAD GHALOUM",
+    "sector": "Oil",
+    "count": 3
+  },
+  "KPI": {
+    "am": "WAJIH FAHAD",
+    "sector": "Oil",
+    "count": 3
+  },
+  "KU": {
+    "am": "RAED OBEID",
+    "sector": "Gov",
+    "count": 4
+  },
+  "KUFPEC": {
+    "am": "WAJIH FAHAD",
+    "sector": "Oil",
+    "count": 2
+  },
+  "Kuwait Banking Association": {
+    "am": "SALEEM DALWAI",
+    "sector": "Fin",
+    "count": 1
+  },
+  "Kuwait Clearing Co": {
+    "am": "SAAD ALMAZROUEI",
+    "sector": "Fin",
+    "count": 3
+  },
+  "Kuwait Clearing Co.": {
+    "am": "SAAD ALMAZROUEI",
+    "sector": "Fin",
+    "count": 2
+  },
+  "Kuwait Flour Mills & Bakeries Co.": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 1
+  },
+  "Kuwait International Bank": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 1
+  },
+  "MEW": {
+    "am": "RAED OBEID",
+    "sector": "Gov",
+    "count": 8
+  },
+  "Microsoft/CMA": {
+    "am": "Jana",
+    "sector": "Gov",
+    "count": 1
+  },
+  "MOBIK": {
+    "am": "FAHAD ALROUMI",
+    "sector": "Gov",
+    "count": 1
+  },
+  "MOD": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 4
+  },
+  "MOD Mobik": {
+    "am": "FAHAD ALROUMI",
+    "sector": "Gov",
+    "count": 1
+  },
+  "MOFA": {
+    "am": "AHMED ISMAIL",
+    "sector": "Cross",
+    "count": 1
+  },
+  "MOH": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 2
+  },
+  "MOI": {
+    "am": "FAHAD ALROUMI",
+    "sector": "Gov",
+    "count": 26
+  },
+  "MOJ": {
+    "am": "RAED OBEID",
+    "sector": "Gov",
+    "count": 11
+  },
+  "MPW": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 2
+  },
+  "Naser Sport": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Nazaha": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 1
+  },
+  "NAZAHA": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 1
+  },
+  "NBK": {
+    "am": "AHMAD ABUJRAB",
+    "sector": "Fin",
+    "count": 39
+  },
+  "NBK Wealth": {
+    "am": "Abu Grab",
+    "sector": "Fin",
+    "count": 1
+  },
+  "NCSC": {
+    "am": "RAED OBEID",
+    "sector": "Gov",
+    "count": 2
+  },
+  "New Mowasat": {
+    "am": "Oumayma",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Ooredoo": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 4
+  },
+  "PACI": {
+    "am": "RAED OBEID",
+    "sector": "Gov",
+    "count": 35
+  },
+  "PADA": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 2
+  },
+  "PADA  - The Public Authority for Persons with Disabilities": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 1
+  },
+  "PAEET": {
+    "am": "ABRAR AlQALLAF",
+    "sector": "Gov",
+    "count": 1
+  },
+  "PAFN": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 1
+  },
+  "PAHW": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 1
+  },
+  "PAI": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 2
+  },
+  "PASS": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "PIC": {
+    "am": "WAJIH FAHAD",
+    "sector": "Oil",
+    "count": 6
+  },
+  "PIC - Petrochemical Industries Company": {
+    "am": "WAJIH FAHAD",
+    "sector": "Oil",
+    "count": 2
+  },
+  "PIFSS": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 12
+  },
+  "Rawdatain": {
+    "am": "ABDULMUNIM ABDULSALAM",
+    "sector": "Cross",
+    "count": 1
+  },
+  "RTC - Refreshments Trading Company": {
+    "am": "AHMED ISMAIL",
+    "sector": "Cross",
+    "count": 1
+  },
+  "SAB": {
+    "am": "AHMED ISMAIL",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Safir Support services": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 2
+  },
+  "SBFC": {
+    "am": "JANA ALOBAID",
+    "sector": "Gov",
+    "count": 1
+  },
+  "SIH": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Sultan center": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Tijaria": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Tiqmo": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 1
+  },
+  "Torronto": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "WARBA BANK": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 2
+  },
+  "Warba Bank": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 4
+  },
+  "Warba Insurance": {
+    "am": "USAMA BADRA",
+    "sector": "Fin",
+    "count": 2
+  },
+  "Watani Investment Company": {
+    "am": "AHMAD ABUJRAB",
+    "sector": "Fin",
+    "count": 1
+  },
+  "White Stores": {
+    "am": "Ehtisham Boota",
+    "sector": "Cross",
+    "count": 2
+  },
+  "Whitestore": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "WhiteStore": {
+    "am": "TARIQ AL SOUQI",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Whitestores CO": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 2
+  },
+  "WhiteWharehouse": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 2
+  },
+  "WJO": {
+    "am": "WAJIH FAHAD",
+    "sector": "Oil",
+    "count": 1
+  },
+  "ZAIN": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  },
+  "Zain": {
+    "am": "EHTISHAM BOOTA",
+    "sector": "Cross",
+    "count": 1
+  }
+}

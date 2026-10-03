@@ -45,7 +45,7 @@ portals:
     name: "Kuwait Al-Yawm Official Gazette"
     base_url: "https://kuwaitalyawm.media.gov.kw"
     login_url: "https://kuwaitalyawm.media.gov.kw/Account/LoginOnline"
-    tenders_url: "https://kuwaitalyawm.media.gov.kw/online/AdsCategory/1"
+    tenders_url: "https://kuwaitalyawm.media.gov.kw/online/AdsCategory/18"
     auth:
       username_secret: "ALYAWM_USERNAME"
       password_secret: "ALYAWM_PASSWORD"

@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import yaml
 
 from src.pipeline.normalizer import normalize_arabic_text
+from src.pipeline.account_manager import resolve_account_manager
 
 logger = logging.getLogger("kbm.classifier")
 
@@ -103,14 +104,14 @@ class ClientSectorClassifier:
         if norm_raw in self.client_lookup:
             matched = self.client_lookup[norm_raw]
             sector = matched.get("sector_id", "other")
-            owner = matched.get("account_owner") or None
+            owner = matched.get("account_owner") or resolve_account_manager(matched["client_name_ar"], matched.get("client_id"))
             return matched["client_name_ar"], sector, owner, 1.0, False, []
 
         # 2. Substring / Partial Alias Match
         for key, entry in self.client_lookup.items():
             if len(key) >= 4 and (key in norm_raw or norm_raw in key):
                 sector = entry.get("sector_id", "other")
-                owner = entry.get("account_owner") or None
+                owner = entry.get("account_owner") or resolve_account_manager(entry["client_name_ar"], entry.get("client_id"))
                 return entry["client_name_ar"], sector, owner, 0.85, False, []
 
         # 3. Rule / Keyword matching against sectors
@@ -123,11 +124,14 @@ class ClientSectorClassifier:
                     highest_keyword_score = 0.5
                     break
 
+        # Attempt to resolve account manager even for unrecognized clients
+        resolved_am = resolve_account_manager(client_raw)
+
         # Record unmapped client in clients_pending.csv
         self._record_pending_client(client_raw, tender_uid, portal_id)
         review_reasons.append(f"UNRECOGNIZED_CLIENT: '{client_raw}' not in master list")
 
-        return client_raw, matched_sector, None, highest_keyword_score, True, review_reasons
+        return client_raw, matched_sector, resolved_am, highest_keyword_score, True, review_reasons
 
     def _record_pending_client(self, client_raw: str, tender_uid: str, portal_id: str) -> None:
         """Appends unrecognized client to data/clients_pending.csv for operator review."""

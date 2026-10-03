@@ -1,80 +1,80 @@
 client_id,client_name_ar,client_name_en,aliases,sector_id,account_owner,notes
-mew,وزارة الكهرباء والماء والطاقة المتجددة,Ministry of Electricity Water and Renewable Energy,وزارة الكهرباء والماء;الكهرباء والماء;MEW,oil_and_gas,,Major utility
-kpc,مؤسسة البترول الكويتية,Kuwait Petroleum Corporation,مؤسسة البترول;KPC,oil_and_gas,,National oil holding
-knpc,شركة البترول الوطنية الكويتية,Kuwait National Petroleum Company,البترول الوطنية;KNPC,oil_and_gas,,Refining
-koc,شركة نفط الكويت,Kuwait Oil Company,نفط الكويت;KOC,oil_and_gas,,Upstream
-kipic,الشركة الكويتية للصناعات البترولية المتكاملة,Kuwait Integrated Petroleum Industries Company,كيبيك;KIPIC;الصناعات البترولية المتكاملة,oil_and_gas,,Petrochemicals
-moh,وزارة الصحة,Ministry of Health,الصحة;MOH;وزاره الصحه,healthcare,,Public health
-moe,وزارة التربية,Ministry of Education,التربية;التربيه;MOE,education_and_research,,Schools and K-12
-mohe,وزارة التعليم العالي,Ministry of Higher Education,التعليم العالي;MOHE,education_and_research,,Higher education
-ku,جامعة الكويت,Kuwait University,جامعه الكويت;KU,education_and_research,,University
-paaet,الهيئة العامة للتعليم التطبيقي والتدريب,Public Authority for Applied Education and Training,التعليم التطبيقي;التطبيقي;PAAET,education_and_research,,Vocational education
-mof,وزارة المالية,Ministry of Finance,المالية;الماليه;MOF,government,,State treasury
-moi,وزارة الداخلية,Ministry of Interior,الداخلية;الداخليه;MOI,defense_and_security,,Security and police
-mod,وزارة الدفاع,Ministry of Defense,الدفاع;MOD,defense_and_security,,Military
-kng,الحرس الوطني الكويتي,Kuwait National Guard,الحرس الوطني;KNG,defense_and_security,,National Guard
-mpw,وزارة الأشغال العامة,Ministry of Public Works,الأشغال العامة;الأشغال;MPW,government,,Public infrastructure
-moc,وزارة المواصلات,Ministry of Communications,المواصلات;MOC,telecom_and_media,,Telecom & Post
-citra,الهيئة العامة للاتصالات وتقنية المعلومات,Communication and Information Technology Regulatory Authority,هيئة الاتصالات;CITRA;سيترا,telecom_and_media,,Telecom regulator
-paci,الهيئة العامة للمعلومات المدنية,Public Authority for Civil Information,المعلومات المدنية;PACI;المدنية,government,,Civil ID & Identity
-cbk,بنك الكويت المركزي,Central Bank of Kuwait,البنك المركزي;المركزي;CBK,banking_and_finance,,Central banking
-csc,ديوان الخدمة المدنية,Civil Service Commission,الخدمة المدنية;CSC,government,,Civil service
-kfas,مؤسسة الكويت للتقدم العلمي,Kuwait Foundation for the Advancement of Sciences,مؤسسة التقدم العلمي;KFAS,education_and_research,,Science & research
-kisr,معهد الكويت للأبحاث العلمية,Kuwait Institute for Scientific Research,معهد الأبحاث;KISR,education_and_research,,Research institute
-km,بلدية الكويت,Kuwait Municipality,البلدية;بلديه الكويت,government,,Municipal affairs
-cpa,الهيئة العامة لمكافحة الفساد (نزاهة),Kuwait Anti-Corruption Authority (Nazaha),نزاهة;مكافحة الفساد,government,,Anti-corruption
-kia,الهيئة العامة للاستثمار,Kuwait Investment Authority,هيئة الاستثمار;KIA,banking_and_finance,,Sovereign wealth fund
-customs,الإدارة العامة للجمارك,General Administration of Customs,الجمارك;جمارك الكويت,government,,Customs
-dgca,الإدارة العامة للطيران المدني,Directorate General of Civil Aviation,الطيران المدني;DGCA,government,,Civil aviation & airport
-kpa,مؤسسة الموانئ الكويتية,Kuwait Ports Authority,الموانئ الكويتية;مؤسسة الموانئ;KPA,government,,Seaports
-moj,وزارة العدل,Ministry of Justice,العدل;وزارة العدل;MOJ,government,,Courts & Justice
-moci,وزارة التجارة والصناعة,Ministry of Commerce and Industry,التجارة والصناعة;التجارة;MOCI,government,,Commerce & Industry
-paht,المؤسسة العامة للرعاية السكنية,Public Authority for Housing Welfare,الرعاية السكنية;السكنية;PAHW,government,,Housing
-paf,الهيئة العامة لشؤون الزراعة والثروة السمكية,Public Authority for Agricultural Affairs and Fish Resources,الزراعة;الزراعة والثروة السمكية;PAAAFR,government,,Agriculture
-epa,الهيئة العامة للبيئة,Environment Public Authority,هيئة البيئة;البيئة;EPA,government,,Environmental protection
-fatwa_1,إدارة الفتوى والتشريع,Fatwa and Legislation Department,الفتوى والتشريع,government,,Verified from portal discovery
-expropriation_2,إدارة نزع الملكية للمنفعة العامة,Expropriation Public Benefit Department,نزع الملكية,government,,Verified from portal discovery
-general_3,الإدارة العامة للإطفاء,General Fire Force,الإدارة العامة للاطفاء;قوة الإطفاء;قوة الاطفاء العام,defense_and_security,,Verified from portal discovery
-central_4,الإدارة المركزية للإحصاء,Central Statistical Bureau,المركزية للإحصاء;الإحصاء,government,,Verified from portal discovery
-general_5,الأمانة العامة للأوقاف,General Secretariat of Awqaf,أمانة الأوقاف;الأوقاف,government,,Verified from portal discovery
-directorate_6,الادارة العامة للطيران المدني,Directorate General of Civil Aviation,الطيران المدني;DGCA,government,,Verified from portal discovery
-partnerships_7,الجهاز الفني لدراسة المشروعات التنموية والمبادرات,Partnerships Technical Bureau,المشروعات التنموية;PTB,government,,Verified from portal discovery
-central_8,الجهاز المركزي لتكنولوجيا المعلومات,Central Agency for Information Technology,تكنولوجيا المعلومات;CAIT,government,,Verified from portal discovery
-central_9,الجهاز المركزي للمناقصات العامة,Central Agency for Public Tenders,المناقصات العامة;الجهاز المركزي;CAPT;CTC,government,,Verified from portal discovery
-national_10,الجهاز الوطني للاعتماد الأكاديمي وضمان جودة التعليم,National Bureau for Academic Accreditation,الاعتماد الأكاديمي;NBAQ,education_and_research,,Verified from portal discovery
-amiri_11,الديوان الأميري,Amiri Diwan,الديوان الاميري,government,,Verified from portal discovery
-national_12,الديوان الوطني لحقوق الإنسان,National Bureau for Human Rights,حقوق الانسان,government,,Verified from portal discovery
-kuwait_13,الرئاسة العامة للحرس الوطني,Kuwait National Guard,الحرس الوطني;KNG,defense_and_security,,Verified from portal discovery
-kuwait_14,الشركة الكويتية لتزويد الطائرات بالوقود,Kuwait Aviation Fuelling Company,كافكو;KAFCO,oil_and_gas,,Verified from portal discovery
-kuwait_15,الشركة الكويتية لخدمات الطيران,Kuwait Aviation Services Company,كاسكو;KASCO,government,,Verified from portal discovery
-kuwait_16,الشركة الكويتية للاستثمار,Kuwait Investment Company,الكويتية للاستثمار;KIC,banking_and_finance,,Verified from portal discovery
-kuwait_17,الشركة الكويتية للاستكشافات البترولية الخارجية,Kuwait Foreign Petroleum Exploration Company,كوفبيك;KUFPEC,oil_and_gas,,Verified from portal discovery
-kuwait_18,الشركة الكويتية للتموين,Kuwait Supply Company,التموين,government,,Verified from portal discovery
-kuwait_19,الشركة الكويتية لنفط الخليج,Kuwait Gulf Oil Company,نفط الخليج;KGOC,oil_and_gas,,Verified from portal discovery
-national_20,الشركة الوطنية لمشاريع التكنولوجيا,National Technology Enterprises Company,مشاريع التكنولوجيا;NTEC,telecom_and_media,,Verified from portal discovery
-kuwait_21,الصندوق الكويتي للتنمية الاقتصادية العربية,Kuwait Fund for Arab Economic Development,الصندوق الكويتي;KFAED,banking_and_finance,,Verified from portal discovery
-national_22,الصندوق الوطني لرعاية وتنمية المشروعات الصغيرة والمتوسطة,National Fund for SME Development,المشروعات الصغيرة;SME Fund,government,,Verified from portal discovery
-the_23,المؤسسة العامة للتأمينات الاجتماعية,The Public Institution for Social Security,التأمينات الاجتماعية;التأمينات;PIFSS,banking_and_finance,,Verified from portal discovery
-public_24,الهيئة العامة للرياضة,Public Authority for Sport,هيئة الرياضة;الرياضة;PAS,government,,Verified from portal discovery
-public_25,الهيئة العامة للشباب,Public Authority for Youth,هيئة الشباب;الشباب,government,,Verified from portal discovery
-public_26,الهيئة العامة للصناعة,Public Authority for Industry,هيئة الصناعة;الصناعة;PAI,government,,Verified from portal discovery
-public_27,الهيئة العامة للطرق والنقل البري,Public Authority for Roads and Transportation,هيئة الطرق;PART,government,,Verified from portal discovery
-public_28,الهيئة العامة للغذاء والتغذية,Public Authority for Food and Nutrition,الغذاء والتغذية;PAFN,healthcare,,Verified from portal discovery
-public_29,الهيئة العامة للقوى العاملة,Public Authority of Manpower,القوى العاملة;PAM,government,,Verified from portal discovery
-kuwait_30,بنك الائتمان الكويتي,Kuwait Credit Bank,بنك الائتمان;الائتمان;KCB,banking_and_finance,,Verified from portal discovery
-zakat_31,بيت الزكاة,Zakat House,بيت الزكاة,government,,Verified from portal discovery
-abdullah_32,جامعة عبدالله السالم,Abdullah Al-Salem University,جامعة عبدالله السالم;AASU,education_and_research,,Verified from portal discovery
-state_33,ديوان المحاسبة,State Audit Bureau,ديوان المحاسبة;المحاسبة;SAB,government,,Verified from portal discovery
-kuwait_34,شركة الخطوط الجوية الكويتية,Kuwait Airways,الكويتية;الخطوط الجوية;KAC,government,,Verified from portal discovery
-touristic_35,شركة المشروعات السياحية,Touristic Enterprises Company,المشروعات السياحية;TEC,government,,Verified from portal discovery
-kuwait_36,شركة النقل العام الكويتية,Kuwait Public Transport Company,النقل العام;KPTC,government,,Verified from portal discovery
-capital_37,هيئة أسواق المال,Capital Markets Authority,أسواق المال;CMA,banking_and_finance,,Verified from portal discovery
-kuwait_38,هيئة تشجيع الاستثمار المباشر,Kuwait Direct Investment Promotion Authority,تشجيع الاستثمار;KDIPA,government,,Verified from portal discovery
-kuwait_39,هيئة مشروعات الشراكة بين القطاعين العام والخاص,Kuwait Authority for Partnership Projects,مشروعات الشراكة;KAPP,government,,Verified from portal discovery
-ministry_40,وزارة الأوقاف والشئون الإسلامية,Ministry of Awqaf and Islamic Affairs,الأوقاف والشئون الإسلامية;وزارة الأوقاف;الأوقاف,government,,Verified from portal discovery
-ministry_41,وزارة الاعلام,Ministry of Information,وزارة الإعلام;الإعلام;MOI Media,telecom_and_media,,Verified from portal discovery
-ministry_42,وزارة الخارجية,Ministry of Foreign Affairs,وزارة الخارجية;الخارجية;MOFA,government,,Verified from portal discovery
-minister_43,وزارة الدولة لشئون الاتصالات وتكنولوجيا المعلومات,Minister of State for Communications and IT,شئون الاتصالات;تكنولوجيا المعلومات,telecom_and_media,,Verified from portal discovery
-minister_44,وزارة الدولة لشئون البلدية,Minister of State for Municipal Affairs,شئون البلدية,government,,Verified from portal discovery
-ministry_45,وزارة الشئون الاجتماعية,Ministry of Social Affairs,الشئون الاجتماعية;الشئون;MOSA,government,,Verified from portal discovery
-ministry_46,وزارة النفط,Ministry of Oil,وزارة النفط;النفط;MOO,oil_and_gas,,Verified from portal discovery
+mew,وزارة الكهرباء والماء والطاقة المتجددة,Ministry of Electricity Water and Renewable Energy,وزارة الكهرباء والماء;الكهرباء والماء;MEW,oil_and_gas,Raed Obeid,Major utility
+kpc,مؤسسة البترول الكويتية,Kuwait Petroleum Corporation,مؤسسة البترول;KPC,oil_and_gas,Mohammad Ghaloum,National oil holding
+knpc,شركة البترول الوطنية الكويتية,Kuwait National Petroleum Company,البترول الوطنية;KNPC,oil_and_gas,Mohammad Ghaloum,Refining
+koc,شركة نفط الكويت,Kuwait Oil Company,نفط الكويت;KOC,oil_and_gas,Ahmed Ismail,Upstream
+kipic,الشركة الكويتية للصناعات البترولية المتكاملة,Kuwait Integrated Petroleum Industries Company,كيبيك;KIPIC;الصناعات البترولية المتكاملة,oil_and_gas,Mohammad Ghaloum,Petrochemicals
+moh,وزارة الصحة,Ministry of Health,الصحة;MOH;وزاره الصحه,healthcare,Jana Al-Obaid,Public health
+moe,وزارة التربية,Ministry of Education,التربية;التربيه;MOE,education_and_research,Raed Obeid,Schools and K-12
+mohe,وزارة التعليم العالي,Ministry of Higher Education,التعليم العالي;MOHE,education_and_research,Raed Obeid,Higher education
+ku,جامعة الكويت,Kuwait University,جامعه الكويت;KU,education_and_research,Raed Obeid,University
+paaet,الهيئة العامة للتعليم التطبيقي والتدريب,Public Authority for Applied Education and Training,التعليم التطبيقي;التطبيقي;PAAET,education_and_research,Abrar Al-Qallaf,Vocational education
+mof,وزارة المالية,Ministry of Finance,المالية;الماليه;MOF,government,Raed Obeid,State treasury
+moi,وزارة الداخلية,Ministry of Interior,الداخلية;الداخليه;MOI,defense_and_security,Fahad Al-Roumi,Security and police
+mod,وزارة الدفاع,Ministry of Defense,الدفاع;MOD,defense_and_security,Jana Al-Obaid,Military
+kng,الحرس الوطني الكويتي,Kuwait National Guard,الحرس الوطني;KNG,defense_and_security,Fahad Al-Roumi,National Guard
+mpw,وزارة الأشغال العامة,Ministry of Public Works,الأشغال العامة;الأشغال;MPW,government,Abrar Al-Qallaf,Public infrastructure
+moc,وزارة المواصلات,Ministry of Communications,المواصلات;MOC,telecom_and_media,Ehtisham Boota,Telecom & Post
+citra,الهيئة العامة للاتصالات وتقنية المعلومات,Communication and Information Technology Regulatory Authority,هيئة الاتصالات;CITRA;سيترا,telecom_and_media,Ehtisham Boota,Telecom regulator
+paci,الهيئة العامة للمعلومات المدنية,Public Authority for Civil Information,المعلومات المدنية;PACI;المدنية,government,Raed Obeid,Civil ID & Identity
+cbk,بنك الكويت المركزي,Central Bank of Kuwait,البنك المركزي;المركزي;CBK,banking_and_finance,Saleem Dalwai,Central banking
+csc,ديوان الخدمة المدنية,Civil Service Commission,الخدمة المدنية;CSC,government,Raed Obeid,Civil service
+kfas,مؤسسة الكويت للتقدم العلمي,Kuwait Foundation for the Advancement of Sciences,مؤسسة التقدم العلمي;KFAS,education_and_research,Eiman Ashkanani,Science & research
+kisr,معهد الكويت للأبحاث العلمية,Kuwait Institute for Scientific Research,معهد الأبحاث;KISR,education_and_research,Eiman Ashkanani,Research institute
+km,بلدية الكويت,Kuwait Municipality,البلدية;بلديه الكويت,government,Abrar Al-Qallaf,Municipal affairs
+cpa,الهيئة العامة لمكافحة الفساد (نزاهة),Kuwait Anti-Corruption Authority (Nazaha),نزاهة;مكافحة الفساد,government,Abrar Al-Qallaf,Anti-corruption
+kia,الهيئة العامة للاستثمار,Kuwait Investment Authority,هيئة الاستثمار;KIA,banking_and_finance,Saleem Dalwai,Sovereign wealth fund
+customs,الإدارة العامة للجمارك,General Administration of Customs,الجمارك;جمارك الكويت,government,Raed Obeid,Customs
+dgca,الإدارة العامة للطيران المدني,Directorate General of Civil Aviation,الطيران المدني;DGCA,government,Raed Obeid,Civil aviation & airport
+kpa,مؤسسة الموانئ الكويتية,Kuwait Ports Authority,الموانئ الكويتية;مؤسسة الموانئ;KPA,government,Unassigned,Seaports
+moj,وزارة العدل,Ministry of Justice,العدل;وزارة العدل;MOJ,government,Raed Obeid,Courts & Justice
+moci,وزارة التجارة والصناعة,Ministry of Commerce and Industry,التجارة والصناعة;التجارة;MOCI,government,Jana Al-Obaid,Commerce & Industry
+paht,المؤسسة العامة للرعاية السكنية,Public Authority for Housing Welfare,الرعاية السكنية;السكنية;PAHW,government,Jana Al-Obaid,Housing
+paf,الهيئة العامة لشؤون الزراعة والثروة السمكية,Public Authority for Agricultural Affairs and Fish Resources,الزراعة;الزراعة والثروة السمكية;PAAAFR,government,Jana Al-Obaid,Agriculture
+epa,الهيئة العامة للبيئة,Environment Public Authority,هيئة البيئة;البيئة;EPA,government,Unassigned,Environmental protection
+fatwa_1,إدارة الفتوى والتشريع,Fatwa and Legislation Department,الفتوى والتشريع,government,Unassigned,Verified from portal discovery
+expropriation_2,إدارة نزع الملكية للمنفعة العامة,Expropriation Public Benefit Department,نزع الملكية,government,Unassigned,Verified from portal discovery
+general_3,الإدارة العامة للإطفاء,General Fire Force,الإدارة العامة للاطفاء;قوة الإطفاء;قوة الاطفاء العام,defense_and_security,Raed Obeid,Verified from portal discovery
+central_4,الإدارة المركزية للإحصاء,Central Statistical Bureau,المركزية للإحصاء;الإحصاء,government,Unassigned,Verified from portal discovery
+general_5,الأمانة العامة للأوقاف,General Secretariat of Awqaf,أمانة الأوقاف;الأوقاف,government,Jana Al-Obaid,Verified from portal discovery
+directorate_6,الادارة العامة للطيران المدني,Directorate General of Civil Aviation,الطيران المدني;DGCA,government,Unassigned,Verified from portal discovery
+partnerships_7,الجهاز الفني لدراسة المشروعات التنموية والمبادرات,Partnerships Technical Bureau,المشروعات التنموية;PTB,government,Unassigned,Verified from portal discovery
+central_8,الجهاز المركزي لتكنولوجيا المعلومات,Central Agency for Information Technology,تكنولوجيا المعلومات;CAIT,government,Unassigned,Verified from portal discovery
+central_9,الجهاز المركزي للمناقصات العامة,Central Agency for Public Tenders,المناقصات العامة;الجهاز المركزي;CAPT;CTC,government,Unassigned,Verified from portal discovery
+national_10,الجهاز الوطني للاعتماد الأكاديمي وضمان جودة التعليم,National Bureau for Academic Accreditation,الاعتماد الأكاديمي;NBAQ,education_and_research,Ahmad Abu Jrab,Verified from portal discovery
+amiri_11,الديوان الأميري,Amiri Diwan,الديوان الاميري,government,Unassigned,Verified from portal discovery
+national_12,الديوان الوطني لحقوق الإنسان,National Bureau for Human Rights,حقوق الانسان,government,Ahmad Abu Jrab,Verified from portal discovery
+kuwait_13,الرئاسة العامة للحرس الوطني,Kuwait National Guard,الحرس الوطني;KNG,defense_and_security,Fahad Al-Roumi,Verified from portal discovery
+kuwait_14,الشركة الكويتية لتزويد الطائرات بالوقود,Kuwait Aviation Fuelling Company,كافكو;KAFCO,oil_and_gas,Unassigned,Verified from portal discovery
+kuwait_15,الشركة الكويتية لخدمات الطيران,Kuwait Aviation Services Company,كاسكو;KASCO,government,Unassigned,Verified from portal discovery
+kuwait_16,الشركة الكويتية للاستثمار,Kuwait Investment Company,الكويتية للاستثمار;KIC,banking_and_finance,Unassigned,Verified from portal discovery
+kuwait_17,الشركة الكويتية للاستكشافات البترولية الخارجية,Kuwait Foreign Petroleum Exploration Company,كوفبيك;KUFPEC,oil_and_gas,Wajih Fahad,Verified from portal discovery
+kuwait_18,الشركة الكويتية للتموين,Kuwait Supply Company,التموين,government,Unassigned,Verified from portal discovery
+kuwait_19,الشركة الكويتية لنفط الخليج,Kuwait Gulf Oil Company,نفط الخليج;KGOC,oil_and_gas,Wajih Fahad,Verified from portal discovery
+national_20,الشركة الوطنية لمشاريع التكنولوجيا,National Technology Enterprises Company,مشاريع التكنولوجيا;NTEC,telecom_and_media,Ahmad Abu Jrab,Verified from portal discovery
+kuwait_21,الصندوق الكويتي للتنمية الاقتصادية العربية,Kuwait Fund for Arab Economic Development,الصندوق الكويتي;KFAED,banking_and_finance,Unassigned,Verified from portal discovery
+national_22,الصندوق الوطني لرعاية وتنمية المشروعات الصغيرة والمتوسطة,National Fund for SME Development,المشروعات الصغيرة;SME Fund,government,Ahmad Abu Jrab,Verified from portal discovery
+the_23,المؤسسة العامة للتأمينات الاجتماعية,The Public Institution for Social Security,التأمينات الاجتماعية;التأمينات;PIFSS,banking_and_finance,Jana Al-Obaid,Verified from portal discovery
+public_24,الهيئة العامة للرياضة,Public Authority for Sport,هيئة الرياضة;الرياضة;PAS,government,Unassigned,Verified from portal discovery
+public_25,الهيئة العامة للشباب,Public Authority for Youth,هيئة الشباب;الشباب,government,Unassigned,Verified from portal discovery
+public_26,الهيئة العامة للصناعة,Public Authority for Industry,هيئة الصناعة;الصناعة;PAI,government,Jana Al-Obaid,Verified from portal discovery
+public_27,الهيئة العامة للطرق والنقل البري,Public Authority for Roads and Transportation,هيئة الطرق;PART,government,Unassigned,Verified from portal discovery
+public_28,الهيئة العامة للغذاء والتغذية,Public Authority for Food and Nutrition,الغذاء والتغذية;PAFN,healthcare,Unassigned,Verified from portal discovery
+public_29,الهيئة العامة للقوى العاملة,Public Authority of Manpower,القوى العاملة;PAM,government,Unassigned,Verified from portal discovery
+kuwait_30,بنك الائتمان الكويتي,Kuwait Credit Bank,بنك الائتمان;الائتمان;KCB,banking_and_finance,Unassigned,Verified from portal discovery
+zakat_31,بيت الزكاة,Zakat House,بيت الزكاة,government,Unassigned,Verified from portal discovery
+abdullah_32,جامعة عبدالله السالم,Abdullah Al-Salem University,جامعة عبدالله السالم;AASU,education_and_research,Raed Obeid,Verified from portal discovery
+state_33,ديوان المحاسبة,State Audit Bureau,ديوان المحاسبة;المحاسبة;SAB,government,Unassigned,Verified from portal discovery
+kuwait_34,شركة الخطوط الجوية الكويتية,Kuwait Airways,الكويتية;الخطوط الجوية;KAC,government,Unassigned,Verified from portal discovery
+touristic_35,شركة المشروعات السياحية,Touristic Enterprises Company,المشروعات السياحية;TEC,government,Unassigned,Verified from portal discovery
+kuwait_36,شركة النقل العام الكويتية,Kuwait Public Transport Company,النقل العام;KPTC,government,Unassigned,Verified from portal discovery
+capital_37,هيئة أسواق المال,Capital Markets Authority,أسواق المال;CMA,banking_and_finance,Unassigned,Verified from portal discovery
+kuwait_38,هيئة تشجيع الاستثمار المباشر,Kuwait Direct Investment Promotion Authority,تشجيع الاستثمار;KDIPA,government,Unassigned,Verified from portal discovery
+kuwait_39,هيئة مشروعات الشراكة بين القطاعين العام والخاص,Kuwait Authority for Partnership Projects,مشروعات الشراكة;KAPP,government,Unassigned,Verified from portal discovery
+ministry_40,وزارة الأوقاف والشئون الإسلامية,Ministry of Awqaf and Islamic Affairs,الأوقاف والشئون الإسلامية;وزارة الأوقاف;الأوقاف,government,Jana Al-Obaid,Verified from portal discovery
+ministry_41,وزارة الاعلام,Ministry of Information,وزارة الإعلام;الإعلام;MOI Media,telecom_and_media,Ehtisham Boota,Verified from portal discovery
+ministry_42,وزارة الخارجية,Ministry of Foreign Affairs,وزارة الخارجية;الخارجية;MOFA,government,Unassigned,Verified from portal discovery
+minister_43,وزارة الدولة لشئون الاتصالات وتكنولوجيا المعلومات,Minister of State for Communications and IT,شئون الاتصالات;تكنولوجيا المعلومات,telecom_and_media,Unassigned,Verified from portal discovery
+minister_44,وزارة الدولة لشئون البلدية,Minister of State for Municipal Affairs,شئون البلدية,government,Abrar Al-Qallaf,Verified from portal discovery
+ministry_45,وزارة الشئون الاجتماعية,Ministry of Social Affairs,الشئون الاجتماعية;الشئون;MOSA,government,Unassigned,Verified from portal discovery
+ministry_46,وزارة النفط,Ministry of Oil,وزارة النفط;النفط;MOO,oil_and_gas,Unassigned,Verified from portal discovery

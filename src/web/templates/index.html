@@ -275,28 +275,48 @@
     <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
         <!-- Search Input -->
-        <div class="md:col-span-5 relative">
-          <input type="text" id="search-input" oninput="applyFilters()" placeholder="بحث برقم المناقصة، الجهة، العنوان، أو التقنية..." class="w-full pl-4 pr-10 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+        <div class="md:col-span-4 relative">
+          <input type="text" id="search-input" oninput="applyFilters()" placeholder="بحث برقم المناقصة، الجهة، العنوان، التقنية، أو مسؤول الحساب..." class="w-full pl-4 pr-10 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
           <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
             <i data-lucide="search" class="w-4 h-4"></i>
           </div>
         </div>
 
+        <!-- Account Manager Selector -->
+        <div class="md:col-span-3">
+          <select id="am-select" onchange="applyFilters()" class="w-full py-2.5 px-3 rounded-xl border border-slate-200 text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700">
+            <option value="all">كافة مسؤولي الحسابات (All Account Managers)</option>
+            <option value="Raed Obeid">Raed Obeid (MEW, MOF, MOJ, MOE, PACI, KFF, KU)</option>
+            <option value="Jana Al-Obaid">Jana Al-Obaid (PIFSS, MOD, MOH, PAHW, PAI, MOSA)</option>
+            <option value="Fahad Al-Roumi">Fahad Al-Roumi (MOI, KNG)</option>
+            <option value="Abrar Al-Qallaf">Abrar Al-Qallaf (MPW, KM, KNA, PAAET, Nazaha)</option>
+            <option value="Mohammad Ghaloum">Mohammad Ghaloum (KPC, KNPC, KIPIC)</option>
+            <option value="Ahmed Ismail">Ahmed Ismail (KOC)</option>
+            <option value="Wajih Fahad">Wajih Fahad (KOTC, PIC, KUFPEC, KGOC)</option>
+            <option value="Ahmad Abu Jrab">Ahmad Abu Jrab (NBK, KFH)</option>
+            <option value="Saleem Dalwai">Saleem Dalwai (ABK, Burgan, CBK, Central Bank)</option>
+            <option value="Usama Badra">Usama Badra (Warba, KIB, KNET)</option>
+            <option value="Eiman Ashkanani">Eiman Ashkanani (KISR, KFAS)</option>
+            <option value="Ehtisham Boota">Ehtisham Boota (MOC, CITRA, Zain, Media)</option>
+            <option value="Tariq Al-Souqi">Tariq Al-Souqi (Ooredoo, STC)</option>
+          </select>
+        </div>
+
         <!-- Min Score Slider -->
-        <div class="md:col-span-3 flex flex-col">
+        <div class="md:col-span-2 flex flex-col">
           <div class="flex items-center justify-between text-xs font-semibold text-slate-600 mb-1">
-            <span>الحد الأدنى لدرجة التطابق:</span>
+            <span>التوافق الأدنى:</span>
             <span id="min-score-val" class="text-blue-600 font-bold">0%</span>
           </div>
           <input type="range" id="min-score-slider" min="0" max="100" value="0" step="5" oninput="updateMinScore(this.value)" class="w-full accent-blue-600 h-2 bg-slate-100 rounded-lg cursor-pointer">
         </div>
 
         <!-- Portal Selector -->
-        <div class="md:col-span-2">
-          <select id="portal-select" onchange="applyFilters()" class="w-full py-2.5 px-3 rounded-xl border border-slate-200 text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="all">جميع المنصات</option>
-            <option value="capt">لجنة المناقصات (CAPT)</option>
-            <option value="kuwait_alyawm">جريدة كويت اليوم</option>
+        <div class="md:col-span-1.5 sm:col-span-2 md:col-span-1">
+          <select id="portal-select" onchange="applyFilters()" class="w-full py-2.5 px-2 rounded-xl border border-slate-200 text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="all">كل المنصات</option>
+            <option value="capt">CAPT فض المظاريف</option>
+            <option value="kuwait_alyawm">كويت اليوم ممارسات (18)</option>
           </select>
         </div>
 
@@ -304,9 +324,12 @@
         <div class="md:col-span-2">
           <select id="sector-select" onchange="applyFilters()" class="w-full py-2.5 px-3 rounded-xl border border-slate-200 text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
             <option value="all">جميع القطاعات</option>
-            <option value="oil_gas">النفط والغاز (Oil & Gas)</option>
+            <option value="oil_and_gas">النفط والغاز (Oil & Gas)</option>
             <option value="government">القطاع الحكومي (Government)</option>
-            <option value="banking">البنوك والمالية (Banking)</option>
+            <option value="banking_and_finance">البنوك والمالية (Banking)</option>
+            <option value="defense_and_security">الدفاع والأمن (Defense)</option>
+            <option value="education_and_research">التعليم والأبحاث</option>
+            <option value="telecom_and_media">الاتصالات والإعلام</option>
             <option value="other">أخرى / غير مصنف</option>
           </select>
         </div>
@@ -381,9 +404,16 @@
 
       <!-- Modal Body -->
       <div class="p-6 overflow-y-auto space-y-6 custom-scrollbar text-sm">
-        <!-- Title & Client -->
+        <!-- Title, Client & Account Manager -->
         <div>
-          <span id="modal-client" class="inline-block text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1 rounded-lg mb-2">--</span>
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            <span id="modal-client" class="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1 rounded-lg">--</span>
+            <span class="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-lg flex items-center gap-1.5">
+              <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+              <span>مسؤول الحساب: </span>
+              <strong id="modal-am">--</strong>
+            </span>
+          </div>
           <h2 id="modal-title" class="text-base font-bold text-slate-800 leading-relaxed">--</h2>
         </div>
 
@@ -568,12 +598,15 @@
       const search = document.getElementById('search-input').value.trim().toLowerCase();
       const portal = document.getElementById('portal-select').value;
       const sector = document.getElementById('sector-select').value;
+      const am = document.getElementById('am-select').value;
 
       const filtered = allTenders.filter(t => {
         // BU
         if (currentBU !== 'all' && t.kbm_bu !== currentBU) return false;
         // Min Score
         if ((t.kbm_fit_score || 0) < minScore) return false;
+        // Account Manager
+        if (am !== 'all' && t.account_owner !== am) return false;
         // Portal
         if (portal !== 'all') {
           const sources = (t.sources || []).map(s => s.portal);
@@ -583,7 +616,7 @@
         if (sector !== 'all' && t.sector !== sector) return false;
         // Search
         if (search) {
-          const haystack = `${t.tender_no || ''} ${t.title_ar || ''} ${t.client || ''} ${t.kbm_bu || ''} ${(t.kbm_vendors || []).join(' ')}`.toLowerCase();
+          const haystack = `${t.tender_no || ''} ${t.title_ar || ''} ${t.client || ''} ${t.account_owner || ''} ${t.kbm_bu || ''} ${(t.kbm_vendors || []).join(' ')}`.toLowerCase();
           if (!haystack.includes(search)) return false;
         }
         return true;
@@ -597,6 +630,7 @@
       currentBU = 'all';
       minScore = 0;
       document.getElementById('search-input').value = '';
+      document.getElementById('am-select').value = 'all';
       document.getElementById('portal-select').value = 'all';
       document.getElementById('sector-select').value = 'all';
       document.getElementById('min-score-slider').value = 0;
@@ -645,6 +679,10 @@
           ? '<span class="text-[10px] px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold">CAPT</span>' 
           : '<span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-800 font-bold">كويت اليوم</span>';
 
+        const amBadge = t.account_owner && t.account_owner !== 'Unassigned'
+          ? `<span class="text-[10px] px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-300 font-bold inline-flex items-center gap-1"><i data-lucide="user-check" class="w-3 h-3"></i> ${t.account_owner}</span>`
+          : '<span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-semibold">غير مسند</span>';
+
         html += `
           <div class="p-5 hover:bg-slate-50/80 transition flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-pointer" onclick='openDetailModal(${JSON.stringify(t).replace(/'/g, "&apos;")})'>
             <!-- Right / Main Info -->
@@ -652,6 +690,7 @@
               <div class="flex flex-wrap items-center gap-2">
                 <span class="font-en font-bold text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded">${t.tender_no || 'بدون رقم'}</span>
                 ${portalBadge}
+                ${amBadge}
                 ${verdictBadge}
                 ${buBadge}
                 ${vendorsHtml}
@@ -662,6 +701,8 @@
                 <p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
                   <i data-lucide="building-2" class="w-3.5 h-3.5 text-slate-400"></i>
                   <span class="font-semibold text-slate-700">${t.client || 'جهة غير محددة'}</span>
+                  <span>&bull;</span>
+                  <span>مسؤول الحساب: <strong class="text-emerald-700 font-en">${t.account_owner || 'Unassigned'}</strong></span>
                   <span>&bull;</span>
                   <span>القطاع: ${t.sector || 'عام'}</span>
                 </p>
@@ -706,6 +747,7 @@
       document.getElementById('modal-tender-no').innerText = t.tender_no || '';
       document.getElementById('modal-title').innerText = t.title_ar || '';
       document.getElementById('modal-client').innerText = t.client || 'غير محدد';
+      document.getElementById('modal-am').innerText = t.account_owner || 'غير مسند (Unassigned)';
       document.getElementById('modal-score').innerText = Math.round(t.kbm_fit_score || 0) + '%';
       document.getElementById('modal-bu').innerText = t.kbm_bu || 'غير مصنف تحت وحدات أعمال KBM الأساسية';
       document.getElementById('modal-rationale').innerText = t.kbm_rationale || 'لا توجد ملاحظات تفصيلية متوفرة.';
