@@ -87,4 +87,11 @@ class CanonicalTenderRecord(BaseModel):
     review_reasons: List[str] = Field(default_factory=list)
     is_kbm_relevant: bool = True
     relevance_keywords: List[str] = Field(default_factory=list)
+    kbm_fit_score: float = 0.0
+    kbm_bu: Optional[str] = "None"
+    kbm_bu_ar: Optional[str] = "غير محدد"
+    kbm_vendors: List[str] = Field(default_factory=list)
+    kbm_presales_verdict: str = "UNRELATED"
+    kbm_presales_verdict_ar: str = "غير متوافقة"
+    kbm_rationale: str = ""
     raw: Dict[str, Any] = Field(default_factory=dict)

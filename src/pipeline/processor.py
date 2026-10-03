@@ -12,6 +12,7 @@ from src.models import CanonicalTenderRecord, RawNotice, SourceRef, TenderStatus
 from src.pipeline.classifier import ClientSectorClassifier
 from src.pipeline.dedupe import Deduplicator
 from src.pipeline.filter import RelevanceFilter
+from src.pipeline.kbm_qualifier import KBMQualifier
 from src.pipeline.normalizer import (
     convert_arabic_digits,
     normalize_arabic_text,
@@ -60,9 +61,12 @@ class TenderProcessor:
         )
         review_reasons.extend(client_reasons)
 
-        # 5. Evaluate ICT Relevance
+        # 5. Evaluate KBM Profile Alignment & Presales Qualification
         extra_scope = raw.extra_fields.get("announcement_snippet", "")
+        kbm_eval = KBMQualifier.evaluate_tender(raw.title_raw, canonical_client, extra_scope)
         is_relevant, matched_kws = self.filter.evaluate_relevance(raw.title_raw, extra_scope)
+        all_keywords = list(set(matched_kws + kbm_eval["matched_keywords"]))
+        is_kbm_fit = is_relevant or kbm_eval["is_kbm_relevant"]
 
         # 6. Build Source Reference
         source = SourceRef(
@@ -97,8 +101,15 @@ class TenderProcessor:
             classification_confidence=confidence,
             needs_review=needs_review,
             review_reasons=review_reasons,
-            is_kbm_relevant=is_relevant,
-            relevance_keywords=matched_kws,
+            is_kbm_relevant=is_kbm_fit,
+            relevance_keywords=all_keywords,
+            kbm_fit_score=kbm_eval["fit_score"],
+            kbm_bu=kbm_eval["primary_bu"],
+            kbm_bu_ar=kbm_eval["primary_bu_ar"],
+            kbm_vendors=kbm_eval["matched_vendors"],
+            kbm_presales_verdict=kbm_eval["presales_verdict"],
+            kbm_presales_verdict_ar=kbm_eval["presales_verdict_ar"],
+            kbm_rationale=kbm_eval["rationale"],
             raw=raw.model_dump()
         )
 

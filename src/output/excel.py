@@ -67,35 +67,44 @@ class ExcelReportGenerator:
         # 1. Summary Sheet
         self._build_summary_sheet(wb, all_tenders, today_iso)
 
-        # 2. New Today Sheet
+        open_tenders = [t for t in all_tenders if t.status != TenderStatus.CLOSED and t.status != TenderStatus.CANCELLED]
+
+        # 2. KBM Qualified Opportunities Sheet (Presales Priority)
+        kbm_tenders = sorted(
+            [t for t in open_tenders if (t.kbm_fit_score >= 30.0 or t.is_kbm_relevant)],
+            key=lambda t: t.kbm_fit_score,
+            reverse=True
+        )
+        self._build_kbm_opportunities_sheet(wb, kbm_tenders, closing_soon_cutoff)
+
+        # 3. New Today Sheet
         new_today_tenders = [t for t in all_tenders if t.status in (TenderStatus.NEW, TenderStatus.UPDATED)]
         self._build_tender_table_sheet(
             wb, "New Today", "الفرص الجديدة والمحدثة اليوم", new_today_tenders, closing_soon_cutoff
         )
 
-        # 3. All Open Sheet
-        open_tenders = [t for t in all_tenders if t.status != TenderStatus.CLOSED and t.status != TenderStatus.CANCELLED]
+        # 4. All Open Sheet
         self._build_tender_table_sheet(
             wb, "All Open", "جميع المناقصات المفتوحة", open_tenders, closing_soon_cutoff
         )
 
-        # 4. By Sector Sheet
+        # 5. By Sector Sheet
         sorted_by_sector = sorted(open_tenders, key=lambda t: (t.sector or "", t.client or ""))
         self._build_tender_table_sheet(
             wb, "By Sector", "المناقصات حسب القطاع", sorted_by_sector, closing_soon_cutoff
         )
 
-        # 5. By Client Sheet
+        # 6. By Client Sheet
         sorted_by_client = sorted(open_tenders, key=lambda t: (t.client or "", t.closing_date or ""))
         self._build_tender_table_sheet(
             wb, "By Client", "المناقصات حسب الجهة", sorted_by_client, closing_soon_cutoff
         )
 
-        # 6. Needs Review Sheet
+        # 7. Needs Review Sheet
         review_tenders = [t for t in all_tenders if t.needs_review]
         self._build_needs_review_sheet(wb, review_tenders)
 
-        # 7. Run Log Sheet
+        # 8. Run Log Sheet
         self._build_run_log_sheet(wb, run_logs or [])
 
         # File paths
@@ -105,8 +114,11 @@ class ExcelReportGenerator:
         latest_path = self.output_dir / self.config.latest_filename
 
         wb.save(str(daily_path))
-        # Copy to latest
-        shutil.copyfile(str(daily_path), str(latest_path))
+        # Copy to latest (handle case if user has file currently open in Microsoft Excel)
+        try:
+            shutil.copyfile(str(daily_path), str(latest_path))
+        except PermissionError:
+            pass
 
         return daily_path
 
@@ -203,6 +215,96 @@ class ExcelReportGenerator:
         ws.column_dimensions["D"].width = 18
         ws.column_dimensions["E"].width = 18
 
+    def _build_kbm_opportunities_sheet(
+        self,
+        wb: openpyxl.Workbook,
+        tenders: List[CanonicalTenderRecord],
+        closing_soon_cutoff: str
+    ) -> None:
+        """Builds a dedicated presales sheet highlighting tenders qualified for KBM."""
+        ws = wb.create_sheet(title="KBM Opportunities")
+        ws.sheet_view.rightToLeft = True
+
+        headers = [
+            "رقم المناقصة",
+            "الجهة المصدرة",
+            "موضوع المناقصة",
+            "قطاع KBM المختص (BU)",
+            "درجة التوافق",
+            "قرار ما قبل البيع",
+            "شركاء التكنولوجيا",
+            "مبررات التوافق (Presales Rationale)",
+            "تاريخ النشر",
+            "آخر موعد للتقديم",
+            "التأمين الأولي",
+            "سعر الكراسة",
+            "رابط الإعلان"
+        ]
+        ws.append(headers)
+
+        kbm_header_fill = PatternFill(start_color="0F2642", end_color="0F2642", fill_type="solid")
+        for col_idx in range(1, len(headers) + 1):
+            cell = ws.cell(row=1, column=col_idx)
+            cell.fill = kbm_header_fill
+            cell.font = Font(name="Calibri", size=11, bold=True, color="FFFFFF")
+            cell.alignment = ALIGN_CENTER
+            cell.border = BORDER_THIN
+
+        ws.freeze_panes = "A2"
+        today_iso = date.today().isoformat()
+
+        high_fit_fill = PatternFill(start_color="E8F5E9", end_color="E8F5E9", fill_type="solid")  # Light green for top opportunities
+        target_fit_fill = PatternFill(start_color="E3F2FD", end_color="E3F2FD", fill_type="solid") # Light blue
+
+        for row_idx, t in enumerate(tenders, start=2):
+            source_url = t.sources[0].url if t.sources else ""
+            is_closing_soon = bool(t.closing_date and today_iso <= t.closing_date <= closing_soon_cutoff)
+            link_formula = f'=HYPERLINK("{source_url}", "عرض الإعلان")' if source_url else ""
+
+            row_data = [
+                t.tender_no,
+                t.client,
+                t.title_ar,
+                t.kbm_bu_ar if t.kbm_bu != "None" else "غير محدد",
+                f"{t.kbm_fit_score:.1f}%",
+                t.kbm_presales_verdict_ar,
+                ", ".join(t.kbm_vendors) if t.kbm_vendors else "-",
+                t.kbm_rationale or "-",
+                t.publish_date or "-",
+                t.closing_date or "-",
+                t.bid_bond or "-",
+                t.document_fee or "-",
+                link_formula
+            ]
+            ws.append(row_data)
+
+            # Row fill based on fit score
+            if t.kbm_fit_score >= 70.0:
+                row_fill = high_fit_fill
+            elif t.kbm_fit_score >= 40.0:
+                row_fill = target_fit_fill
+            else:
+                row_fill = ZEBRA_FILL if row_idx % 2 == 0 else WHITE_FILL
+
+            for col_idx in range(1, len(headers) + 1):
+                cell = ws.cell(row=row_idx, column=col_idx)
+                cell.border = BORDER_THIN
+                cell.fill = row_fill
+                if col_idx in (1, 4, 5, 6, 7, 9, 10, 11, 12, 13):
+                    cell.alignment = ALIGN_CENTER
+                else:
+                    cell.alignment = ALIGN_RIGHT
+
+                if is_closing_soon and col_idx == 10:
+                    cell.fill = ALERT_FILL
+                    cell.font = Font(name="Calibri", size=10, bold=True, color="9B2C2C")
+
+        # Auto column widths
+        for col in ws.columns:
+            max_len = max(len(str(cell.value or '')) for cell in col)
+            col_letter = get_column_letter(col[0].column)
+            ws.column_dimensions[col_letter].width = min(max(max_len + 3, 14), 45)
+
     def _build_tender_table_sheet(
         self,
         wb: openpyxl.Workbook,
@@ -218,20 +320,20 @@ class ExcelReportGenerator:
             "رقم المناقصة",
             "الجهة المصدرة",
             "موضوع المناقصة",
+            "قطاع KBM المختص",
+            "درجة التوافق",
             "القطاع",
             "تاريخ النشر",
             "آخر موعد للتقديم",
             "التأمين الأولي",
             "سعر الكراسة",
             "الحالة",
-            "تغييرات سابقة",
-            "فرصة KBM",
+            "قرار Presales",
             "رابط الإعلان"
         ]
 
         ws.append(headers)
 
-        # Style header row
         for col_idx in range(1, len(headers) + 1):
             cell = ws.cell(row=1, column=col_idx)
             cell.fill = HEADER_FILL
@@ -240,33 +342,30 @@ class ExcelReportGenerator:
             cell.border = BORDER_THIN
 
         ws.freeze_panes = "A2"
-
         today_iso = date.today().isoformat()
 
         for row_idx, t in enumerate(tenders, start=2):
             source_url = t.sources[0].url if t.sources else ""
             is_closing_soon = bool(t.closing_date and today_iso <= t.closing_date <= closing_soon_cutoff)
-
-            # Format hyperlink formula
             link_formula = f'=HYPERLINK("{source_url}", "عرض المصدر")' if source_url else ""
 
             row_data = [
                 t.tender_no,
                 t.client,
                 t.title_ar,
+                t.kbm_bu_ar if t.kbm_bu != "None" else "عام",
+                f"{t.kbm_fit_score:.1f}%",
                 t.sector,
                 t.publish_date or "-",
                 t.closing_date or "-",
                 t.bid_bond or "-",
                 t.document_fee or "-",
                 t.status.value,
-                t.changes or "-",
-                "نعم (ICT)" if t.is_kbm_relevant else "عام",
+                t.kbm_presales_verdict_ar,
                 link_formula
             ]
             ws.append(row_data)
 
-            # Apply row styling
             is_zebra = (row_idx % 2 == 0)
             base_fill = ZEBRA_FILL if is_zebra else WHITE_FILL
 

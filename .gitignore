@@ -48,6 +48,8 @@ playwright-report/
 .playwright/
 screenshots/*.png
 !screenshots/.gitkeep
+logs/screenshots/*.png
+!logs/screenshots/.gitkeep
 snapshots/*.html
 !snapshots/.gitkeep
 traces/
@@ -55,9 +57,10 @@ traces/
 # Data & Output (contain potentially sensitive business/tender data)
 output/reports/*.xlsx
 !output/reports/.gitkeep
-data/state.db
-data/state.db-journal
-data/state.db-wal
+output/pilot/
+data/*.db
+data/*.db-journal
+data/*.db-wal
 data/clients_pending.csv
 logs/*.log
 logs/*.jsonl

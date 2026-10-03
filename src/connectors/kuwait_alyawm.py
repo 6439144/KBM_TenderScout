@@ -55,9 +55,9 @@ class KuwaitAlyawmConnector(PortalConnector):
                 )
 
             # Check if login form is present
-            user_input = page.locator('input#UserName, input[name="UserName"]').first
-            pass_input = page.locator('input#Password, input[name="Password"]').first
-            submit_btn = page.locator('form[action*="LoginOnline"] input[type="submit"], button[type="submit"]').first
+            user_input = page.locator('form[action*="LoginOnline"] input#UserName, input#UserName').first
+            pass_input = page.locator('form[action*="LoginOnline"] input#Password, input#Password').first
+            submit_btn = page.locator('form[action*="LoginOnline"] button[type="submit"], form[action*="LoginOnline"] input[type="submit"], button:has-text("تسجيل الدخول")').first
 
             if user_input.count() == 0 or pass_input.count() == 0:
                 screenshot = self.capture_challenge_screenshot("missing_login_fields")
@@ -79,8 +79,8 @@ class KuwaitAlyawmConnector(PortalConnector):
             self.polite_delay()
 
             # Check for errors
-            error_el = page.locator(".validation-summary-errors, .text-danger:visible")
-            if error_el.count() > 0:
+            error_el = page.locator(".validation-summary-errors, .text-danger:visible, .alert-danger")
+            if error_el.count() > 0 and error_el.first.is_visible():
                 err_text = error_el.first.inner_text().strip()
                 if "مسجل" in err_text and "آخر" in err_text:
                     logger.warning("Kuwait Al-Yawm: Concurrent session detected.")
@@ -103,9 +103,10 @@ class KuwaitAlyawmConnector(PortalConnector):
 
             # Positive detection of logged-in state
             logged_in_signals = [
+                page.locator("a[href*='/online/MyProfile'], a:has-text('بياناتي')").count() > 0,
                 page.locator("a[href*='/Account/LogOff'], a[href*='/Logout']").count() > 0,
                 page.locator(".subscriber-info, .user-name").count() > 0,
-                page.locator('input#UserName').count() == 0
+                page.locator('form[action*="LoginOnline"] input#UserName').count() == 0
             ]
             if any(logged_in_signals):
                 logger.info("Kuwait Al-Yawm: Positive login confirmation detected.")

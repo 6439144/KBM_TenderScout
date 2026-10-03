@@ -189,9 +189,17 @@ def main():
             })
 
     # Generate Excel Workbook (FR-8)
-    logger.info("Generating Excel Report with 7 sheets...")
+    logger.info("Generating Excel Report with 8 sheets...")
     report_path = excel_generator.generate_report(run_logs=run_logs)
     logger.info("Excel Report generated successfully: %s", report_path.resolve())
+
+    # Generate Standalone Interactive HTML Dashboard
+    try:
+        from src.output.html_dashboard import generate_standalone_dashboard
+        html_dashboard_path = generate_standalone_dashboard()
+        logger.info("Interactive HTML Dashboard generated: %s", html_dashboard_path.resolve())
+    except Exception as e:
+        logger.warning("Could not generate HTML dashboard: %s", e)
 
     # Dispatch Delivery (FR-9)
     delivery_manager.dispatch(report_path)

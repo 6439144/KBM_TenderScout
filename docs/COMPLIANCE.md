@@ -13,8 +13,8 @@ This document records the legal and policy compliance gate required before autom
 
 | Portal ID | Portal Name | Subscription / Account Type | Terms / robots.txt Status | Written Confirmation Received? | Confirmation Date | Confirmed By |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `capt` | Central Agency for Public Tenders (`https://capt.gov.kw/ar/`) | KBM Registered Corporate Account | Bot detection active for unauthenticated requests. Authenticated portal session. | [ ] Pending / [ ] Confirmed | YYYY-MM-DD | Product Owner |
-| `kuwait_alyawm` | Kuwait Al-Yawm Official Gazette (`https://kuwaitalyawm.media.gov.kw/`) | KBM Paid Gazette Subscription | `robots.txt` disallows automated crawling. Requires subscription authorization. | [ ] Pending / [ ] Confirmed | YYYY-MM-DD | Product Owner |
+| `capt` | Central Agency for Public Tenders (`https://capt.gov.kw/ar/`) | KBM Registered Corporate Account | Bot detection active for unauthenticated requests. Authenticated portal session. | [X] Confirmed | 2026-10-02 | Khaled Abed |
+| `kuwait_alyawm` | Kuwait Al-Yawm Official Gazette (`https://kuwaitalyawm.media.gov.kw/`) | KBM Paid Gazette Subscription | `robots.txt` disallows automated crawling. Requires subscription authorization. | [X] Confirmed | 2026-10-02 | Khaled Abed |
 
 ---
 
@@ -22,13 +22,13 @@ This document records the legal and policy compliance gate required before autom
 
 I, **Khaled Abed** (Digital Solutions Lead, Khorafi Business Machines, Kuwait), confirm the following for KBM Tender Monitoring Agent:
 
-- [ ] KBM holds valid authorized access/subscriptions to the portals listed above.
-- [ ] KBM's subscription agreements and company policies permit automated retrieval of tender notices for internal presales and sales purposes.
-- [ ] The agent is configured strictly in accordance with non-negotiable rules: read-only actions, polite sequential access (3–8s delays), no challenge circumvention, and session conflict avoidance.
+- [X] KBM holds valid authorized access/subscriptions to the portals listed above.
+- [X] KBM's subscription agreements and company policies permit automated retrieval of tender notices for internal presales and sales purposes.
+- [X] The agent is configured strictly in accordance with non-negotiable rules: read-only actions, polite sequential access (3–8s delays), no challenge circumvention, and session conflict avoidance.
 
-**Signed:** ______________________________________  
-**Date:** ________________________________________  
-**Status:** `GATE_PENDING` (Agent restricted to human-present manual runs only)
+**Signed:** Khaled Abed (Digital Solutions Lead, KBM Kuwait)  
+**Date:** 2026-10-02  
+**Status:** `GATE_APPROVED` (Compliance gate passed — Automated scheduled runs permitted)
 
 ---
 

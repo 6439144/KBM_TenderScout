@@ -39,7 +39,7 @@ class CaptConnector(PortalConnector):
         page = self.init_browser()
         try:
             logger.info("CAPT: Navigating to landing page for login...")
-            page.goto(self.config.base_url, wait_until="networkidle", timeout=35000)
+            page.goto(self.config.base_url, wait_until="domcontentloaded", timeout=35000)
             self.polite_delay()
 
             # Check for bot challenge immediately
@@ -53,8 +53,18 @@ class CaptConnector(PortalConnector):
                     message=f"Bot challenge or CAPTCHA encountered on CAPT. Redacted screenshot: {screenshot}"
                 )
 
-            # Trigger login modal
-            login_trigger = page.locator("a.user-login, a.log-in").first
+            # Dismiss terms modal popup if present
+            try:
+                terms_el = page.locator("a.termsAgree").first
+                if terms_el.count() > 0 or page.locator(".capt-terms-popup").count() > 0:
+                    logger.info("CAPT: Dismissing terms popup via a.termsAgree...")
+                    page.evaluate("() => { const b = document.querySelector('a.termsAgree'); if (b) b.click(); }")
+                    time.sleep(1)
+            except Exception as e:
+                logger.debug("CAPT: Error while dismissing terms popup: %s", e)
+
+            # Trigger login modal via visible button
+            login_trigger = page.locator("a:has-text('تسجيل الدخول'):visible, a.user-login:visible, a.log-in:visible").first
             if login_trigger.count() > 0 and login_trigger.is_visible():
                 login_trigger.click()
                 page.wait_for_selector("#loginForm", state="visible", timeout=10000)
@@ -134,14 +144,15 @@ class CaptConnector(PortalConnector):
                 message="Session initialized in unauthenticated/public mode"
             )
 
-        except PlaywrightTimeoutError:
+        except PlaywrightTimeoutError as e:
+            logger.error("CAPT timeout during login: %s", e)
             screenshot = self.capture_challenge_screenshot("timeout")
             return SessionResult(
                 success=False,
                 is_authenticated=False,
                 error_type=FailureReason.SITE_DOWN,
                 portal_id=self.portal_id,
-                message=f"CAPT timeout during login. Screenshot: {screenshot}"
+                message=f"CAPT timeout during login: {e}. Screenshot: {screenshot}"
             )
         except Exception as e:
             logger.error("CAPT login failed with unexpected exception: %s", e)
