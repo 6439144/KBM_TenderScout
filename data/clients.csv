@@ -1,9 +1,9 @@
 client_id,client_name_ar,client_name_en,aliases,sector_id,account_owner,notes
 mew,وزارة الكهرباء والماء والطاقة المتجددة,Ministry of Electricity Water and Renewable Energy,وزارة الكهرباء والماء;الكهرباء والماء;MEW,oil_and_gas,Raed Obeid,Major utility
-kpc,مؤسسة البترول الكويتية,Kuwait Petroleum Corporation,مؤسسة البترول;KPC,oil_and_gas,Mohammad Ghaloum,National oil holding
-knpc,شركة البترول الوطنية الكويتية,Kuwait National Petroleum Company,البترول الوطنية;KNPC,oil_and_gas,Mohammad Ghaloum,Refining
-koc,شركة نفط الكويت,Kuwait Oil Company,نفط الكويت;KOC,oil_and_gas,Ahmed Ismail,Upstream
-kipic,الشركة الكويتية للصناعات البترولية المتكاملة,Kuwait Integrated Petroleum Industries Company,كيبيك;KIPIC;الصناعات البترولية المتكاملة,oil_and_gas,Mohammad Ghaloum,Petrochemicals
+kpc,مؤسسة البترول الكويتية,Kuwait Petroleum Corporation,مؤسسة البترول;KPC,oil_and_gas,Eiman Ashkanani,National oil holding
+knpc,شركة البترول الوطنية الكويتية,Kuwait National Petroleum Company,البترول الوطنية;KNPC,oil_and_gas,Eiman Ashkanani,Refining
+koc,شركة نفط الكويت,Kuwait Oil Company,نفط الكويت;KOC,oil_and_gas,Eiman Ashkanani,Upstream
+kipic,الشركة الكويتية للصناعات البترولية المتكاملة,Kuwait Integrated Petroleum Industries Company,كيبيك;KIPIC;الصناعات البترولية المتكاملة,oil_and_gas,Eiman Ashkanani,Petrochemicals
 moh,وزارة الصحة,Ministry of Health,الصحة;MOH;وزاره الصحه,healthcare,Jana Al-Obaid,Public health
 moe,وزارة التربية,Ministry of Education,التربية;التربيه;MOE,education_and_research,Raed Obeid,Schools and K-12
 mohe,وزارة التعليم العالي,Ministry of Higher Education,التعليم العالي;MOHE,education_and_research,Raed Obeid,Higher education

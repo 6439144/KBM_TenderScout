@@ -30,6 +30,11 @@ class NoticeRef(BaseModel):
     issue_no: Optional[str] = None
     page_ref: Optional[str] = None
     publish_date_hint: Optional[str] = None
+    client_hint: Optional[str] = None
+    notice_type_hint: Optional[str] = None
+    download_url: Optional[str] = None
+    html_url: Optional[str] = None
+    ads_id: Optional[str] = None
 
 class RawNotice(BaseModel):
     portal_id: str

@@ -62,6 +62,9 @@ data/*.db
 data/*.db-journal
 data/*.db-wal
 data/clients_pending.csv
+data/attachments/*.pdf
+data/attachments/**/*.pdf
+!data/attachments/.gitkeep
 logs/*.log
 logs/*.jsonl
 !logs/.gitkeep

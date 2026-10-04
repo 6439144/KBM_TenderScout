@@ -50,11 +50,11 @@ CLIENT_ID_TO_AM = {
     "paaet": "Abrar Al-Qallaf",      # PAAET - Applied Education (التعليم التطبيقي)
     "cpa": "Abrar Al-Qallaf",        # Nazaha - Anti-Corruption (نزاهة)
 
-    "kpc": "Mohammad Ghaloum",       # KPC - Kuwait Petroleum Corporation
-    "knpc": "Mohammad Ghaloum",      # KNPC - Kuwait National Petroleum Company
-    "kipic": "Mohammad Ghaloum",     # KIPIC - Petrochemical Industries
+    "kpc": "Eiman Ashkanani",       # KPC - Kuwait Petroleum Corporation
+    "knpc": "Eiman Ashkanani",      # KNPC - Kuwait National Petroleum Company
+    "kipic": "Eiman Ashkanani",     # KIPIC - Petrochemical Industries
 
-    "koc": "Ahmed Ismail",           # KOC - Kuwait Oil Company
+    "koc": "Eiman Ashkanani",       # KOC - Kuwait Oil Company
 
     "kotc": "Wajih Fahad",           # KOTC - Kuwait Oil Tanker Company
     "pic": "Wajih Fahad",            # PIC - Petrochemical Industries Company
@@ -94,22 +94,22 @@ ARABIC_RULES = [
     ("داخليه", "Fahad Al-Roumi"),
     ("داخلية", "Fahad Al-Roumi"),
 
-    # Oil & Gas
-    ("نفط الكويت", "Ahmed Ismail"),
-    ("koc", "Ahmed Ismail"),
-    ("البترول الوطنية", "Mohammad Ghaloum"),
-    ("البترول الوطنيه", "Mohammad Ghaloum"),
-    ("بترول وطنيه", "Mohammad Ghaloum"),
-    ("بترول وطنية", "Mohammad Ghaloum"),
-    ("مؤسسه البترول", "Mohammad Ghaloum"),
-    ("مؤسسة البترول", "Mohammad Ghaloum"),
-    ("متكامله", "Mohammad Ghaloum"),
-    ("متكاملة", "Mohammad Ghaloum"),
-    ("كيبيك", "Mohammad Ghaloum"),
-    ("kipic", "Mohammad Ghaloum"),
-    ("knpc", "Mohammad Ghaloum"),
-    ("kpc", "Mohammad Ghaloum"),
-    ("البترول", "Mohammad Ghaloum"),
+    # Oil & Gas (Assigned to Eiman Ashkanani)
+    ("نفط الكويت", "Eiman Ashkanani"),
+    ("koc", "Eiman Ashkanani"),
+    ("البترول الوطنية", "Eiman Ashkanani"),
+    ("البترول الوطنيه", "Eiman Ashkanani"),
+    ("بترول وطنيه", "Eiman Ashkanani"),
+    ("بترول وطنية", "Eiman Ashkanani"),
+    ("مؤسسه البترول", "Eiman Ashkanani"),
+    ("مؤسسة البترول", "Eiman Ashkanani"),
+    ("متكامله", "Eiman Ashkanani"),
+    ("متكاملة", "Eiman Ashkanani"),
+    ("كيبيك", "Eiman Ashkanani"),
+    ("kipic", "Eiman Ashkanani"),
+    ("knpc", "Eiman Ashkanani"),
+    ("kpc", "Eiman Ashkanani"),
+    ("البترول", "Eiman Ashkanani"),
     ("ناقلات", "Wajih Fahad"),
     ("كيماويات", "Wajih Fahad"),
     ("كوفبيك", "Wajih Fahad"),
