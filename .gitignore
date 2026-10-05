@@ -82,3 +82,4 @@ logs/*.jsonl
 *.swo
 .DS_Store
 Thumbs.db
+~$*

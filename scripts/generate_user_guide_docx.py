@@ -53,7 +53,6 @@ def add_callout(doc, text_paragraphs, title="NOTE / ملاحظة هامة"):
     set_cell_shading(cell, HEX_LIGHT_BLUE)
     set_cell_margins(cell, top=160, bottom=160, left=220, right=200)
     
-    # Left border styling
     tcPr = cell._tc.get_or_add_tcPr()
     borders = parse_xml(f'''
         <w:tcBorders {nsdecls("w")}>
@@ -84,7 +83,6 @@ def add_callout(doc, text_paragraphs, title="NOTE / ملاحظة هامة"):
         run.font.size = Pt(9.5)
         run.font.color.rgb = COLOR_TEXT
 
-    # Add space after table
     p_after = doc.add_paragraph()
     p_after.paragraph_format.space_before = Pt(4)
     p_after.paragraph_format.space_after = Pt(6)
@@ -193,11 +191,12 @@ def build_guide():
     run_ar.font.color.rgb = COLOR_TEXT
 
     # Quick Metadata Table
-    table_meta = doc.add_table(rows=4, cols=2)
+    table_meta = doc.add_table(rows=5, cols=2)
     table_meta.alignment = WD_TABLE_ALIGNMENT.CENTER
     meta_data = [
-        ("Cloud Production URL:", "https://kbm-tenderscout.azurewebsites.net (Azure Cloud Hosted)"),
+        ("Cloud Production URL:", "https://kbm-tenderscout.azurewebsites.net (Azure Hosted)"),
         ("Source Code Repository:", "https://github.com/6439144/KBM_TenderScout (GitHub Master)"),
+        ("Marketing Leadership:", "Eiman Ashkanani (Marketing Manager - Government & Oil Sector)"),
         ("Automated Daily Schedule:", "08:00 AM Kuwait Time (05:00 UTC) Daily Sync"),
         ("Target Users:", "KBM Account Managers, Bidding Team, Technology Sales & Management")
     ]
@@ -208,8 +207,8 @@ def build_guide():
         c2.width = Inches(4.2)
         set_cell_shading(c1, HEX_LIGHT_GRAY)
         set_cell_shading(c2, HEX_LIGHT_BLUE)
-        set_cell_margins(c1, top=80, bottom=80, left=120, right=120)
-        set_cell_margins(c2, top=80, bottom=80, left=120, right=120)
+        set_cell_margins(c1, top=70, bottom=70, left=120, right=120)
+        set_cell_margins(c2, top=70, bottom=70, left=120, right=120)
         
         p1 = c1.paragraphs[0]
         r1 = p1.add_run(k)
@@ -219,7 +218,7 @@ def build_guide():
         
         p2 = c2.paragraphs[0]
         r2 = p2.add_run(v)
-        r2.font.bold = ("https" in v)
+        r2.font.bold = ("https" in v or "Marketing Manager" in v)
         r2.font.size = Pt(9)
         r2.font.color.rgb = COLOR_BLUE if "https" in v else COLOR_TEXT
 
@@ -235,7 +234,7 @@ def build_guide():
         "KBM TenderScout™ is an intelligent procurement tracking platform built specifically for KBM to monitor, "
         "analyze, and match Kuwaiti government and oil-sector public tenders and practices (ممارسات ومناقصات). "
         "The system replaces manual tracking with automated scrapers, deep natural language parsing, and strategic "
-        "account manager mapping directly derived from the KBM Technology Pipeline."
+        "account manager mapping directly reflecting the updated organizational structure led by Eiman Ashkanani."
     )
     style_body(p)
 
@@ -299,7 +298,7 @@ def build_guide():
     p = doc.add_paragraph(
         "Filtering Controls Available:\n"
         "1. Keyword Search: Type any keyword in Arabic or English (e.g., 'Cisco', 'خوادم', 'شبكات', 'PIC', 'وزارة الدفاع'). Results filter instantly.\n"
-        "2. Account Manager Filter: Dropdown selector allowing each sales representative to isolate tenders relevant to their assigned accounts.\n"
+        "2. Account Manager Filter: Dropdown selector allowing each sales representative to isolate tenders relevant to their designated portfolio.\n"
         "3. Status Filter: Toggle between Active, Closing Soon, Closed, or Pending Inquiry.\n"
         "4. Source Filter: Filter by CAPT or Kuwait Al-Yawm specifically.\n"
         "5. Reset Filters: Instantly restores the default comprehensive view."
@@ -345,9 +344,10 @@ def build_guide():
     style_heading_2(h2)
 
     p = doc.add_paragraph(
-        "Every tender is automatically mapped to the appropriate KBM Account Manager based on the client entity. "
-        "Sales reps can filter by their name to view only their portfolio (e.g., Abrar Al-Qallaf for Oil Sector & MEW accounts, "
-        "Eiman Ashkanani for Ministry of Defence, Banking, and key Ministries)."
+        "Every tender is automatically mapped to the appropriate KBM Account Manager according to the official portfolio allocation. "
+        "Sales reps can filter by their name to view only their portfolio (e.g., Abrar Al-Qallaf for KNPC & PIC, "
+        "Ahmed Habib for KOC & KOTC, Jana Al-Obaid for MOH & PIFSS, Raed Obeid for MEW & PACI, Khaled Alabdallah for MOI, "
+        "and Eiman Ashkanani for Ministry of Defence and all other strategic accounts)."
     )
     style_body(p)
 
@@ -361,23 +361,21 @@ def build_guide():
     style_body(p)
 
     # ================= 4. ACCOUNT MANAGER ASSIGNMENT MATRIX =================
-    h1 = doc.add_paragraph("4. KBM Account Manager Assignment Matrix")
+    h1 = doc.add_paragraph("4. Official Account Management Hierarchy (Government & Oil Sectors)")
     style_heading_1(h1)
 
     p = doc.add_paragraph(
-        "In accordance with executive management directives and the KBM Technology Pipeline Review, all client accounts "
-        "have been reconciled. Specifically:\n"
-        "• Transitions: Accounts previously managed by Wajih Fahad have been transitioned to Abrar Al-Qallaf.\n"
-        "• Transitions: Accounts previously managed by Ghaloum or Ahmed Ismail have been transitioned to Eiman Ashkanani."
+        "In accordance with executive management directives, the account management structure for the Government and Oil Sectors "
+        "is led by Marketing Manager Eiman Ashkanani, structured as follows:"
     )
     style_body(p)
 
     # Matrix Table
-    table_matrix = doc.add_table(rows=6, cols=3)
+    table_matrix = doc.add_table(rows=7, cols=4)
     table_matrix.alignment = WD_TABLE_ALIGNMENT.CENTER
     table_matrix.autofit = False
 
-    matrix_headers = ["Account Manager", "Assigned Key Accounts & Sectors", "Transition & Strategic Focus"]
+    matrix_headers = ["Sector", "Team Member", "Assigned Key Accounts", "Active Tenders Count"]
     hdr_row = table_matrix.rows[0]
     for j, h in enumerate(matrix_headers):
         cell = hdr_row.cells[j]
@@ -390,14 +388,15 @@ def build_guide():
         run.font.color.rgb = RGBColor(255, 255, 255)
 
     matrix_rows = [
-        ("Abrar Al-Qallaf", "KPC, KOC, KNPC, PIC, KUFPEC, KGOC, MEW (Electricity & Water), Aviation", "Includes all Wajih Fahad transitioned oil & energy accounts"),
-        ("Eiman Ashkanani", "Ministry of Defence (MOD), Banking (CBK, NBK, KFH), Telecommunications, MOI", "Includes all Ghaloum & Ahmed Ismail transitioned accounts"),
-        ("Reem Al-Otaibi", "Ministry of Health (MOH), Public Authority for Industry (PAI), Education", "Healthcare systems, medical informatics, regulatory bodies"),
-        ("Faisal Al-Mutawa", "Ministry of Finance (MOF), KERP, Customs, Civil Service Commission", "Enterprise ERP, financial clearing systems, government datacenter"),
-        ("Unassigned / General Pool", "Newly announced municipal bodies and non-mapped entities", "Open for assignment by Technology Sales Lead")
+        ("Gov & Oil Leadership", "Eiman Ashkanani\n(Marketing Manager)", "MOD (Defence), PAHW (Housing), MPW (Public Works), KM (Municipality), KPC, KIPIC, KUFPEC, KGOC, KAFCO, KPI, MOF, MOE, KU, PAI, KNG, KISR, KFAS, and all other public/oil accounts", "93 Tenders"),
+        ("Government", "Jana Al-Obaid", "PIFSS (Social Security), PADA (Disability Affairs), Nazaha (Anti-Corruption), MOH (Ministry of Health)", "40 Tenders"),
+        ("Government", "Raed Obeid", "MEW (Ministry of Electricity & Water), PACI (Civil Information)", "20 Tenders"),
+        ("Government", "Khaled Alabdallah", "MOI (Ministry of Interior / الداخلية)", "9 Tenders"),
+        ("Oil Sector", "Ahmed Habib", "KOC (Kuwait Oil Company), KOTC (Kuwait Oil Tanker Company)", "5 Tenders"),
+        ("Oil Sector", "Abrar Al-Qallaf", "KNPC (Kuwait National Petroleum Company), PIC (Petrochemical Industries Company)", "64 Tenders")
     ]
 
-    col_widths = [Inches(1.8), Inches(2.6), Inches(2.0)]
+    col_widths = [Inches(1.5), Inches(1.8), Inches(2.3), Inches(0.8)]
     for i, data in enumerate(matrix_rows):
         row = table_matrix.rows[i + 1]
         bg_col = HEX_LIGHT_GRAY if i % 2 == 0 else HEX_WHITE
@@ -408,10 +407,13 @@ def build_guide():
             set_cell_margins(cell, top=100, bottom=100, left=120, right=120)
             p = cell.paragraphs[0]
             run = p.add_run(val)
-            run.font.size = Pt(9)
-            if j == 0:
+            run.font.size = Pt(8.5)
+            if j == 1:
                 run.font.bold = True
                 run.font.color.rgb = COLOR_NAVY
+            elif j == 3:
+                run.font.bold = True
+                run.font.color.rgb = COLOR_BLUE
             else:
                 run.font.color.rgb = COLOR_TEXT
 
@@ -459,8 +461,13 @@ def build_guide():
         title="Best Practice Recommendation / توصيات الاستخدام الأمثل"
     )
 
-    doc.save(str(OUTPUT_PATH))
-    print(f"User Guide Word Document successfully saved at: {OUTPUT_PATH}")
+    try:
+        doc.save(str(OUTPUT_PATH))
+        print(f"User Guide Word Document successfully saved at: {OUTPUT_PATH}")
+    except PermissionError:
+        alt_path = DOCS_DIR / "KBM_TenderScout_User_Guide_Updated.docx"
+        doc.save(str(alt_path))
+        print(f"Notice: Primary file was open in Word. Successfully saved updated version at: {alt_path}")
 
 if __name__ == "__main__":
     build_guide()

@@ -1,214 +1,152 @@
 """
 KBM Tender Scout - Account Manager Resolution Engine
-Maps clients and tender issuing entities directly to their designated
-KBM Account Manager based on the official Technology Pipeline Review:
-'2026-Q3-28th-Sep-Tech Pipeline Review-ver1.1.xlsx'
+Official Hierarchy:
+Marketing Manager for Government & Oil Sector: Eiman Ashkanani
+
+Government Team:
+- Jana Al-Obaid: PIFSS, PADA, Nazaha, MOH
+- Raed Obeid: MEW, PACI
+- Khaled Alabdallah: MOI
+
+Oil Team:
+- Ahmed Habib: KOC, KOTC
+- Abrar Al-Qallaf: KNPC, PIC
+
+Any other accounts assign to Eiman Ashkanani herself.
 """
 
 import re
 from typing import Optional
 from src.pipeline.normalizer import normalize_arabic_text
 
-# Direct mapping from Client Identifiers & Aliases to Canonical Account Managers
+# Direct mapping from Client Identifiers & Aliases to Designated Team Member
 CLIENT_ID_TO_AM = {
-    "mew": "Raed Obeid",             # MEW - Ministry of Electricity & Water
-    "mof": "Raed Obeid",             # MOF - Ministry of Finance
-    "moj": "Raed Obeid",             # MOJ - Ministry of Justice
-    "moe": "Raed Obeid",             # MOE - Ministry of Education
-    "mohe": "Raed Obeid",            # MOHE - Ministry of Higher Education
-    "ku": "Raed Obeid",              # KU - Kuwait University
-    "paci": "Raed Obeid",            # PACI - Public Authority for Civil Information
-    "csc": "Raed Obeid",             # CSC - Civil Service Commission
-    "customs": "Raed Obeid",         # Customs - General Administration of Customs
-    "dgca": "Raed Obeid",            # DGCA - Directorate General of Civil Aviation
-    "general_3": "Raed Obeid",       # KFF - Kuwait Fire Force (الإدارة العامة للإطفاء)
-    "ncsc": "Raed Obeid",            # NCSC - National Cyber Security Center
-    "abdullah_salem": "Raed Obeid",  # Abdullah Al-Salem University
-
-    "moi": "Fahad Al-Roumi",         # MOI - Ministry of Interior
-    "kng": "Fahad Al-Roumi",         # KNG - Kuwait National Guard
-    "kuwait_13": "Fahad Al-Roumi",   # الرئاسة العامة للحرس الوطني
-
+    # Government: Jana Al-Obaid
     "pifss": "Jana Al-Obaid",        # PIFSS - Public Institution for Social Security
     "the_23": "Jana Al-Obaid",       # المؤسسة العامة للتأمينات الاجتماعية
-    "mod": "Jana Al-Obaid",          # MOD - Ministry of Defense
+    "pada": "Jana Al-Obaid",         # PADA - Public Authority for Disability Affairs
+    "cpa": "Jana Al-Obaid",          # Nazaha - Public Authority for Anti-Corruption
     "moh": "Jana Al-Obaid",          # MOH - Ministry of Health
-    "pahw": "Jana Al-Obaid",         # PAHW - Public Authority for Housing Welfare
-    "paht": "Jana Al-Obaid",         # المؤسسة العامة للرعاية السكنية
-    "pai": "Jana Al-Obaid",          # PAI - Public Authority for Industry
-    "public_26": "Jana Al-Obaid",    # الهيئة العامة للصناعة
-    "moci": "Jana Al-Obaid",         # MOCI - Ministry of Commerce and Industry
-    "paf": "Jana Al-Obaid",          # PAAAFR - Agriculture (الهيئة العامة لشؤون الزراعة)
-    "mosa": "Jana Al-Obaid",         # MOSA - Ministry of Social Affairs (وزارة الشئون الاجتماعية)
-    "general_5": "Jana Al-Obaid",    # الأمانة العامة للأوقاف
-    "pafn": "Jana Al-Obaid",         # الهيئة العامة للغذاء والتغذية
-    "pada": "Jana Al-Obaid",         # شؤون ذوي الإعاقة
 
-    "mpw": "Abrar Al-Qallaf",        # MPW - Ministry of Public Works (الأشغال العامة)
-    "km": "Abrar Al-Qallaf",         # KM - Kuwait Municipality (بلدية الكويت)
-    "kna": "Abrar Al-Qallaf",        # KNA - National Assembly (مجلس الأمة)
-    "paaet": "Abrar Al-Qallaf",      # PAAET - Applied Education (التعليم التطبيقي)
-    "cpa": "Abrar Al-Qallaf",        # Nazaha - Anti-Corruption (نزاهة)
+    # Government: Raed Obeid
+    "mew": "Raed Obeid",             # MEW - Ministry of Electricity & Water
+    "paci": "Raed Obeid",            # PACI - Public Authority for Civil Information
 
-    "kpc": "Eiman Ashkanani",       # KPC - Kuwait Petroleum Corporation
-    "knpc": "Eiman Ashkanani",      # KNPC - Kuwait National Petroleum Company
-    "kipic": "Eiman Ashkanani",     # KIPIC - Petrochemical Industries
+    # Government: Khaled Alabdallah
+    "moi": "Khaled Alabdallah",      # MOI - Ministry of Interior
 
-    "koc": "Eiman Ashkanani",       # KOC - Kuwait Oil Company
+    # Oil: Ahmed Habib
+    "koc": "Ahmed Habib",            # KOC - Kuwait Oil Company
+    "kotc": "Ahmed Habib",           # KOTC - Kuwait Oil Tanker Company
 
-    "kotc": "Abrar Al-Qallaf",       # KOTC - Kuwait Oil Tanker Company (Reassigned from Wajih Fahad)
-    "pic": "Abrar Al-Qallaf",        # PIC - Petrochemical Industries Company (Reassigned from Wajih Fahad)
-    "kufpec": "Abrar Al-Qallaf",     # KUFPEC - Foreign Petroleum Exploration (Reassigned from Wajih Fahad)
-    "kuwait_17": "Abrar Al-Qallaf",  # الشركة الكويتية للاستكشافات البترولية الخارجية
-    "kuwait_19": "Abrar Al-Qallaf",  # الشركة الكويتية لنفط الخليج (KGOC/WJO)
+    # Oil: Abrar Al-Qallaf
+    "knpc": "Abrar Al-Qallaf",       # KNPC - Kuwait National Petroleum Company
+    "pic": "Abrar Al-Qallaf",        # PIC - Petrochemical Industries Company
 
+    # All other accounts assigned directly to Eiman Ashkanani (Marketing Manager)
+    "kpc": "Eiman Ashkanani",        # KPC - Kuwait Petroleum Corporation
+    "kipic": "Eiman Ashkanani",      # KIPIC - Kuwait Integrated Petroleum Industries
+    "kufpec": "Eiman Ashkanani",     # KUFPEC - Kuwait Foreign Petroleum Exploration
+    "kuwait_17": "Eiman Ashkanani",  # KUFPEC Arabic alias
+    "kuwait_19": "Eiman Ashkanani",  # KGOC - Kuwait Gulf Oil Company
+    "mod": "Eiman Ashkanani",        # MOD - Ministry of Defense
+    "mpw": "Eiman Ashkanani",        # MPW - Ministry of Public Works
+    "km": "Eiman Ashkanani",         # KM - Kuwait Municipality
+    "mof": "Eiman Ashkanani",        # MOF - Ministry of Finance
+    "moe": "Eiman Ashkanani",        # MOE - Ministry of Education
+    "mohe": "Eiman Ashkanani",       # MOHE - Ministry of Higher Education
+    "ku": "Eiman Ashkanani",         # KU - Kuwait University
+    "paaet": "Eiman Ashkanani",      # PAAET - Applied Education
+    "csc": "Eiman Ashkanani",        # CSC - Civil Service Commission
+    "customs": "Eiman Ashkanani",    # Customs - General Administration of Customs
+    "dgca": "Eiman Ashkanani",       # DGCA - Directorate General of Civil Aviation
+    "general_3": "Eiman Ashkanani",  # KFF - Kuwait Fire Force
+    "ncsc": "Eiman Ashkanani",       # NCSC - National Cyber Security Center
+    "abdullah_salem": "Eiman Ashkanani", # Abdullah Al-Salem University
+    "pahw": "Eiman Ashkanani",       # PAHW - Housing Welfare
+    "paht": "Eiman Ashkanani",       # الرعاية السكنية
+    "pai": "Eiman Ashkanani",        # PAI - Industry
+    "public_26": "Eiman Ashkanani",  # الهيئة العامة للصناعة
+    "moci": "Eiman Ashkanani",       # MOCI - Commerce and Industry
+    "paf": "Eiman Ashkanani",        # PAAAFR - Agriculture
+    "mosa": "Eiman Ashkanani",       # MOSA - Social Affairs
+    "general_5": "Eiman Ashkanani",  # الأوقاف
+    "pafn": "Eiman Ashkanani",       # Food & Nutrition
+    "kng": "Eiman Ashkanani",        # KNG - Kuwait National Guard
+    "kuwait_13": "Eiman Ashkanani",  # الرئاسة العامة للحرس الوطني
     "kfas": "Eiman Ashkanani",       # KFAS - Foundation for Advancement of Sciences
     "kisr": "Eiman Ashkanani",       # KISR - Institute for Scientific Research
-
-    "nbk": "Ahmad Abu Jrab",         # NBK - National Bank of Kuwait
-    "kfh": "Ahmad Abu Jrab",         # KFH - Kuwait Finance House
-
-    "cbk": "Saleem Dalwai",          # CBK - Commercial Bank / Central Bank
-    "abk": "Saleem Dalwai",          # ABK - Al Ahli Bank of Kuwait
-    "burgan": "Saleem Dalwai",       # Burgan Bank
-    "kia": "Saleem Dalwai",          # KIA - Kuwait Investment Authority
-
-    "warba": "Usama Badra",          # Warba Bank
-    "kib": "Usama Badra",            # KIB - Kuwait International Bank
-    "knet": "Usama Badra",           # KNET - Shared Electronic Banking
-
-    "moc": "Ehtisham Boota",         # MOC - Ministry of Communications
-    "citra": "Ehtisham Boota",       # CITRA - Telecom Regulatory Authority
-    "zain": "Ehtisham Boota",        # Zain Kuwait
-    "media": "Ehtisham Boota",       # Ministry of Information (وزارة الإعلام)
-    "ooredoo": "Tariq Al-Souqi",     # Ooredoo Kuwait
-    "stc": "Tariq Al-Souqi",         # STC Kuwait
 }
 
 # Arabic normalized substring keywords
 ARABIC_RULES = [
-    # Defense & Interior
-    ("الحرس الوطني", "Fahad Al-Roumi"),
-    ("حرس وطني", "Fahad Al-Roumi"),
-    ("حرس", "Fahad Al-Roumi"),
-    ("داخليه", "Fahad Al-Roumi"),
-    ("داخلية", "Fahad Al-Roumi"),
-
-    # Oil & Gas (Assigned to Eiman Ashkanani)
-    ("نفط الكويت", "Eiman Ashkanani"),
-    ("koc", "Eiman Ashkanani"),
-    ("البترول الوطنية", "Eiman Ashkanani"),
-    ("البترول الوطنيه", "Eiman Ashkanani"),
-    ("بترول وطنيه", "Eiman Ashkanani"),
-    ("بترول وطنية", "Eiman Ashkanani"),
-    ("مؤسسه البترول", "Eiman Ashkanani"),
-    ("مؤسسة البترول", "Eiman Ashkanani"),
-    ("متكامله", "Eiman Ashkanani"),
-    ("متكاملة", "Eiman Ashkanani"),
-    ("كيبيك", "Eiman Ashkanani"),
-    ("kipic", "Eiman Ashkanani"),
-    ("knpc", "Eiman Ashkanani"),
-    ("kpc", "Eiman Ashkanani"),
-    ("البترول", "Eiman Ashkanani"),
-    ("ناقلات", "Abrar Al-Qallaf"),
-    ("كيماويات", "Abrar Al-Qallaf"),
-    ("كوفبيك", "Abrar Al-Qallaf"),
-    ("kufpec", "Abrar Al-Qallaf"),
-    ("نفط الخليج", "Abrar Al-Qallaf"),
-
-    # Public Authorities (Jana Al-Obaid)
+    # 1. Jana Al-Obaid (PIFSS, PADA, Nazaha, MOH)
     ("تامينات", "Jana Al-Obaid"),
     ("تأمينات", "Jana Al-Obaid"),
     ("pifss", "Jana Al-Obaid"),
-    ("دفاع", "Jana Al-Obaid"),
-    ("صحه", "Jana Al-Obaid"),
-    ("صحة", "Jana Al-Obaid"),
-    ("سكنيه", "Jana Al-Obaid"),
-    ("سكنية", "Jana Al-Obaid"),
-    ("صناعه", "Jana Al-Obaid"),
-    ("صناعة", "Jana Al-Obaid"),
-    ("تجاره", "Jana Al-Obaid"),
-    ("تجارة", "Jana Al-Obaid"),
-    ("زراعه", "Jana Al-Obaid"),
-    ("زراعة", "Jana Al-Obaid"),
-    ("شئون", "Jana Al-Obaid"),
-    ("شؤون", "Jana Al-Obaid"),
-    ("اوقاف", "Jana Al-Obaid"),
-    ("أوقاف", "Jana Al-Obaid"),
-    ("تغذيه", "Jana Al-Obaid"),
-    ("تغذية", "Jana Al-Obaid"),
     ("اعاقه", "Jana Al-Obaid"),
     ("إعاقة", "Jana Al-Obaid"),
+    ("ذوي الاعاقة", "Jana Al-Obaid"),
+    ("ذوي الإعاقة", "Jana Al-Obaid"),
+    ("pada", "Jana Al-Obaid"),
+    ("نزاهه", "Jana Al-Obaid"),
+    ("نزاهة", "Jana Al-Obaid"),
+    ("مكافحة الفساد", "Jana Al-Obaid"),
+    ("cpa", "Jana Al-Obaid"),
+    ("صحه", "Jana Al-Obaid"),
+    ("صحة", "Jana Al-Obaid"),
+    ("moh", "Jana Al-Obaid"),
 
-    # Infrastructure & Parliament (Abrar Al-Qallaf)
-    ("اشغال", "Abrar Al-Qallaf"),
-    ("أشغال", "Abrar Al-Qallaf"),
-    ("بلديه", "Abrar Al-Qallaf"),
-    ("بلدية", "Abrar Al-Qallaf"),
-    ("مجلس الامه", "Abrar Al-Qallaf"),
-    ("مجلس الأمة", "Abrar Al-Qallaf"),
-    ("تطبيقي", "Abrar Al-Qallaf"),
-    ("نزاهه", "Abrar Al-Qallaf"),
-    ("نزاهة", "Abrar Al-Qallaf"),
-
-    # Utilities, Fire & Government (Raed Obeid)
-    ("اطفاء", "Raed Obeid"),
-    ("إطفاء", "Raed Obeid"),
+    # 2. Raed Obeid (MEW, PACI)
     ("كهرباء", "Raed Obeid"),
-    ("ماليه", "Raed Obeid"),
-    ("مالية", "Raed Obeid"),
-    ("عدل", "Raed Obeid"),
-    ("تربيه", "Raed Obeid"),
-    ("تربية", "Raed Obeid"),
-    ("جامعه", "Raed Obeid"),
-    ("جامعة", "Raed Obeid"),
+    ("mew", "Raed Obeid"),
+    ("معلومات مدنيه", "Raed Obeid"),
+    ("معلومات مدنية", "Raed Obeid"),
     ("مدنيه", "Raed Obeid"),
     ("مدنية", "Raed Obeid"),
-    ("جمارك", "Raed Obeid"),
-    ("طيران مدني", "Raed Obeid"),
-    ("سيبراني", "Raed Obeid"),
-    ("فتوى", "Raed Obeid"),
+    ("paci", "Raed Obeid"),
 
-    # Research (Eiman Ashkanani)
-    ("ابحاث", "Eiman Ashkanani"),
-    ("أبحاث", "Eiman Ashkanani"),
-    ("تقدم علمي", "Eiman Ashkanani"),
+    # 3. Khaled Alabdallah (MOI)
+    ("داخليه", "Khaled Alabdallah"),
+    ("داخلية", "Khaled Alabdallah"),
+    ("الداخلية", "Khaled Alabdallah"),
+    ("الداخليه", "Khaled Alabdallah"),
+    ("moi", "Khaled Alabdallah"),
 
-    # Banking & Finance
-    ("بنك الكويت الوطني", "Ahmad Abu Jrab"),
-    ("البنك الوطني", "Ahmad Abu Jrab"),
-    ("nbk", "Ahmad Abu Jrab"),
-    ("بيت التمويل", "Ahmad Abu Jrab"),
-    ("kfh", "Ahmad Abu Jrab"),
-    ("بيتك", "Ahmad Abu Jrab"),
-    ("اهلي", "Saleem Dalwai"),
-    ("أهلي", "Saleem Dalwai"),
-    ("تجاري", "Saleem Dalwai"),
-    ("برقان", "Saleem Dalwai"),
-    ("استثمار", "Saleem Dalwai"),
-    ("وربه", "Usama Badra"),
-    ("وربة", "Usama Badra"),
-    ("دولي", "Usama Badra"),
-    ("كي نت", "Usama Badra"),
+    # 4. Ahmed Habib (Oil: KOC, KOTC)
+    ("نفط الكويت", "Ahmed Habib"),
+    ("koc", "Ahmed Habib"),
+    ("ناقلات النفط", "Ahmed Habib"),
+    ("ناقلات", "Ahmed Habib"),
+    ("kotc", "Ahmed Habib"),
 
-    # Telecom & Media
-    ("اعلام", "Ehtisham Boota"),
-    ("إعلام", "Ehtisham Boota"),
-    ("مواصلات", "Ehtisham Boota"),
-    ("سيترا", "Ehtisham Boota"),
-    ("citra", "Ehtisham Boota"),
-    ("زين", "Ehtisham Boota"),
-    ("اوريدو", "Tariq Al-Souqi"),
-    ("أوريدو", "Tariq Al-Souqi")
+    # 5. Abrar Al-Qallaf (Oil: KNPC, PIC)
+    ("البترول الوطنية", "Abrar Al-Qallaf"),
+    ("البترول الوطنيه", "Abrar Al-Qallaf"),
+    ("بترول وطنية", "Abrar Al-Qallaf"),
+    ("بترول وطنيه", "Abrar Al-Qallaf"),
+    ("knpc", "Abrar Al-Qallaf"),
+    ("كيماويات بترولية", "Abrar Al-Qallaf"),
+    ("كيماويات", "Abrar Al-Qallaf"),
+    ("صناعة الكيماويات", "Abrar Al-Qallaf"),
+    ("pic", "Abrar Al-Qallaf"),
 ]
 
-def resolve_account_manager(client_name: Optional[str], client_id: Optional[str] = "") -> Optional[str]:
+DEFAULT_OWNER = "Eiman Ashkanani"
+
+def resolve_account_manager(client_name: Optional[str], client_id: Optional[str] = "") -> str:
     """
-    Resolves the official KBM Account Manager for any client name or ID.
-    Returns canonical Account Manager name or None if unassigned.
+    Resolves the official KBM Account Manager according to the organizational hierarchy:
+    - Marketing Manager: Eiman Ashkanani
+    - Gov: Jana Al-Obaid (PIFSS, PADA, Nazaha, MOH)
+    - Gov: Raed Obeid (MEW, PACI)
+    - Gov: Khaled Alabdallah (MOI)
+    - Oil: Ahmed Habib (KOC, KOTC)
+    - Oil: Abrar Al-Qallaf (KNPC, PIC)
+    - Any other accounts assign to Eiman Ashkanani herself.
     """
     if not client_name or client_name.strip() in ("", "غير محدد", "None"):
-        return None
+        return DEFAULT_OWNER
 
     # 1. Match by client_id
     if client_id and client_id.lower().strip() in CLIENT_ID_TO_AM:
@@ -224,4 +162,5 @@ def resolve_account_manager(client_name: Optional[str], client_id: Optional[str]
         if pattern in raw_clean or pat_norm in norm:
             return am
 
-    return None
+    # 3. Default fallback for any other account: Eiman Ashkanani
+    return DEFAULT_OWNER
