@@ -230,11 +230,13 @@ class ExcelReportGenerator:
             "الجهة المصدرة",
             "مسؤول الحساب (Account Manager)",
             "موضوع المناقصة",
+            "المطلوب في المناقصة ونطاق العمل والأجهزة (Required Scope & Equipment)",
             "قطاع KBM المختص (BU)",
             "درجة التوافق",
             "قرار ما قبل البيع",
             "شركاء التكنولوجيا",
-            "مبررات التوافق (Presales Rationale)",
+            "شرح التوافق مع ملف الخرافي (KBM Profile Match Rationale)",
+            "شروط ومتطلبات المشاركة (Requirements)",
             "تاريخ النشر",
             "آخر موعد للتقديم",
             "التأمين الأولي",
@@ -267,11 +269,13 @@ class ExcelReportGenerator:
                 t.client,
                 t.account_owner or "Unassigned",
                 t.title_ar,
+                t.scope_required or "-",
                 t.kbm_bu_ar if t.kbm_bu != "None" else "غير محدد",
                 f"{t.kbm_fit_score:.1f}%",
                 t.kbm_presales_verdict_ar,
                 ", ".join(t.kbm_vendors) if t.kbm_vendors else "-",
                 t.kbm_rationale or "-",
+                t.requirements or "-",
                 t.publish_date or "-",
                 t.closing_date or "-",
                 t.bid_bond or "-",
@@ -292,12 +296,12 @@ class ExcelReportGenerator:
                 cell = ws.cell(row=row_idx, column=col_idx)
                 cell.border = BORDER_THIN
                 cell.fill = row_fill
-                if col_idx in (1, 4, 5, 6, 7, 9, 10, 11, 12, 13):
+                if col_idx in (1, 6, 7, 8, 9, 12, 13, 14, 15, 16):
                     cell.alignment = ALIGN_CENTER
                 else:
                     cell.alignment = ALIGN_RIGHT
 
-                if is_closing_soon and col_idx == 10:
+                if is_closing_soon and col_idx == 13:
                     cell.fill = ALERT_FILL
                     cell.font = Font(name="Calibri", size=10, bold=True, color="9B2C2C")
 
@@ -323,6 +327,8 @@ class ExcelReportGenerator:
             "الجهة المصدرة",
             "مسؤول الحساب (Account Manager)",
             "موضوع المناقصة",
+            "المطلوب في المناقصة ونطاق العمل والأجهزة (Required Scope & Equipment)",
+            "شروط ومتطلبات المشاركة (Requirements)",
             "قطاع KBM المختص",
             "درجة التوافق",
             "القطاع",
@@ -357,6 +363,8 @@ class ExcelReportGenerator:
                 t.client,
                 t.account_owner or "Unassigned",
                 t.title_ar,
+                t.scope_required or "-",
+                t.requirements or "-",
                 t.kbm_bu_ar if t.kbm_bu != "None" else "عام",
                 f"{t.kbm_fit_score:.1f}%",
                 t.sector,
@@ -377,25 +385,25 @@ class ExcelReportGenerator:
                 cell = ws.cell(row=row_idx, column=col_idx)
                 cell.border = BORDER_THIN
                 cell.fill = base_fill
-                cell.alignment = ALIGN_RIGHT if col_idx in (1, 2, 3, 10) else ALIGN_CENTER
+                cell.alignment = ALIGN_RIGHT if col_idx in (1, 2, 3, 4, 5, 6) else ALIGN_CENTER
 
                 # Status column fill
-                if col_idx == 9:
+                if col_idx == 14:
                     cell.fill = STATUS_FILLS.get(t.status.value, base_fill)
                     cell.font = Font(name="Calibri", size=10, bold=True)
 
                 # Closing soon alert highlight
-                if col_idx == 6 and is_closing_soon:
+                if col_idx == 11 and is_closing_soon:
                     cell.fill = ALERT_FILL
                     cell.font = Font(name="Calibri", size=10, bold=True, color="9B2C2C")
 
                 # ICT badge highlight
-                if col_idx == 11 and t.is_kbm_relevant:
+                if col_idx == 7 and t.is_kbm_relevant:
                     cell.fill = ICT_FILL
                     cell.font = Font(name="Calibri", size=10, bold=True, color="2B6CB0")
 
                 # Hyperlink font
-                if col_idx == 12 and source_url:
+                if col_idx == 16 and source_url:
                     cell.font = Font(name="Calibri", size=10, color="2B6CB0", underline="single")
 
         # Auto-filter and width adjustments

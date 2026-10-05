@@ -239,6 +239,27 @@ def reclassify_all():
     return {"message": f"Successfully reclassified {count} tenders against KBM Company Profile", "count": count}
 
 
+@app.post("/api/tenders/{tender_uid}/assign")
+def assign_account_owner(tender_uid: str, account_owner: str = Query(...)):
+    """Allows user to change or reassign the Account Manager for a tender."""
+    success = state_store.update_tender_account_owner(tender_uid, account_owner)
+    if not success:
+        raise HTTPException(status_code=404, detail="Tender not found")
+    
+    # Also trigger background report regeneration
+    try:
+        from src.output.excel import ExcelReportGenerator
+        config = load_config()
+        excel_gen = ExcelReportGenerator(config=config.excel, state_store=state_store)
+        excel_gen.generate_report()
+        from src.output.html_dashboard import generate_standalone_dashboard
+        generate_standalone_dashboard()
+    except Exception as e:
+        logger.warning("Error regenerating reports on assign: %s", e)
+
+    return {"success": True, "tender_uid": tender_uid, "account_owner": account_owner}
+
+
 @app.get("/api/export")
 def download_excel():
     """Downloads the latest compiled Excel workbook."""

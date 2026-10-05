@@ -81,6 +81,13 @@ class TenderProcessor:
         needs_review = len(review_reasons) > 0 or client_needs_review or (confidence < self.config.classification.confidence_threshold)
 
         # 7. Construct Canonical Record
+        # Extract requirements
+        reqs_raw = raw.extra_fields.get("requirements", [])
+        if isinstance(reqs_raw, list):
+            reqs_str = "\n".join(f"• {r}" for r in reqs_raw if r)
+        else:
+            reqs_str = str(reqs_raw or "")
+
         record = CanonicalTenderRecord(
             tender_uid=uid,
             tender_no=raw.tender_no,
@@ -110,6 +117,7 @@ class TenderProcessor:
             kbm_presales_verdict=kbm_eval["presales_verdict"],
             kbm_presales_verdict_ar=kbm_eval["presales_verdict_ar"],
             kbm_rationale=kbm_eval["rationale"],
+            requirements=reqs_str,
             raw=raw.model_dump()
         )
 
@@ -120,21 +128,38 @@ class TenderProcessor:
         if matched_existing and not is_uncertain:
             # High-confidence cross-portal merge
             Deduplicator.merge_sources(matched_existing, record)
-            # Update fields if current has more detail
-            if (not matched_existing.title_ar or "الجريدة الرسمية" in matched_existing.title_ar) and record.title_ar and "الجريدة الرسمية" not in record.title_ar:
+
+            # Update title: replace placeholder or LOADING titles with rich subject
+            is_loading_title = bool(matched_existing.title_ar and ("LOADING" in matched_existing.title_ar or "LOADING PAGES" in matched_existing.title_ar))
+            is_generic_title = bool(not matched_existing.title_ar or "الجريدة الرسمية" in matched_existing.title_ar or ":" not in matched_existing.title_ar)
+            has_rich_title = bool(record.title_ar and "LOADING" not in record.title_ar and "الجريدة الرسمية" not in record.title_ar)
+
+            if (is_loading_title or is_generic_title) and has_rich_title:
                 matched_existing.title_ar = record.title_ar
-            if (matched_existing.client == "غير محدد" or not matched_existing.client) and record.client != "غير محدد":
+            elif is_loading_title and record.title_ar and "LOADING" not in record.title_ar:
+                matched_existing.title_ar = record.title_ar
+
+            # Update client and sector
+            if record.client and record.client != "غير محدد":
                 matched_existing.client = record.client
                 matched_existing.sector = record.sector
-            if not matched_existing.account_owner and record.account_owner:
-                matched_existing.account_owner = record.account_owner
-            if not matched_existing.closing_date and record.closing_date:
+                if record.account_owner:
+                    matched_existing.account_owner = record.account_owner
+
+            # Update dates and financials
+            if record.closing_date:
                 matched_existing.closing_date = record.closing_date
-            if not matched_existing.bid_bond and record.bid_bond:
+            if record.pre_bid_date:
+                matched_existing.pre_bid_date = record.pre_bid_date
+            if record.bid_bond:
                 matched_existing.bid_bond = record.bid_bond
-            if not matched_existing.document_fee and record.document_fee:
+            if record.document_fee:
                 matched_existing.document_fee = record.document_fee
-            if record.kbm_fit_score > (matched_existing.kbm_fit_score or 0):
+            if record.requirements:
+                matched_existing.requirements = record.requirements
+
+            # Update KBM presales evaluation
+            if record.kbm_fit_score > (matched_existing.kbm_fit_score or 0) or (record.is_kbm_relevant and not matched_existing.is_kbm_relevant):
                 matched_existing.kbm_fit_score = record.kbm_fit_score
                 matched_existing.kbm_bu = record.kbm_bu
                 matched_existing.kbm_bu_ar = record.kbm_bu_ar
@@ -143,7 +168,8 @@ class TenderProcessor:
                 matched_existing.kbm_presales_verdict_ar = record.kbm_presales_verdict_ar
                 matched_existing.kbm_rationale = record.kbm_rationale
                 matched_existing.is_kbm_relevant = record.is_kbm_relevant
-                matched_existing.relevance_keywords = record.relevance_keywords
+                matched_existing.relevance_keywords = list(set(matched_existing.relevance_keywords + record.relevance_keywords))
+
             return self.state_store.upsert_canonical_tender(matched_existing)
 
         elif matched_existing and is_uncertain:

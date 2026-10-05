@@ -99,4 +99,6 @@ class CanonicalTenderRecord(BaseModel):
     kbm_presales_verdict: str = "UNRELATED"
     kbm_presales_verdict_ar: str = "غير متوافقة"
     kbm_rationale: str = ""
+    scope_required: Optional[str] = ""
+    requirements: Optional[str] = ""
     raw: Dict[str, Any] = Field(default_factory=dict)

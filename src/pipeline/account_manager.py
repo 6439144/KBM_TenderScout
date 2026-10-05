@@ -56,11 +56,11 @@ CLIENT_ID_TO_AM = {
 
     "koc": "Eiman Ashkanani",       # KOC - Kuwait Oil Company
 
-    "kotc": "Wajih Fahad",           # KOTC - Kuwait Oil Tanker Company
-    "pic": "Wajih Fahad",            # PIC - Petrochemical Industries Company
-    "kufpec": "Wajih Fahad",         # KUFPEC - Foreign Petroleum Exploration
-    "kuwait_17": "Wajih Fahad",      # الشركة الكويتية للاستكشافات البترولية الخارجية
-    "kuwait_19": "Wajih Fahad",      # الشركة الكويتية لنفط الخليج (KGOC/WJO)
+    "kotc": "Abrar Al-Qallaf",       # KOTC - Kuwait Oil Tanker Company (Reassigned from Wajih Fahad)
+    "pic": "Abrar Al-Qallaf",        # PIC - Petrochemical Industries Company (Reassigned from Wajih Fahad)
+    "kufpec": "Abrar Al-Qallaf",     # KUFPEC - Foreign Petroleum Exploration (Reassigned from Wajih Fahad)
+    "kuwait_17": "Abrar Al-Qallaf",  # الشركة الكويتية للاستكشافات البترولية الخارجية
+    "kuwait_19": "Abrar Al-Qallaf",  # الشركة الكويتية لنفط الخليج (KGOC/WJO)
 
     "kfas": "Eiman Ashkanani",       # KFAS - Foundation for Advancement of Sciences
     "kisr": "Eiman Ashkanani",       # KISR - Institute for Scientific Research
@@ -110,11 +110,11 @@ ARABIC_RULES = [
     ("knpc", "Eiman Ashkanani"),
     ("kpc", "Eiman Ashkanani"),
     ("البترول", "Eiman Ashkanani"),
-    ("ناقلات", "Wajih Fahad"),
-    ("كيماويات", "Wajih Fahad"),
-    ("كوفبيك", "Wajih Fahad"),
-    ("kufpec", "Wajih Fahad"),
-    ("نفط الخليج", "Wajih Fahad"),
+    ("ناقلات", "Abrar Al-Qallaf"),
+    ("كيماويات", "Abrar Al-Qallaf"),
+    ("كوفبيك", "Abrar Al-Qallaf"),
+    ("kufpec", "Abrar Al-Qallaf"),
+    ("نفط الخليج", "Abrar Al-Qallaf"),
 
     # Public Authorities (Jana Al-Obaid)
     ("تامينات", "Jana Al-Obaid"),

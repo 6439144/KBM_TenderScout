@@ -286,12 +286,11 @@
         <div class="md:col-span-3">
           <select id="am-select" onchange="applyFilters()" class="w-full py-2.5 px-3 rounded-xl border border-slate-200 text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700">
             <option value="all">كافة مسؤولي الحسابات (All Account Managers)</option>
-            <option value="Raed Obeid">Raed Obeid (MEW, MOF, MOJ, MOE, PACI, KFF, KU)</option>
-            <option value="Jana Al-Obaid">Jana Al-Obaid (PIFSS, MOD, MOH, PAHW, PAI, MOSA)</option>
-            <option value="Fahad Al-Roumi">Fahad Al-Roumi (MOI, KNG)</option>
-            <option value="Abrar Al-Qallaf">Abrar Al-Qallaf (MPW, KM, KNA, PAAET, Nazaha)</option>
+            <option value="Abrar Al-Qallaf">Abrar Al-Qallaf (MPW, KM, KNA, PAAET, Nazaha, PIC, KUFPEC, KGOC, KOTC)</option>
             <option value="Eiman Ashkanani">Eiman Ashkanani (KPC, KNPC, KOC, KIPIC, KISR, KFAS)</option>
-            <option value="Wajih Fahad">Wajih Fahad (KOTC, PIC, KUFPEC, KGOC)</option>
+            <option value="Jana Al-Obaid">Jana Al-Obaid (PIFSS, MOD, MOH, PAHW, PAI, MOSA)</option>
+            <option value="Raed Obeid">Raed Obeid (MEW, MOF, MOJ, MOE, PACI, KFF, KU)</option>
+            <option value="Fahad Al-Roumi">Fahad Al-Roumi (MOI, KNG)</option>
             <option value="Ahmad Abu Jrab">Ahmad Abu Jrab (NBK, KFH)</option>
             <option value="Saleem Dalwai">Saleem Dalwai (ABK, Burgan, CBK, Central Bank)</option>
             <option value="Usama Badra">Usama Badra (Warba, KIB, KNET)</option>
@@ -406,13 +405,37 @@
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-2">
             <span id="modal-client" class="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1 rounded-lg">--</span>
-            <span class="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-lg flex items-center gap-1.5">
-              <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
-              <span>مسؤول الحساب: </span>
-              <strong id="modal-am">--</strong>
-            </span>
+            <div class="flex items-center gap-1.5 bg-emerald-50 border border-emerald-300 px-3 py-1 rounded-lg">
+              <i data-lucide="user-check" class="w-3.5 h-3.5 text-emerald-800"></i>
+              <span class="text-xs font-bold text-emerald-800">مسؤول الحساب:</span>
+              <select id="modal-am-select" onchange="changeTenderAM(this.value)" class="text-xs font-bold text-emerald-900 bg-white border border-emerald-300 rounded px-2 py-0.5 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer">
+                <option value="Abrar Al-Qallaf">Abrar Al-Qallaf (MPW, KM, PIC, KOTC...)</option>
+                <option value="Eiman Ashkanani">Eiman Ashkanani (KPC, KNPC, KOC, KIPIC...)</option>
+                <option value="Jana Al-Obaid">Jana Al-Obaid (MOD, MOH, PIFSS, PAHW...)</option>
+                <option value="Raed Obeid">Raed Obeid (MEW, MOF, MOJ, MOE, PACI...)</option>
+                <option value="Fahad Al-Roumi">Fahad Al-Roumi (MOI, KNG)</option>
+                <option value="Ahmad Abu Jrab">Ahmad Abu Jrab (NBK, KFH)</option>
+                <option value="Saleem Dalwai">Saleem Dalwai (ABK, Burgan, CBK)</option>
+                <option value="Usama Badra">Usama Badra (Warba, KIB, KNET)</option>
+                <option value="Ehtisham Boota">Ehtisham Boota (MOC, CITRA, Zain)</option>
+                <option value="Tariq Al-Souqi">Tariq Al-Souqi (Ooredoo, STC)</option>
+                <option value="Unassigned">غير مسند (Unassigned)</option>
+              </select>
+              <span id="modal-am-status" class="hidden text-[10px] text-emerald-700 font-bold bg-emerald-100 px-1.5 py-0.5 rounded">✓ تم الحفظ</span>
+            </div>
           </div>
           <h2 id="modal-title" class="text-base font-bold text-slate-800 leading-relaxed">--</h2>
+        </div>
+
+        <!-- Scope & What is Required Box -->
+        <div id="modal-scope-box" class="bg-indigo-50/70 border border-indigo-200 rounded-xl p-4 space-y-2">
+          <h4 class="font-bold text-indigo-900 text-xs flex items-center gap-1.5">
+            <i data-lucide="package" class="w-4 h-4 text-indigo-600"></i>
+            <span>المطلوب في المناقصة ونطاق العمل والأجهزة (Scope & Equipment Required):</span>
+          </h4>
+          <p id="modal-scope" class="text-xs text-slate-800 bg-white p-3 rounded-lg border border-indigo-200/60 leading-relaxed font-sans font-medium">
+            --
+          </p>
         </div>
 
         <!-- KBM Presales Fit Analysis Box -->
@@ -442,6 +465,17 @@
           <div>
             <span class="text-slate-500 text-xs block mb-1">مبررات التقييم الفني:</span>
             <p id="modal-rationale" class="text-xs text-slate-700 bg-white p-3 rounded-lg border border-slate-200/80 leading-relaxed">--</p>
+          </div>
+        </div>
+
+        <!-- Tender Requirements & Conditions Box -->
+        <div id="modal-reqs-box" class="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-2">
+          <h4 class="font-bold text-amber-900 text-xs flex items-center gap-1.5">
+            <i data-lucide="clipboard-list" class="w-4 h-4 text-amber-600"></i>
+            <span>شروط ومتطلبات المشاركة في المناقصة (Requirements & Conditions):</span>
+          </h4>
+          <div id="modal-requirements" class="text-xs text-slate-700 bg-white p-3 rounded-lg border border-amber-200/60 leading-relaxed whitespace-pre-line font-sans">
+            --
           </div>
         </div>
 
@@ -696,6 +730,12 @@
 
               <div>
                 <h4 class="text-sm font-bold text-slate-800 hover:text-blue-600 transition leading-snug">${t.title_ar || 'بدون عنوان'}</h4>
+                ${t.scope_required ? `
+                  <div class="mt-1.5 flex items-start gap-1.5 text-xs text-indigo-950 bg-indigo-50/70 border border-indigo-100 rounded-lg px-2.5 py-1 font-medium">
+                    <i data-lucide="package" class="w-3.5 h-3.5 text-indigo-600 shrink-0 mt-0.5"></i>
+                    <span class="line-clamp-2"><strong>المطلوب:</strong> ${t.scope_required}</span>
+                  </div>
+                ` : ''}
                 <p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
                   <i data-lucide="building-2" class="w-3.5 h-3.5 text-slate-400"></i>
                   <span class="font-semibold text-slate-700">${t.client || 'جهة غير محددة'}</span>
@@ -740,15 +780,29 @@
       lucide.createIcons();
     }
 
+    let currentModalTenderUid = null;
+
     // Modal Details
     function openDetailModal(t) {
+      currentModalTenderUid = t.tender_uid;
       document.getElementById('modal-tender-no').innerText = t.tender_no || '';
       document.getElementById('modal-title').innerText = t.title_ar || '';
       document.getElementById('modal-client').innerText = t.client || 'غير محدد';
-      document.getElementById('modal-am').innerText = t.account_owner || 'غير مسند (Unassigned)';
+      
+      const amSelect = document.getElementById('modal-am-select');
+      if (amSelect) {
+        amSelect.value = t.account_owner || 'Unassigned';
+      }
+      document.getElementById('modal-am-status').classList.add('hidden');
+
       document.getElementById('modal-score').innerText = Math.round(t.kbm_fit_score || 0) + '%';
       document.getElementById('modal-bu').innerText = t.kbm_bu || 'غير مصنف تحت وحدات أعمال KBM الأساسية';
       document.getElementById('modal-rationale').innerText = t.kbm_rationale || 'لا توجد ملاحظات تفصيلية متوفرة.';
+      
+      const scopeEl = document.getElementById('modal-scope');
+      if (scopeEl) {
+        scopeEl.innerText = (t.scope_required && t.scope_required.trim()) ? t.scope_required : 'تفاصيل ونطاق العمل والأجهزة المطلوبة محددة في كراسة الشروط الرسمية.';
+      }
       document.getElementById('modal-publish-date').innerText = t.publish_date || 'غير محدد';
       document.getElementById('modal-closing-date').innerText = t.closing_date || 'غير محدد';
       document.getElementById('modal-bond').innerText = t.bid_bond || 'غير محدد';
@@ -769,8 +823,38 @@
         vendorsContainer.innerHTML = '<span class="text-slate-400">لا توجد تقنية شريك محددة</span>';
       }
 
+      // Requirements
+      const reqsEl = document.getElementById('modal-requirements');
+      if (t.requirements && t.requirements.trim()) {
+        reqsEl.innerText = t.requirements;
+      } else {
+        reqsEl.innerText = 'المتطلبات والشروط العامة مفصلة في وثائق وكراسة المناقصة الرسمية.';
+      }
+
       document.getElementById('detail-modal').classList.remove('hidden');
       lucide.createIcons();
+    }
+
+    async function changeTenderAM(newAM) {
+      if (!currentModalTenderUid) return;
+      const statusEl = document.getElementById('modal-am-status');
+      try {
+        const res = await fetch(`/api/tenders/${currentModalTenderUid}/assign?account_owner=${encodeURIComponent(newAM)}`, { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          statusEl.classList.remove('hidden');
+          setTimeout(() => statusEl.classList.add('hidden'), 2500);
+          
+          // Update in-memory tender record
+          const t = allTenders.find(item => item.tender_uid === currentModalTenderUid);
+          if (t) {
+            t.account_owner = newAM;
+            applyFilters();
+          }
+        }
+      } catch (err) {
+        alert('حدث خطأ أثناء تعديل مسؤول الحساب: ' + err);
+      }
     }
 
     function closeDetailModal() {

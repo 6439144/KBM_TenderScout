@@ -21,7 +21,7 @@ def generate_standalone_dashboard(output_path: Path = None) -> Path:
     state_store = StateStore()
     tenders = state_store.get_all_tenders()
     
-    tenders_dict = [t.model_dump() for t in tenders]
+    tenders_dict = [t.model_dump(exclude={"raw"}) for t in tenders]
     # Sort descending by KBM fit score
     tenders_dict.sort(key=lambda x: (x.get("kbm_fit_score", 0), x.get("publish_date") or ""), reverse=True)
     

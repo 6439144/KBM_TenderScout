@@ -17,7 +17,7 @@ KBM_BUSINESS_UNITS = {
         "label_ar": "قطاع أنظمة IBM للأجهزة والخوادم",
         "description": "IBM Power, Storage (FlashSystem), IBM Z, LinuxONE, Data Center Sizing, Migration, HW Maintenance",
         "keywords_ar": [
-            "خوادم", "أجهزة الخوادم", "أنظمة التخزين", "وحدات التخزين", "مصفوفات التخزين",
+            "خوادم", "أجهزة خوادم", "أجهزة الخوادم", "أنظمة التخزين", "وحدات التخزين", "مصفوفات التخزين",
             "الأجهزة الرئيسية", "مينفريم", "باور", "سيرفرات", "سيرفر", "تخزين البيانات",
             "بنية تحتية للأجهزة", "كمبيوتر مركزي", "أشرطة النسخ الاحتياطي", "سان ستورج"
         ],
@@ -120,8 +120,9 @@ KBM_VENDOR_ALLIANCES = {
     "HCL Software": ["hcl", "اتش سي ال"]
 }
 
-# Strategic enterprise clients highlighted in Slide 5 of KBM Profile
+# Strategic enterprise clients highlighted in Slide 5 of KBM Profile and Technology Forecast
 KBM_TARGET_CLIENTS = [
+    "وزارة الدفاع", "وزارة الصحة", "وزارة التربية", "وزارة الكهرباء والماء", "وزارة الأشغال العامة",
     "الرئاسة العامة للحرس الوطني", "الإدارة العامة للإطفاء", "وزارة الداخلية",
     "وزارة العدل", "الهيئة العامة للمعلومات المدنية", "المؤسسة العامة للتأمينات الاجتماعية",
     "مجلس الأمة", "شركة نفط الكويت", "شركة البترول الوطنية الكويتية", "الشركة الكويتية للصناعات البترولية المتكاملة",
@@ -213,6 +214,18 @@ class KBMQualifier:
         if max_bu_score > 0:
             score += min(max_bu_score * 0.8, 45.0)
             rationale_items.append(f"Aligned with {primary_bu} ({len(bu_hits.get(primary_bu, []))} capability matches)")
+
+        # Check if matched BU keyword is in the tender title itself
+        has_title_bu_match = False
+        if primary_bu and bu_hits.get(primary_bu):
+            for kw in bu_hits[primary_bu]:
+                if _contains_word_or_phrase(kw, title):
+                    has_title_bu_match = True
+                    break
+
+        if has_title_bu_match:
+            score += 25.0
+            rationale_items.append("Core ICT Scope in Tender Title")
 
         if is_strategic_client:
             score += 15.0

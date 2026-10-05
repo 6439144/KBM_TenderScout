@@ -99,6 +99,8 @@ class StateStore:
                 ("kbm_presales_verdict", "TEXT DEFAULT 'UNRELATED'"),
                 ("kbm_presales_verdict_ar", "TEXT DEFAULT 'غير متوافقة'"),
                 ("kbm_rationale", "TEXT DEFAULT ''"),
+                ("scope_required", "TEXT DEFAULT ''"),
+                ("requirements", "TEXT DEFAULT ''"),
             ]:
                 if col not in existing_cols:
                     cursor.execute(f"ALTER TABLE tenders ADD COLUMN {col} {col_def}")
@@ -174,8 +176,8 @@ class StateStore:
                         category_code, sources_json, status, changes, classification_confidence,
                         needs_review, review_reasons_json, is_kbm_relevant, relevance_keywords_json,
                         kbm_fit_score, kbm_bu, kbm_bu_ar, kbm_vendors_json, kbm_presales_verdict, kbm_presales_verdict_ar, kbm_rationale,
-                        raw_json, first_seen, last_seen, content_hash
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        scope_required, requirements, raw_json, first_seen, last_seen, content_hash
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     tender.tender_uid, tender.tender_no, tender.tender_no_normalized, tender.title_ar, tender.title_en,
                     tender.notice_type, tender.client_raw, tender.client, tender.sector, tender.account_owner,
@@ -186,7 +188,7 @@ class StateStore:
                     1 if tender.is_kbm_relevant else 0, json.dumps(tender.relevance_keywords, ensure_ascii=False),
                     tender.kbm_fit_score, tender.kbm_bu, tender.kbm_bu_ar, json.dumps(tender.kbm_vendors, ensure_ascii=False),
                     tender.kbm_presales_verdict, tender.kbm_presales_verdict_ar, tender.kbm_rationale,
-                    json.dumps(tender.raw, ensure_ascii=False), now_iso, now_iso, new_hash
+                    tender.scope_required or "", tender.requirements or "", json.dumps(tender.raw, ensure_ascii=False), now_iso, now_iso, new_hash
                 ))
                 conn.commit()
                 return tender
@@ -231,7 +233,7 @@ class StateStore:
                     is_kbm_relevant = ?, relevance_keywords_json = ?,
                     kbm_fit_score = ?, kbm_bu = ?, kbm_bu_ar = ?, kbm_vendors_json = ?,
                     kbm_presales_verdict = ?, kbm_presales_verdict_ar = ?, kbm_rationale = ?,
-                    raw_json = ?, last_seen = ?, content_hash = ?
+                    scope_required = ?, requirements = ?, raw_json = ?, last_seen = ?, content_hash = ?
                 WHERE tender_uid = ?
             """, (
                 tender.tender_no, tender.tender_no_normalized, tender.title_ar, tender.title_en,
@@ -243,10 +245,18 @@ class StateStore:
                 1 if tender.is_kbm_relevant else 0, json.dumps(tender.relevance_keywords, ensure_ascii=False),
                 tender.kbm_fit_score, tender.kbm_bu, tender.kbm_bu_ar, json.dumps(tender.kbm_vendors, ensure_ascii=False),
                 tender.kbm_presales_verdict, tender.kbm_presales_verdict_ar, tender.kbm_rationale,
-                json.dumps(tender.raw, ensure_ascii=False), now_iso, new_hash, tender.tender_uid
+                tender.scope_required or "", tender.requirements or "", json.dumps(tender.raw, ensure_ascii=False), now_iso, new_hash, tender.tender_uid
             ))
             conn.commit()
             return tender
+
+    def update_tender_account_owner(self, tender_uid: str, account_owner: str) -> bool:
+        """Updates the assigned Account Manager for a tender."""
+        with self._connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("UPDATE tenders SET account_owner = ? WHERE tender_uid = ?", (account_owner, tender_uid))
+            conn.commit()
+            return cursor.rowcount > 0
 
     def get_all_open_tenders(self) -> List[CanonicalTenderRecord]:
         """Returns all tenders whose closing date has not passed."""
@@ -310,6 +320,8 @@ class StateStore:
         verdict = row["kbm_presales_verdict"] if "kbm_presales_verdict" in row_keys and row["kbm_presales_verdict"] else "UNRELATED"
         verdict_ar = row["kbm_presales_verdict_ar"] if "kbm_presales_verdict_ar" in row_keys and row["kbm_presales_verdict_ar"] else "غير متوافقة"
         rationale = row["kbm_rationale"] if "kbm_rationale" in row_keys and row["kbm_rationale"] else ""
+        scope_required = row["scope_required"] if "scope_required" in row_keys and row["scope_required"] else ""
+        requirements = row["requirements"] if "requirements" in row_keys and row["requirements"] else ""
 
         return CanonicalTenderRecord(
             tender_uid=row["tender_uid"],
@@ -343,6 +355,8 @@ class StateStore:
             kbm_presales_verdict=verdict,
             kbm_presales_verdict_ar=verdict_ar,
             kbm_rationale=rationale,
+            scope_required=scope_required,
+            requirements=requirements,
             raw=json.loads(row["raw_json"])
         )
 

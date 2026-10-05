@@ -48,6 +48,49 @@ class HTMLTextExtractor(HTMLParser):
         return "".join(self.text_parts)
 
 
+class TableExtractor(HTMLParser):
+    """Parses HTML tables into rows and cells."""
+    def __init__(self):
+        super().__init__()
+        self.in_table = False
+        self.in_row = False
+        self.in_cell = False
+        self.tables = []
+        self.current_table = []
+        self.current_row = []
+        self.current_cell = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'table':
+            self.in_table = True
+            self.current_table = []
+        elif tag == 'tr' and self.in_table:
+            self.in_row = True
+            self.current_row = []
+        elif tag in ('td', 'th') and self.in_row:
+            self.in_cell = True
+            self.current_cell = []
+        elif tag == 'br' and self.in_cell:
+            self.current_cell.append(" ")
+
+    def handle_endtag(self, tag):
+        if tag == 'table':
+            self.in_table = False
+            if self.current_table:
+                self.tables.append(self.current_table)
+        elif tag == 'tr' and self.in_table:
+            self.in_row = False
+            if self.current_row:
+                self.current_table.append(self.current_row)
+        elif tag in ('td', 'th') and self.in_row:
+            self.in_cell = False
+            self.current_row.append("".join(self.current_cell).strip())
+
+    def handle_data(self, data):
+        if self.in_cell:
+            self.current_cell.append(data)
+
+
 class KuwaitAlyawmConnector(PortalConnector):
     """Connector for the Kuwait Al-Yawm Official Gazette portal (kuwaitalyawm.media.gov.kw)."""
 
@@ -361,13 +404,16 @@ class KuwaitAlyawmConnector(PortalConnector):
     def fetch_detail(self, ref: NoticeRef) -> RawNotice:
         """
         Extracts tender notice announcement content, downloads official PDF,
-        and parses rich details (Client, Title, Closing Date, Fees, Guarantees).
+        and parses rich details (Client, Exact Subject, Requirements, Closing Date, Fees, Guarantees).
+        Strictly rejects any 'LOADING PAGES' or placeholder text.
         """
         announcement_content = ""
         extracted_title = None
         extracted_closing_date = None
+        extracted_pre_bid = None
         extracted_fee = None
         extracted_bond = None
+        extracted_reqs: List[str] = []
         attachments: List[Dict[str, Any]] = []
 
         # 1. Download official Gazette PDF announcement if available
@@ -376,7 +422,8 @@ class KuwaitAlyawmConnector(PortalConnector):
                 full_dl_url = urljoin("https://kuwaitalyawm.media.gov.kw", ref.download_url)
                 logger.info("Kuwait Al-Yawm: Downloading PDF for %s...", ref.tender_no_raw)
                 res_pdf = self._context.request.get(full_dl_url)
-                if res_pdf.status == 200 and len(res_pdf.body()) > 500:
+                # Note: Reject 33805-byte warning PDF ("يرجى تحميل الملف من الموقع مباشرة")
+                if res_pdf.status == 200 and len(res_pdf.body()) > 500 and len(res_pdf.body()) != 33805:
                     safe_no = re.sub(r"[^\w\-.]", "_", ref.tender_no_raw)
                     pdf_filename = f"ads_{ref.ads_id or safe_no}.pdf"
                     pdf_path = self.attachments_dir / pdf_filename
@@ -403,34 +450,21 @@ class KuwaitAlyawmConnector(PortalConnector):
                     announcement_content = parsed["full_text"]
                     extracted_title = parsed["title"]
                     extracted_closing_date = parsed["closing_date"]
-                    extracted_fee = parsed["fee"]
-                    extracted_bond = parsed["bond"]
+                    extracted_pre_bid = parsed["pre_bid_date"]
+                    extracted_fee = str(parsed["fee"]) if parsed["fee"] is not None else None
+                    extracted_bond = str(parsed["bond"]) if parsed["bond"] is not None else None
+                    extracted_reqs = parsed["requirements"]
             except Exception as e:
                 logger.debug("Kuwait Al-Yawm: Could not fetch ViewAdsHTML for %s: %s", ref.tender_no_raw, e)
 
-        # Fallback to flip viewer if ViewAdsHTML was not available
-        if not announcement_content and "/flip/index" in ref.detail_url and self._context:
-            detail_tab = None
-            try:
-                detail_tab = self._context.new_page()
-                detail_tab.goto(ref.detail_url, wait_until="networkidle", timeout=20000)
-                page_body = detail_tab.locator("body").inner_text()
-                if "خدمة تصفح الإصدار متاحة فقط للمشتركين" not in page_body:
-                    announcement_content = page_body.strip()
-            except Exception as e:
-                logger.debug("Could not load flip viewer for %s: %s", ref.tender_no_raw, e)
-            finally:
-                if detail_tab:
-                    try:
-                        detail_tab.close()
-                    except Exception:
-                        pass
+        # Clean any accidental 'LOADING PAGES' placeholder text
+        if announcement_content and ("LOADING PAGES" in announcement_content or "LOADING" in announcement_content):
+            announcement_content = ""
 
         # Parse publication date (format DD/MM/YYYY)
         pub_iso = None
         if ref.publish_date_hint:
             try:
-                # Strip day name like "Sun "
                 clean_date = re.sub(r"^[A-Za-z]+\s+", "", ref.publish_date_hint.strip())
                 parts = clean_date.split("/")
                 if len(parts) == 3:
@@ -440,21 +474,21 @@ class KuwaitAlyawmConnector(PortalConnector):
 
         # Client detection: prefer explicit client from subscriber table
         client_detected = ref.client_hint or None
-        notice_type = "practice" if ("ممارس" in (ref.notice_type_hint or "") or "RFQ" in ref.tender_no_raw.upper() or "RFP" in ref.tender_no_raw.upper()) else "tender"
+        t_upper = ref.tender_no_raw.upper()
+        notice_type = "practice" if ("ممارس" in (ref.notice_type_hint or "") or "RFQ" in t_upper or "RFP" in t_upper) else "tender"
 
         if not client_detected:
-            t_upper = ref.tender_no_raw.upper()
             if "RFQ" in t_upper or "RFP" in t_upper or "P&MAB" in t_upper or "P&M" in t_upper:
                 client_detected = "شركة البترول الوطنية الكويتية"
 
         # Build clean title display
         type_prefix = "ممارسة" if notice_type == "practice" else "مناقصة"
-        if extracted_title:
+        if extracted_title and "LOADING" not in extracted_title:
             title_display = f"{type_prefix} رقم {ref.tender_no_raw}: {extracted_title}"
+        elif client_detected == "شركة البترول الوطنية الكويتية" and ("RFQ" in t_upper or "RFP" in t_upper):
+            title_display = f"طلب عروض أسعار رقم {ref.tender_no_raw} - شركة البترول الوطنية الكويتية (العدد {ref.issue_no or ''})"
         elif client_detected:
             title_display = f"{type_prefix} رقم {ref.tender_no_raw} - {client_detected} (العدد {ref.issue_no or ''})"
-        elif announcement_content:
-            title_display = announcement_content[:200].replace("\n", " ")
         else:
             title_display = f"{type_prefix} رقم {ref.tender_no_raw} - الجريدة الرسمية (العدد {ref.issue_no or ''})"
 
@@ -465,7 +499,7 @@ class KuwaitAlyawmConnector(PortalConnector):
             client_raw=client_detected,
             publish_date_raw=pub_iso or ref.publish_date_hint,
             closing_date_raw=extracted_closing_date,
-            pre_bid_raw=None,
+            pre_bid_raw=extracted_pre_bid,
             notice_type_raw=notice_type,
             bid_bond_raw=extracted_bond,
             document_fee_raw=extracted_fee,
@@ -474,7 +508,8 @@ class KuwaitAlyawmConnector(PortalConnector):
                 "issue_no": ref.issue_no,
                 "page_no": ref.page_ref,
                 "ads_id": ref.ads_id,
-                "announcement_snippet": announcement_content[:1000] if announcement_content else "",
+                "requirements": extracted_reqs,
+                "announcement_snippet": announcement_content[:1500] if announcement_content else "",
                 "download_url": ref.download_url,
                 "html_url": ref.html_url
             },
@@ -482,49 +517,135 @@ class KuwaitAlyawmConnector(PortalConnector):
         )
 
     def _parse_announcement_html(self, html_text: str) -> Dict[str, Any]:
-        """Parses announcement HTML into structured subject, closing date, fees, and bond."""
+        """
+        Parses announcement HTML into structured subject, requirements, closing date,
+        pre-bid date, fees, and bond. Handles both prose and embedded HTML tables.
+        """
         ext = HTMLTextExtractor()
         ext.feed(html_text)
         raw = html.unescape(ext.get_text())
         lines = [l.strip() for l in raw.splitlines() if l.strip()]
         full_text = "\n".join(lines)
 
-        # Extract Title / Subject
-        title = None
-        for line in lines:
-            if re.search(r"^(?:وزارة|الهيئة|بلدية|مجلس|ديوان|إدارة|مؤسسة|شركة|جامعة|الرئاسة|إعلان|تنويه|اعلان|الممارسة|المناقصة|عن طرح)\b", line) and len(line) < 45:
-                continue
-            if any(w in line for w in ["بشأن", "لتوريد", "أعمال", "مشروع", "صيانة", "تقديم", "تطوير", "شراء", "إنشاء", "إعداد", "تفعيل", "حاجة", "الأمن", "استئجار"]):
-                title = line
-                break
+        subject = None
 
-        if not title and len(lines) >= 3:
-            for candidate in lines[1:6]:
-                if not any(candidate.startswith(p) for p in ("إع", "عن طرح", "وزارة", "الممارسة", "المناقصة")) and len(candidate) > 15:
-                    title = candidate
+        # Strategy 1: Look for line immediately following tender number
+        for i, line in enumerate(lines):
+            clean_l = line.strip()
+            if re.search(r"^(?:الممارسة|المناقصة)\s*(?:رقم|رقـم)\s*:", clean_l):
+                if i + 1 < len(lines):
+                    next_l = lines[i + 1].strip()
+                    if not next_l.startswith("تعلن") and not next_l.startswith("إع") and len(next_l) > 8:
+                        subject = next_l
+                        break
+
+        # Strategy 2: Keyword search for action phrases in early lines
+        if not subject:
+            subject_keywords = [
+                "توريد", "خوادم", "أجهزة", "نظام", "أنظمة", "برمجيات", "برامج", "شبكات",
+                "صيانة", "أعمال", "مشروع", "تقديم", "تطوير", "شراء", "إنشاء", "إعداد",
+                "تفعيل", "استئجار", "نظافة", "حراسة", "أمن", "تراخيص", "كيبلات", "حاجة", "بشأن"
+            ]
+            for line in lines[:10]:
+                clean_l = line.strip()
+                if re.search(r"^(?:وزارة|الهيئة|بلدية|مجلس|ديوان|إدارة|مؤسسة|شركة|جامعة|الرئاسة|إعلان|تنويه|الممارسة|المناقصة)\b", clean_l) and len(clean_l) < 45:
+                    continue
+                if clean_l.startswith("تعلن") or "المذكورة أعلاه" in clean_l:
+                    continue
+                if any(kw in clean_l for kw in subject_keywords) and len(clean_l) > 10:
+                    subject = clean_l
                     break
 
-        # Closing date
+        # Clean subject prefixes
+        if subject:
+            subject = re.sub(r"^(?:لطلب|بشأن|عن|موضوع الممارسة|موضوع المناقصة)\s*:\s*", "", subject).strip()
+            if subject.startswith("لطلب "):
+                subject = subject[5:].strip()
+
+        # Strategy 3: Extract Requirements
+        requirements = []
+        in_reqs = False
+        for line in lines:
+            clean_l = line.strip()
+            if any(w in clean_l for w in ["ويشترط", "الشروط المطلوبة", "المستندات المطلوبة", "إرشادات عامة", "شروط المشاركة"]):
+                in_reqs = True
+                continue
+            if in_reqs:
+                if clean_l.startswith("للاستفسار") or "هاتف:" in clean_l or len(clean_l) > 300:
+                    in_reqs = False
+                    continue
+                if len(clean_l) > 12:
+                    requirements.append(clean_l)
+
+        # Strategy 4: Table parsing for structured dates and money
+        tbl_extractor = TableExtractor()
+        tbl_extractor.feed(html_text)
+
         closing_date = None
-        m_close = re.search(r"(?:آخر موعد|اخر موعد|موعد الإغلاق|تاريخ الإقفال|موعد اقفال|لغاية يوم|تاريخ الأغلاق|الأغلاق كالتالي)[^\d]*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})", full_text)
-        if m_close:
-            closing_date = m_close.group(1)
-
-        # Document fee
+        publish_date = None
+        pre_bid_date = None
         fee = None
-        m_fee = re.search(r"(?:المقابل المادي|رسوم(?: شراء)? كراسة|قيمة الوثائق|رسم مالي قدره)[^\d\n]*\(?\s*(\d+(?:\.\d+)?)\s*\)?\s*(?:د\.ك|دينار|KD)", full_text)
-        if m_fee:
-            fee = m_fee.group(1)
-
-        # Bid bond
         bond = None
-        m_bond = re.search(r"(?:تأمين أولي|الكفالة الأولية|كفالة أولية|تأمين ابتدائي|الضمان الابتدائي)[^\d\n]*\(?\s*(\d+(?:\.\d+)?)\s*\)?\s*(?:د\.ك|دينار|KD)", full_text)
-        if m_bond:
-            bond = m_bond.group(1)
+
+        for tbl in tbl_extractor.tables:
+            if len(tbl) >= 2:
+                headers = tbl[0]
+                values = tbl[1]
+                for h, v in zip(headers, values):
+                    clean_h = h.replace("\n", " ").strip()
+                    clean_v = v.replace("\n", " ").strip()
+
+                    m_date = re.search(r"(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})", clean_v)
+                    date_val = m_date.group(1) if m_date else None
+
+                    nums = re.findall(r"[\d,]+(?:\.\d+)?", clean_v)
+                    money_val = None
+                    if nums:
+                        try:
+                            money_val = float(nums[0].replace(",", ""))
+                        except ValueError:
+                            pass
+
+                    if "إغلاق" in clean_h or "إقفال" in clean_h or "تقديم" in clean_h:
+                        if date_val: closing_date = date_val
+                    elif "طرح" in clean_h or "نشر" in clean_h:
+                        if date_val: publish_date = date_val
+                    elif "تمهيدي" in clean_h:
+                        if date_val: pre_bid_date = date_val
+                    elif "تأمين" in clean_h or "كفالة" in clean_h or "ضمان" in clean_h:
+                        if money_val: bond = money_val
+                    elif "مقابل" in clean_h or "رسوم" in clean_h or "كراسة" in clean_h or "سعر" in clean_h:
+                        if money_val: fee = money_val
+
+        # Prose regex fallback for dates if table not found
+        if not closing_date:
+            m_close = re.search(r"(?:تاريخ الإغلاق|موعد الإغلاق|آخر موعد|اخر موعد|تاريخ الإقفال)[^\d]*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})", full_text)
+            if m_close:
+                closing_date = m_close.group(1)
+
+        if not pre_bid_date:
+            m_pre = re.search(r"(?:الاجتماع التمهيدي|اجتماع تمهيدي)[^\d]*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})", full_text)
+            if m_pre:
+                pre_bid_date = m_pre.group(1)
+
+        if fee is None or bond is None:
+            money_matches = re.findall(r"\(?\-?\/?\s*([\d,]+(?:\.\d+)?)\s*\)?\s*(?:د\.ك|دينار|KD)", full_text)
+            for m in money_matches:
+                try:
+                    val = float(m.replace(",", ""))
+                    if val <= 300 and fee is None:
+                        fee = val
+                    elif val > 300 and bond is None:
+                        bond = val
+                except ValueError:
+                    pass
 
         return {
-            "title": title,
+            "title": subject,
+            "requirements": requirements,
             "closing_date": closing_date,
+            "publish_date": publish_date,
+            "pre_bid_date": pre_bid_date,
             "fee": fee,
             "bond": bond,
             "full_text": full_text

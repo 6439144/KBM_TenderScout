@@ -54,11 +54,16 @@ snapshots/*.html
 !snapshots/.gitkeep
 traces/
 
-# Data & Output (contain potentially sensitive business/tender data)
+# Scratch & Temporary
+scratch/
+
+# Data & Output
 output/reports/*.xlsx
+!output/reports/KBM_Tenders_Latest.xlsx
 !output/reports/.gitkeep
 output/pilot/
 data/*.db
+!data/state.db
 data/*.db-journal
 data/*.db-wal
 data/clients_pending.csv
