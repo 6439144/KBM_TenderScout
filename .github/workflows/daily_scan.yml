@@ -6,6 +6,9 @@ on:
     - cron: '0 5 * * *'
   workflow_dispatch: # Allows manual trigger from GitHub Actions tab
 
+permissions:
+  contents: write
+
 jobs:
   scrape-and-qualify:
     runs-on: ubuntu-latest
@@ -14,6 +17,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -34,6 +39,8 @@ jobs:
         env:
           ALYAWM_USERNAME: ${{ secrets.ALYAWM_USERNAME }}
           ALYAWM_PASSWORD: ${{ secrets.ALYAWM_PASSWORD }}
+          CAPT_USERNAME: ${{ secrets.CAPT_USERNAME }}
+          CAPT_PASSWORD: ${{ secrets.CAPT_PASSWORD }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
@@ -47,6 +54,7 @@ jobs:
       - name: Reprocess Scopes & Enrich Presales Rationales
         run: |
           python scripts/reprocess_all_scopes_and_titles.py
+          python scripts/apply_new_account_hierarchy.py
 
       - name: Regenerate Excel Reports & HTML Dashboard
         run: |
@@ -55,5 +63,16 @@ jobs:
       - name: Commit and Push Updated Database & Reports
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore(automated): daily tender scan & qualification update [skip ci]"
+          commit_message: "chore(automated): daily tender scan & qualification update"
           file_pattern: "data/state.db output/reports/* data/clients.csv"
+
+      - name: Package Release for Azure Deployment
+        run: |
+          zip -r release.zip . -x ".git/*" ".github/*" "venv/*" ".venv/*" "__pycache__/*" "scratch/*"
+
+      - name: Deploy Updated Application to Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'kbm-tenderscout'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: release.zip

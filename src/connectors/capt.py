@@ -185,6 +185,7 @@ class CaptConnector(PortalConnector):
         max_pages = self.config.rate_limiting.max_pages_per_run
         current_page = 1
 
+        seen_tenders: set = set()
         while current_page <= max_pages:
             logger.info("CAPT: Scraping page %d of tenders list...", current_page)
             # Find all tender card elements
@@ -192,6 +193,7 @@ class CaptConnector(PortalConnector):
             count = cards.count()
             logger.info("CAPT: Found %d tender cards on page %d", count, current_page)
 
+            page_new_count = 0
             for i in range(count):
                 card = cards.nth(i)
                 text = card.inner_text()
@@ -201,14 +203,25 @@ class CaptConnector(PortalConnector):
                 if not tender_no:
                     continue
 
+                t_clean = tender_no.strip()
+                if t_clean in seen_tenders:
+                    continue
+                seen_tenders.add(t_clean)
+                page_new_count += 1
+
                 pub_date_str = self._extract_field(text, r"تاريخ الطلب\s*([^\n\r]+)")
                 
                 yield NoticeRef(
                     portal_id=self.portal_id,
-                    tender_no_raw=tender_no.strip(),
+                    tender_no_raw=t_clean,
                     detail_url=f"{tenders_url}#card-{i}",
                     publish_date_hint=pub_date_str
                 )
+
+            # Check if all cards were duplicates (loop detected)
+            if page_new_count == 0 and count > 0:
+                logger.info("CAPT: All cards on page %d were already seen (pagination loop reached). Concluding CAPT.", current_page)
+                break
 
             # Pagination handling
             current_page += 1

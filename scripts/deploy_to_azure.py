@@ -34,18 +34,12 @@ def deploy():
     print(f"Zip created ({zip_path.stat().st_size / (1024*1024):.2f} MB)")
     
     print("2. Deploying to Azure App Service 'kbm-tenderscout'...")
-    cmd = [
-        "az", "webapp", "deploy",
-        "--resource-group", "rg-kbm-platform",
-        "--name", "kbm-tenderscout",
-        "--src-path", str(zip_path),
-        "--type", "zip",
-        "--async", "false"
-    ]
-    res = subprocess.run(cmd, capture_output=True, text=True, shell=True)
-    print("Azure CLI STDOUT:", res.stdout)
-    if res.stderr:
-        print("Azure CLI STDERR:", res.stderr)
+    cmd = f'az webapp deploy --resource-group rg-kbm-platform --name kbm-tenderscout --src-path "{zip_path}" --type zip --async false'
+    res = subprocess.run(cmd, shell=True)
+    if res.returncode == 0:
+        print("Azure CLI deployment succeeded!")
+    else:
+        print(f"Azure CLI deployment failed with code: {res.returncode}")
         
     if zip_path.exists():
         zip_path.unlink()
